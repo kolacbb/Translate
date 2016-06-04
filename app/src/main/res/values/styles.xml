@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CopyDropOverlay" parent="@android:style/Theme.Material.Light.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:backgroundDimAmount">0.35</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BlueButton" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+    </style>
 </resources>

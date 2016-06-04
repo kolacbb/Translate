@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    tools:context="io.github.kolacbb.translate.ui.activity.CopyDropActivity">
+    <LinearLayout
+
+        android:id="@+id/copydrop_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+         android:background="#fffafafa"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/copydrop_header_settings_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start"
+                android:background="@drawable/bg_clickable_circle"
+                android:src="@drawable/quantum_ic_settings_grey600_24" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/logo_lockup_translate_color" />
+
+            <ImageButton
+                android:id="@+id/close_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:background="@drawable/bg_clickable_circle"
+                android:contentDescription="Setting"
+                android:src="@drawable/quantum_ic_close_grey600_24" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:padding="8dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+
+            android:text="you haven't select any word yet."
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/widget_edittext_dark" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@android:color/secondary_text_dark" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="8dp"
+            android:background="#ffeeeeee" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/translation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:text="..."
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#6a7be3" />
+
+            <ImageButton
+                android:id="@+id/more_menu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:background="@drawable/bg_clickable_circle"
+                android:contentDescription="Setting"
+                android:src="@drawable/quantum_ic_more_vert_grey600_24" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/replace_btn"
+            style="@style/BlueButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Replace Word"
+            android:textSize="14.0sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#e0e0e0"
+        android:padding="@dimen/activity_vertical_margin"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_add_black_24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Error"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+
+                android:text="Translate even when you're offline by downloading offline translation files for these languages." />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
