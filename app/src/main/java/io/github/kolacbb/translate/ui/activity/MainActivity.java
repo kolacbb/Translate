@@ -58,20 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 String answer = answerTextView.getText().toString().trim();
                 if (query.length() != 0 && answer.length() != 0) {
 
-//                    String str = SpUtil.find("book");
-//                    Gson gson = new Gson();
-//                    Type type = new TypeToken<ArrayList<Book>>() {
-//                    }.getType();
-//                    List<Book> list = gson.fromJson(str, type);
-//                    if (list == null )
-//                        list = new ArrayList<>();
-//                    Book book = new Book();
-//                    book.setTitle(query);
-//                    book.setDescription(answer);
-//                    list.add(book);
-//
-//                    SpUtil.saveOrUpdate("book", gson.toJson(list));
-
 
                     Toast.makeText(MainActivity.this, "已加入生词本", Toast.LENGTH_SHORT).show();
                 }
