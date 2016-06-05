@@ -32,6 +32,7 @@ public class ActionCreator {
     }
 
     public void fetchTranslation(String word) {
+        dispatcher.dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
         Observable<YouDaoResult> observable = mWarpClientApi.translate(word);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

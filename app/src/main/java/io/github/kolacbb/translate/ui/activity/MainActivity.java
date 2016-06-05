@@ -1,38 +1,110 @@
 package io.github.kolacbb.translate.ui.activity;
 
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
+import io.github.kolacbb.translate.flux.actions.ActionCreator;
+import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
+import io.github.kolacbb.translate.flux.stores.MainStore;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
-import io.github.kolacbb.translate.protocol.ApiKey;
-import io.github.kolacbb.translate.protocol.ClientApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_point)
     TextView pointTextView;
-    @BindView(R.id.answer)
-    TextView answerTextView;
+    @BindView(R.id.phonetic)
+    TextView tvPhonetic;
+    @BindView(R.id.history_rec_view)
+    RecyclerView historyRecView;
+    @BindView(R.id.progress_bar)
+    ContentLoadingProgressBar progressBar;
+    @BindView(R.id.translate_view)
+    ScrollView translateView;
+    @BindView(R.id.translation)
+    TextView translation;
+    @BindView(R.id.dictionary_view)
+    CardView dictionaryView;
+    @BindView(R.id.basic)
+    TextView basicTextView;
 
+    Dispatcher dispatcher;
+    MainStore mainStore;
+    ActionCreator actionCreator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initDependencies();
+    }
+
+    private void initDependencies() {
+        dispatcher = Dispatcher.get();
+        actionCreator = ActionCreator.get(dispatcher);
+        mainStore = new MainStore();
+        dispatcher.register(mainStore);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainStore.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainStore.unregister(this);
+    }
+
+    @SuppressWarnings("ResourceType")
+    public void render(MainStore store) {
+        historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
+        progressBar.setVisibility(store.getLoadingViewVisiableState());
+        translateView.setVisibility(store.getTranslateViewVisiableState());
+        if (store.isFinish() && store.getData() != null) {
+            YouDaoResult youDaoResult = store.getData();
+            translation.setText(youDaoResult.getTranslation().get(0));
+            YouDaoResult.Basic basic = youDaoResult.getBasic();
+            if (basic != null) {
+                dictionaryView.setVisibility(View.VISIBLE);
+                //发音设置
+                tvPhonetic.setText(basic.getUsPhonetic());
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String str : basic.getExplains()) {
+                    stringBuilder.append(str);
+                    stringBuilder.append("\n");
+                }
+                basicTextView.setText(stringBuilder.toString());
+            } else {
+                dictionaryView.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    @Subscribe
+    public void onStoreChange(MainStore.MainStoreChangeEvent event) {
+        render(mainStore);
     }
 
     @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book})
@@ -44,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bt_translate:
                 //Toast.makeText(MainActivity.this, "translate", Toast.LENGTH_SHORT).show();
                 if (pointTextView.getText().toString().trim().length() != 0)
-                    //queryTranslate(pointTextView.getText().toString());
-                break;
+                    actionCreator.fetchTranslation(pointTextView.getText().toString());
+                    break;
             case R.id.add_book:
                 String query = pointTextView.getText().toString().trim();
-                String answer = answerTextView.getText().toString().trim();
+                String answer = basicTextView.getText().toString().trim();
                 if (query.length() != 0 && answer.length() != 0) {
 
 
@@ -57,32 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-//    public void queryTranslate(String text){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://fanyi.youdao.com")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        ClientApi clientApi = retrofit.create(ClientApi.class);
-//
-//        Call<YouDaoResult> call = clientApi.getTranslationYouDao(ApiKey.YOUDAO_KEY_FROM,
-//                ApiKey.YOUDAO_KEY,
-//                ApiKey.YOUDAO_TYPE,
-//                ApiKey.YOUDAO_DOCTYPE,
-//                ApiKey.YOUDAO_VERSION,
-//                text);
-//        call.enqueue(new Callback<YouDaoResult>() {
-//            @Override
-//            public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
-//                answerTextView.setText(response.body().getTranslation().get(0));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<YouDaoResult> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
 
 }
