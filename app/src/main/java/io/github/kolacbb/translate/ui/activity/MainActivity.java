@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.answer)
     TextView answerTextView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bt_translate:
                 //Toast.makeText(MainActivity.this, "translate", Toast.LENGTH_SHORT).show();
                 if (pointTextView.getText().toString().trim().length() != 0)
-                    queryTranslate(pointTextView.getText().toString());
+                    //queryTranslate(pointTextView.getText().toString());
                 break;
             case R.id.add_book:
                 String query = pointTextView.getText().toString().trim();
@@ -57,31 +58,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void queryTranslate(String text){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://fanyi.youdao.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ClientApi clientApi = retrofit.create(ClientApi.class);
-
-        Call<YouDaoResult> call = clientApi.getTranslationYouDao(ApiKey.YOUDAO_KEY_FROM,
-                ApiKey.YOUDAO_KEY,
-                ApiKey.YOUDAO_TYPE,
-                ApiKey.YOUDAO_DOCTYPE,
-                ApiKey.YOUDAO_VERSION,
-                text);
-        call.enqueue(new Callback<YouDaoResult>() {
-            @Override
-            public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
-                answerTextView.setText(response.body().getTranslation().get(0));
-            }
-
-            @Override
-            public void onFailure(Call<YouDaoResult> call, Throwable t) {
-
-            }
-        });
-    }
+//    public void queryTranslate(String text){
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://fanyi.youdao.com")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        ClientApi clientApi = retrofit.create(ClientApi.class);
+//
+//        Call<YouDaoResult> call = clientApi.getTranslationYouDao(ApiKey.YOUDAO_KEY_FROM,
+//                ApiKey.YOUDAO_KEY,
+//                ApiKey.YOUDAO_TYPE,
+//                ApiKey.YOUDAO_DOCTYPE,
+//                ApiKey.YOUDAO_VERSION,
+//                text);
+//        call.enqueue(new Callback<YouDaoResult>() {
+//            @Override
+//            public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
+//                answerTextView.setText(response.body().getTranslation().get(0));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<YouDaoResult> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
 
 }

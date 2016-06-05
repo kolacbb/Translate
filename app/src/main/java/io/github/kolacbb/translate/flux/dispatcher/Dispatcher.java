@@ -1,6 +1,7 @@
 package io.github.kolacbb.translate.flux.dispatcher;
 
-import com.squareup.otto.Bus;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.kolacbb.translate.flux.actions.Action;
 import io.github.kolacbb.translate.flux.stores.Store;
@@ -9,57 +10,42 @@ import io.github.kolacbb.translate.flux.stores.Store;
  * Created by Kola on 2016/6/4.
  */
 public class Dispatcher {
-    private final Bus bus;
     private static Dispatcher instance;
-
-    public static Dispatcher get(Bus bus) {
+    private final List<Store> stores = new ArrayList<>();
+    public static Dispatcher get() {
         if (instance == null) {
-            instance = new Dispatcher(bus);
+            instance = new Dispatcher();
         }
         return instance;
     }
 
-    Dispatcher(Bus bus) {
-        this.bus = bus;
+    Dispatcher() {
     }
 
-    public void register(final Object cls) {
-        bus.register(cls);
-
+    /**
+     * 注册每个Store的回调接口
+     * */
+    public void register(final Store store) {
+        stores.add(store);
     }
 
-    public void unregister(final Object cls) {
-        bus.unregister(cls);
+    /**
+     * 解除Store的回调接口
+     * */
+    public void unregister(final Store store) {
+        stores.remove(store);
     }
 
-    public void emitChange(Store.StoreChangeEvent o) {
-        post(o);
+    /**
+     * 触发Store的回调接口
+     * */
+    public void dispatch(Action action) {
+        post(action);
     }
 
-    public void dispatch(String type, Object... data) {
-        if (isEmpty(type)) {
-            throw new IllegalArgumentException("Type must not be empty");
+    private void post(final Action action) {
+        for (Store store : stores) {
+            store.onAction(action);
         }
-
-        if (data.length % 2 != 0) {
-            throw new IllegalArgumentException("Data must be a valid list of key,value pairs");
-        }
-
-        Action.Builder actionBuilder = Action.type(type);
-        int i = 0;
-        while (i < data.length) {
-            String key = (String) data[i++];
-            Object value = data[i++];
-            actionBuilder.bundle(key, value);
-        }
-        post(actionBuilder.build());
-    }
-
-    private boolean isEmpty(String type) {
-        return type == null || type.isEmpty();
-    }
-
-    private void post(final Object event) {
-        bus.post(event);
     }
 }
