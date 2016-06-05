@@ -21,9 +21,9 @@
 在Translate App上我想实现Flux架构 Retrofit + RxJava + Dagger2的应用
 
  - [x] Retrofit
- - [ ] RxJava
+ - [x] RxJava
  - [ ] Dagger2
- - [ ] Flux
+ - [x] Flux
 
 
 
