@@ -14,4 +14,5 @@ public class TranslateApp extends Application{
         super.onCreate();
         SpUtil.init(PreferenceManager.getDefaultSharedPreferences(this));
     }
+
 }

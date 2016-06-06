@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.kolacbb.translate">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".TranslateApp"
@@ -18,16 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.CopyDropActivity"
             android:launchMode="singleTop"
             android:theme="@style/CopyDropOverlay">
             <intent-filter android:label="Translate">
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.PROCESS_TEXT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.TestActivity">
+
         </activity>
     </application>
 
