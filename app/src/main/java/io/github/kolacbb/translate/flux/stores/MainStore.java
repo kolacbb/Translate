@@ -34,20 +34,34 @@ public class MainStore extends Store{
                 break;
             }
             case TranslateActions.ACTION_TRANSLATION_LOADING: {
+                Log.e("OnAction", "这里有一个Loading Action过来了 ");
                 fetchStatue = FetchStatue.LOADING;
                 mChangeEvent = new MainStoreChangeEvent();
                 emitStoreChange();
+                break;
+            }
+            case TranslateActions.ACTION_TRANSLATION_INIT_VIEW: {
+                Log.e("OnAction", "这里有一个Init Action过来了 ");
+                fetchStatue = FetchStatue.INIT;
+                mChangeEvent = new MainStoreChangeEvent();
+                emitStoreChange();
+                break;
+            }
+            case TranslateActions.ACTION_TRANSLATION_NET_ERROR: {
+                Log.e("OnAction", "这里有一个Error Action过来了 ");
+                fetchStatue = FetchStatue.ERROR;
+                mChangeEvent = new MainStoreChangeEvent();
+                emitStoreChange();
+                break;
             }
 
-
         }
+
+        System.out.println(fetchStatue == FetchStatue.LOADING);
     }
 
-    public static final int VIS = View.VISIBLE;
-    public static final int GONE = View.GONE;
-
     public int getLoadingViewVisiableState() {
-        return fetchStatue == FetchStatue.LOADING ? VIS : GONE;
+        return fetchStatue == FetchStatue.LOADING ? View.VISIBLE : View.GONE;
     }
 
     public int getHistoryRecycleViewVisiableState() {
@@ -56,6 +70,14 @@ public class MainStore extends Store{
 
     public int getTranslateViewVisiableState() {
         return fetchStatue == FetchStatue.FINISH ? View.VISIBLE : View.GONE;
+    }
+
+    public int getErrorViewState() {
+        return fetchStatue == FetchStatue.ERROR ? View.VISIBLE : View.GONE;
+    }
+
+    public boolean isLoading() {
+        return fetchStatue == FetchStatue.LOADING;
     }
 
     public boolean isFinish() {

@@ -4,18 +4,14 @@ package io.github.kolacbb.translate.ui.activity;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     TextView pointTextView;
     @BindView(R.id.phonetic)
     TextView tvPhonetic;
+
+    @BindView(R.id.error_view)
+    View errorView;
     @BindView(R.id.history_rec_view)
     RecyclerView historyRecView;
     @BindView(R.id.progress_bar)
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initDependencies();
+        render(mainStore);
     }
 
     private void initDependencies() {
@@ -79,8 +79,16 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
         historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
-        progressBar.setVisibility(store.getLoadingViewVisiableState());
+        if (store.isLoading()) {
+            System.out.println("Loading");
+            progressBar.show();
+        } else {
+            progressBar.hide();
+        }
+        //progressBar.setVisibility(store.getLoadingViewVisiableState());
         translateView.setVisibility(store.getTranslateViewVisiableState());
+        errorView.setVisibility(store.getErrorViewState());
+
         if (store.isFinish() && store.getData() != null) {
             YouDaoResult youDaoResult = store.getData();
             translation.setText(youDaoResult.getTranslation().get(0));
@@ -88,7 +96,13 @@ public class MainActivity extends AppCompatActivity {
             if (basic != null) {
                 dictionaryView.setVisibility(View.VISIBLE);
                 //发音设置
-                tvPhonetic.setText(basic.getUsPhonetic());
+                if (basic.getPhonetic() != null) {
+                    tvPhonetic.setText(basic.getUsPhonetic());
+                    tvPhonetic.setVisibility(View.VISIBLE);
+                } else {
+                    tvPhonetic.setVisibility(View.GONE);
+                }
+
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String str : basic.getExplains()) {
                     stringBuilder.append(str);
@@ -97,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 basicTextView.setText(stringBuilder.toString());
             } else {
                 dictionaryView.setVisibility(View.GONE);
+                tvPhonetic.setVisibility(View.GONE);
             }
         }
 
@@ -112,12 +127,13 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.tv_clear:
                 pointTextView.setText("");
+                actionCreator.initView();
                 break;
             case R.id.bt_translate:
                 //Toast.makeText(MainActivity.this, "translate", Toast.LENGTH_SHORT).show();
                 if (pointTextView.getText().toString().trim().length() != 0)
                     actionCreator.fetchTranslation(pointTextView.getText().toString());
-                    break;
+                break;
             case R.id.add_book:
                 String query = pointTextView.getText().toString().trim();
                 String answer = basicTextView.getText().toString().trim();

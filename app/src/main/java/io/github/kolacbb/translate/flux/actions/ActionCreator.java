@@ -39,7 +39,7 @@ public class ActionCreator {
                 .subscribe(new Action1<YouDaoResult>() {
                     @Override
                     public void call(YouDaoResult youDaoResult) {
-                        //Log.e("有结果了", youDaoResult.getTranslation().get(0));
+                        Log.e("有结果了", youDaoResult.getTranslation().get(0));
                         Action action = new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
                                 .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult)
                                 .build();
@@ -48,8 +48,17 @@ public class ActionCreator {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        System.out.println(throwable.getMessage());
+                        Action action = new Action.Builder()
+                                .with(TranslateActions.ACTION_TRANSLATION_NET_ERROR)
+                                .bundle("key", "Value")
+                                .build();
+                        dispatcher.dispatch(action);
                     }
                 });
+    }
+
+    public void initView() {
+        dispatcher.dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW).build());
     }
 }

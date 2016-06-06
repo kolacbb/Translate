@@ -23,8 +23,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:paddingStart="16dp"
-                android:text="输入文字"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:text="输入文字" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/tv_clear"
@@ -55,13 +54,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/phonetic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="16dp"
-                android:id="@+id/phonetic"
                 android:text="hɛˈlo, hə-"
-                android:layout_alignParentStart="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/bt_translate"
@@ -76,10 +76,43 @@
     </LinearLayout>
 
     <FrameLayout
-        android:paddingTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e2e2e2">
+        android:background="#e2e2e2"
+        android:paddingTop="4dp">
+
+        <RelativeLayout
+            android:id="@+id/error_view"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/img_cloud_off"
+                android:layout_centerVertical="true"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                app:srcCompat="@drawable/ic_cloud_off_black_48px" />
+
+            <TextView
+                android:padding="12dp"
+                android:id="@+id/tv_error_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/img_cloud_off"
+                android:text="ERROR"
+                android:textAppearance="?android:textAppearanceLarge" />
+            <TextView
+                android:layout_marginStart="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_below="@id/tv_error_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="网络被劫持，说出来你可能不信。是外星人先动的手" />
+        </RelativeLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/history_rec_view"
@@ -89,14 +122,17 @@
 
         <android.support.v4.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar"
+            style="?android:progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_gravity="center_horizontal" />
 
         <ScrollView
             android:id="@+id/translate_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,10 +180,10 @@
                     card_view:cardCornerRadius="4dp">
 
                     <LinearLayout
-                        android:padding="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,8 +196,8 @@
                             android:id="@+id/basic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="16dp"
                             android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
                             android:text="n.动词 开心 \n v.名词 更开心" />
                     </LinearLayout>
 
