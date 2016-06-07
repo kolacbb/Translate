@@ -27,6 +27,7 @@ import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.CopyDropStore;
 import io.github.kolacbb.translate.flux.stores.Store;
+import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.ApiKey;
 import io.github.kolacbb.translate.protocol.ClientApi;
@@ -126,8 +127,8 @@ public class CopyDropActivity extends Activity {
     }
 
     private void render(CopyDropStore store) {
-        YouDaoResult youDaoResult = store.getData();
-        translationTextView.setText(youDaoResult.getTranslation().get(0));
+        Result result = store.getData();
+        translationTextView.setText(result.getTranslation());
     }
 
     @Subscribe

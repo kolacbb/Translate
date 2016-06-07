@@ -3,6 +3,7 @@ package io.github.kolacbb.translate;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.util.SpUtil;
 
 /**
@@ -13,6 +14,6 @@ public class TranslateApp extends Application{
     public void onCreate() {
         super.onCreate();
         SpUtil.init(PreferenceManager.getDefaultSharedPreferences(this));
+        TranslateDB.init(getApplicationContext());
     }
-
 }

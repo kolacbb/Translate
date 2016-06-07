@@ -20,6 +20,7 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.MainStore;
+import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,29 +91,43 @@ public class MainActivity extends AppCompatActivity {
         errorView.setVisibility(store.getErrorViewState());
 
         if (store.isFinish() && store.getData() != null) {
-            YouDaoResult youDaoResult = store.getData();
-            translation.setText(youDaoResult.getTranslation().get(0));
-            YouDaoResult.Basic basic = youDaoResult.getBasic();
-            if (basic != null) {
+            Result result = store.getData();
+            translation.setText(result.getTranslation());
+            if (result.getUk_phonetic() != null) {
+                tvPhonetic.setText(result.getUk_phonetic());
                 dictionaryView.setVisibility(View.VISIBLE);
-                //发音设置
-                if (basic.getPhonetic() != null) {
-                    tvPhonetic.setText(basic.getUsPhonetic());
-                    tvPhonetic.setVisibility(View.VISIBLE);
-                } else {
-                    tvPhonetic.setVisibility(View.GONE);
-                }
-
-                StringBuilder stringBuilder = new StringBuilder();
-                for (String str : basic.getExplains()) {
-                    stringBuilder.append(str);
-                    stringBuilder.append("\n");
-                }
-                basicTextView.setText(stringBuilder.toString());
             } else {
-                dictionaryView.setVisibility(View.GONE);
                 tvPhonetic.setVisibility(View.GONE);
             }
+            if (result.getBasic() != null) {
+                basicTextView.setText(result.getBasic());
+                dictionaryView.setVisibility(View.VISIBLE);
+            } else {
+                dictionaryView.setVisibility(View.GONE);
+            }
+//            YouDaoResult youDaoResult = store.getData();
+//            translation.setText(youDaoResult.getTranslation().get(0));
+//            YouDaoResult.Basic basic = youDaoResult.getBasic();
+//            if (basic != null) {
+//                dictionaryView.setVisibility(View.VISIBLE);
+//                //发音设置
+//                if (basic.getPhonetic() != null) {
+//                    tvPhonetic.setText(basic.getUsPhonetic());
+//                    tvPhonetic.setVisibility(View.VISIBLE);
+//                } else {
+//                    tvPhonetic.setVisibility(View.GONE);
+//                }
+//
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (String str : basic.getExplains()) {
+//                    stringBuilder.append(str);
+//                    stringBuilder.append("\n");
+//                }
+//                basicTextView.setText(stringBuilder.toString());
+//            } else {
+//                dictionaryView.setVisibility(View.GONE);
+//                tvPhonetic.setVisibility(View.GONE);
+//            }
         }
 
     }

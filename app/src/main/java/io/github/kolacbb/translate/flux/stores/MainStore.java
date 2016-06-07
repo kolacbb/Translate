@@ -5,6 +5,7 @@ import android.view.View;
 
 import io.github.kolacbb.translate.flux.actions.Action;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
+import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 
 /**
@@ -12,7 +13,7 @@ import io.github.kolacbb.translate.model.entity.YouDaoResult;
  */
 public class MainStore extends Store{
 
-    private YouDaoResult youDaoResult;
+    private Result result;
     private FetchStatue fetchStatue = FetchStatue.INIT;
     private enum FetchStatue {
         INIT, LOADING, FINISH, ERROR
@@ -26,8 +27,8 @@ public class MainStore extends Store{
     public void onAction(Action action) {
         switch (action.getType()) {
             case TranslateActions.ACTION_TRANSLATION_FINISH: {
-                youDaoResult = (YouDaoResult) action.getData().get(TranslateActions.KEY_TRANSLATION_ANSWER);
-                Log.e("OnAction", "这里有一个Action过来了 " + youDaoResult.getTranslation().get(0));
+                result = (Result) action.getData().get(TranslateActions.KEY_TRANSLATION_ANSWER);
+                Log.e("OnAction", "这里有一个Action过来了 " + result.getQuery());
                 mChangeEvent = new MainStoreChangeEvent();
                 fetchStatue = FetchStatue.FINISH;
                 emitStoreChange();
@@ -84,8 +85,8 @@ public class MainStore extends Store{
         return fetchStatue == FetchStatue.FINISH;
     }
 
-    public YouDaoResult getData() {
-        return youDaoResult;
+    public Result getData() {
+        return result;
     }
     public class MainStoreChangeEvent implements Store.StoreChangeEvent {}
 }

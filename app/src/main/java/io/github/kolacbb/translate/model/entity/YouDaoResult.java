@@ -21,6 +21,26 @@ public class YouDaoResult {
     @SerializedName("web")
     private List<Web> web = new ArrayList<Web>();
 
+
+    public Result getResult() {
+        Result result = new Result();
+        result.setQuery(getQuery());
+        result.setTranslation(getTranslation().get(0));
+        if (getBasic() != null) {
+            YouDaoResult.Basic basic = getBasic();
+            result.setUk_phonetic(basic.getUkPhonetic());
+            result.setUs_phonetic(basic.getUsPhonetic());
+            StringBuilder sb = new StringBuilder();
+            for (String string : basic.getExplains()) {
+                sb.append(string);
+                sb.append('\n');
+            }
+            result.setBasic(sb.toString());
+        }
+
+        return result;
+    }
+
     public Integer getErrorCode() {
         return errorCode;
     }

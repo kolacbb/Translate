@@ -23,6 +23,19 @@ public class TranslateDB {
         db = dbHelper.getWritableDatabase();
     }
 
+    public static Context mContext;
+    public static void init(Context context) {
+        mContext = context;
+    }
+    public synchronized static TranslateDB getInstance() {
+        if (translateDB == null) {
+            translateDB = new TranslateDB(mContext);
+        }
+        return translateDB;
+    }
+
+
+
     public synchronized static TranslateDB getInstance(Context context) {
         if (translateDB == null) {
             translateDB = new TranslateDB(context);
@@ -58,6 +71,22 @@ public class TranslateDB {
 
     public List<Result> getAllHistoryWord() {
         return getWords("false");
+    }
+
+    public Result queryWords(String word) {
+        Result result = null;
+        Cursor cursor = db.rawQuery("select * from dict where query = ?", new String[]{word});
+        if (cursor.moveToFirst()) {
+            result = new Result();
+            result.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            result.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+            result.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+            result.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+            result.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+            result.setBasic(cursor.getString(cursor.getColumnIndex("basic")));
+        }
+        cursor.close();
+        return result;
     }
 
     private List<Result> getWords(String type) {

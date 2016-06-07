@@ -32,8 +32,15 @@ public class ActionCreator {
     }
 
     public void fetchTranslation(String word) {
+        //分发开始刷新列表事件
         dispatcher.dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
+
+        //服务端数据源
         Observable<YouDaoResult> observable = mWarpClientApi.translate(word);
+
+        //本地数据库数据源
+
+
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<YouDaoResult>() {
@@ -41,7 +48,7 @@ public class ActionCreator {
                     public void call(YouDaoResult youDaoResult) {
                         Log.e("有结果了", youDaoResult.getTranslation().get(0));
                         Action action = new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
-                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult)
+                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
                                 .build();
                         dispatcher.dispatch(action);
                     }
