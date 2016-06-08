@@ -2,8 +2,12 @@ package io.github.kolacbb.translate.flux.actions;
 
 import android.util.Log;
 
+import java.util.List;
+
+import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.inject.modules.ClientApiModel;
+import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.WarpClientApi;
 import rx.Observable;
@@ -50,6 +54,8 @@ public class ActionCreator {
                         Action action = new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
                                 .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
                                 .build();
+                        //save to database
+                        TranslateDB.getInstance().saveWord(youDaoResult.getResult());
                         dispatcher.dispatch(action);
                     }
                 }, new Action1<Throwable>() {
@@ -66,6 +72,10 @@ public class ActionCreator {
     }
 
     public void initView() {
-        dispatcher.dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW).build());
+        List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
+        dispatcher.dispatch(new Action.Builder()
+                .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
+                .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)
+                .build());
     }
 }

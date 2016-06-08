@@ -3,6 +3,8 @@ package io.github.kolacbb.translate.flux.stores;
 import android.util.Log;
 import android.view.View;
 
+import java.util.List;
+
 import io.github.kolacbb.translate.flux.actions.Action;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -14,6 +16,7 @@ import io.github.kolacbb.translate.model.entity.YouDaoResult;
 public class MainStore extends Store{
 
     private Result result;
+    private List<Result> historyList;
     private FetchStatue fetchStatue = FetchStatue.INIT;
     private enum FetchStatue {
         INIT, LOADING, FINISH, ERROR
@@ -44,6 +47,7 @@ public class MainStore extends Store{
             case TranslateActions.ACTION_TRANSLATION_INIT_VIEW: {
                 Log.e("OnAction", "这里有一个Init Action过来了 ");
                 fetchStatue = FetchStatue.INIT;
+                historyList = (List<Result>) action.getData().get(TranslateActions.KEY_TRANSLATION_HISTORY);
                 mChangeEvent = new MainStoreChangeEvent();
                 emitStoreChange();
                 break;
@@ -59,6 +63,10 @@ public class MainStore extends Store{
         }
 
         System.out.println(fetchStatue == FetchStatue.LOADING);
+    }
+
+    public List<Result> getHistoryData() {
+        return historyList;
     }
 
     public int getLoadingViewVisiableState() {

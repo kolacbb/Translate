@@ -14,4 +14,5 @@ public interface TranslateActions {
 
 
     String KEY_TRANSLATION_ANSWER = "key_translation_answer";
+    String KEY_TRANSLATION_HISTORY = "key_translation_history";
 }

@@ -22,6 +22,7 @@ import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.MainStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.view.DictionaryRecycleView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.error_view)
     View errorView;
     @BindView(R.id.history_rec_view)
-    RecyclerView historyRecView;
+    DictionaryRecycleView historyRecView;
     @BindView(R.id.progress_bar)
     ContentLoadingProgressBar progressBar;
     @BindView(R.id.translate_view)
@@ -80,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
         historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
+        //historyRecView.setData();
         if (store.isLoading()) {
             System.out.println("Loading");
             progressBar.show();
         } else {
             progressBar.hide();
         }
-        //progressBar.setVisibility(store.getLoadingViewVisiableState());
         translateView.setVisibility(store.getTranslateViewVisiableState());
         errorView.setVisibility(store.getErrorViewState());
 
@@ -105,29 +106,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 dictionaryView.setVisibility(View.GONE);
             }
-//            YouDaoResult youDaoResult = store.getData();
-//            translation.setText(youDaoResult.getTranslation().get(0));
-//            YouDaoResult.Basic basic = youDaoResult.getBasic();
-//            if (basic != null) {
-//                dictionaryView.setVisibility(View.VISIBLE);
-//                //发音设置
-//                if (basic.getPhonetic() != null) {
-//                    tvPhonetic.setText(basic.getUsPhonetic());
-//                    tvPhonetic.setVisibility(View.VISIBLE);
-//                } else {
-//                    tvPhonetic.setVisibility(View.GONE);
-//                }
-//
-//                StringBuilder stringBuilder = new StringBuilder();
-//                for (String str : basic.getExplains()) {
-//                    stringBuilder.append(str);
-//                    stringBuilder.append("\n");
-//                }
-//                basicTextView.setText(stringBuilder.toString());
-//            } else {
-//                dictionaryView.setVisibility(View.GONE);
-//                tvPhonetic.setVisibility(View.GONE);
-//            }
         }
 
     }
