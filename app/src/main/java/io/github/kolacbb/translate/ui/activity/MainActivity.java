@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
         historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
-        //historyRecView.setData();
+        historyRecView.setData(store.getHistoryData());
         if (store.isLoading()) {
             System.out.println("Loading");
             progressBar.show();

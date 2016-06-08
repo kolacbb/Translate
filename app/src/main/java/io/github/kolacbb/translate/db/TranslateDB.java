@@ -75,7 +75,7 @@ public class TranslateDB {
 
     public Result queryWords(String word) {
         Result result = null;
-        Cursor cursor = db.rawQuery("select * from dict where query = ?", new String[]{word});
+        Cursor cursor = db.rawQuery("select * from dict where query = ? order by id", new String[]{word});
         if (cursor.moveToFirst()) {
             result = new Result();
             result.setId(cursor.getInt(cursor.getColumnIndex("id")));

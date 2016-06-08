@@ -73,9 +73,14 @@ public class ActionCreator {
 
     public void initView() {
         List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
+        for (Result r :
+                historyList) {
+            System.out.println(r.getQuery());
+        }
         dispatcher.dispatch(new Action.Builder()
                 .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
                 .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)
                 .build());
+
     }
 }
