@@ -75,7 +75,7 @@ public class TranslateDB {
 
     public Result queryWords(String word) {
         Result result = null;
-        Cursor cursor = db.rawQuery("select * from dict where query = ? order by id", new String[]{word});
+        Cursor cursor = db.rawQuery("select * from dict where query = ?", new String[]{word});
         if (cursor.moveToFirst()) {
             result = new Result();
             result.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -91,7 +91,7 @@ public class TranslateDB {
 
     private List<Result> getWords(String type) {
         List<Result> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from dict where isFavor == ?", new String[]{type});
+        Cursor cursor = db.rawQuery("select * from dict where isFavor == ? order by id desc", new String[]{type});
         if (cursor.moveToFirst()) {
             do {
                 Result result = new Result();

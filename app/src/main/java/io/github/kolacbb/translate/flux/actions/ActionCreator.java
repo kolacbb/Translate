@@ -71,16 +71,20 @@ public class ActionCreator {
                 });
     }
 
+    public void fetchFavorList() {
+        List<Result> list = TranslateDB.getInstance().getAllHistoryWord();
+        Action action = new Action.Builder().with(TranslateActions.ACTION_PHRASEBOOK_INIT)
+                .bundle(TranslateActions.KEY_PHRASEBOOK_FAVORITE, list)
+                .build();
+        dispatcher.dispatch(action);
+    }
+
     public void initView() {
         List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
-        for (Result r :
-                historyList) {
-            System.out.println(r.getQuery());
-        }
+
         dispatcher.dispatch(new Action.Builder()
                 .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
                 .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)
                 .build());
-
     }
 }

@@ -1,11 +1,15 @@
 package io.github.kolacbb.translate.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -20,6 +24,7 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.MainStore;
+import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.view.DictionaryRecycleView;
@@ -56,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initDependencies();
-        render(mainStore);
+
+        mainStore.register(this);
+        actionCreator.initView();
     }
 
     private void initDependencies() {
@@ -67,16 +74,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mainStore.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         mainStore.unregister(this);
     }
+
 
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
@@ -115,6 +117,22 @@ public class MainActivity extends AppCompatActivity {
         render(mainStore);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.phrasebook:
+                startActivity(new Intent(this, PhrasebookActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book})
     public void widgetOnClicked(View view) {
         switch (view.getId()) {
@@ -125,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bt_translate:
                 //Toast.makeText(MainActivity.this, "translate", Toast.LENGTH_SHORT).show();
                 if (pointTextView.getText().toString().trim().length() != 0)
-                    actionCreator.fetchTranslation(pointTextView.getText().toString());
+                    actionCreator.fetchTranslation(pointTextView.getText().toString().trim());
                 break;
             case R.id.add_book:
                 String query = pointTextView.getText().toString().trim();

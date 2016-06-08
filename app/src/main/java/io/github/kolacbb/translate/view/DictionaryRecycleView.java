@@ -15,9 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.github.kolacbb.translate.R;
+import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.model.entity.Result;
 
 /**
@@ -45,6 +44,9 @@ public class DictionaryRecycleView extends LinearLayout {
         recyclerView.setLayoutManager(manager);
         adapter = new DictionaryAdapter(context, true);
         recyclerView.setAdapter(adapter);
+        //设置ItemView的divider
+        recyclerView.addItemDecoration(new DividerItemDecoration(context,
+                DividerItemDecoration.VERTICAL_LIST));
     }
 
 
