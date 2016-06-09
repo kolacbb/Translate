@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     CardView dictionaryView;
     @BindView(R.id.basic)
     TextView basicTextView;
+
+    @BindView(R.id.add_book)
+    ImageButton btAddPhrasebook;
+
+
 
     Dispatcher dispatcher;
     MainStore mainStore;
@@ -96,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
         if (store.isFinish() && store.getData() != null) {
             Result result = store.getData();
             translation.setText(result.getTranslation());
+            if (result.isFavor()) {
+                btAddPhrasebook.setImageResource(R.drawable.ic_star_black_24px);
+            } else {
+                btAddPhrasebook.setImageResource(R.drawable.ic_star_border_black_24px);
+            }
+
             if (result.getUk_phonetic() != null) {
                 tvPhonetic.setText(result.getUk_phonetic());
                 dictionaryView.setVisibility(View.VISIBLE);
@@ -146,11 +159,9 @@ public class MainActivity extends AppCompatActivity {
                     actionCreator.fetchTranslation(pointTextView.getText().toString().trim());
                 break;
             case R.id.add_book:
-                String query = pointTextView.getText().toString().trim();
-                String answer = basicTextView.getText().toString().trim();
-                if (query.length() != 0 && answer.length() != 0) {
 
-
+                if (mainStore.getData() != null) {
+                    actionCreator.saveToPhrasebook(mainStore.getData());
                     Toast.makeText(MainActivity.this, "已加入生词本", Toast.LENGTH_SHORT).show();
                 }
                 break;
