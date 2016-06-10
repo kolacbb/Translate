@@ -31,7 +31,8 @@ public class DataLayer {
             @Override
             public void call(Subscriber<? super Result> subscriber) {
                 subscriber.onStart();
-                Result result = TranslateDB.getInstance().queryWords(word);
+                //Result result = TranslateDB.getInstance().queryWords(word);
+                Result result = TranslateDB.getInstance().getTransalte(word);
                 subscriber.onNext(result);
                 subscriber.onCompleted();
             }

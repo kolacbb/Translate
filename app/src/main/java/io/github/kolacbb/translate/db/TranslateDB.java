@@ -3,6 +3,7 @@ package io.github.kolacbb.translate.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +50,22 @@ public class TranslateDB {
     /**
      * 操作History表
      * 对于History表只用到增加，删除，和全部删除的操作，故不添加其他的业务方法，如修改
+     * 保存：使用事物来保证在History表中query字段的唯一性。并且可以在最新保存了query字段时，query在列表顶端
      */
     public void saveToHistory(Result result) {
+        db.beginTransaction();
+        try {
+            deleteFromHistory(result);
+            saveToHistoryDirect(result);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private void saveToHistoryDirect(Result result) {
         String sql = "insert into history (query, us_phonetic, uk_phonetic, translation, basic) values (?, ?, ?, ?, ?)";
         db.execSQL(sql, new String[]{result.getQuery(),
                 result.getUs_phonetic(),
@@ -71,6 +86,27 @@ public class TranslateDB {
     }
 
     public List<Result> getAllHistory() {
+        String sql = "select id, query, us_phonetic, uk_phonetic, translation, basic, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from history t1 order by id desc";
+        List<Result> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, new String[0]);
+        if (cursor.moveToFirst()) {
+            do {
+                Result result = new Result();
+                result.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                result.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+                result.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+                result.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+                result.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+                result.setBasic(cursor.getString(cursor.getColumnIndex("basic")));
+                result.setFavor(cursor.getString(cursor.getColumnIndex("isfavor")) != null);
+                list.add(result);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    private List<Result> getAllHistoryIgnorePhrasebook() {
         List<Result> list = new ArrayList<>();
         Cursor cursor = db.rawQuery("select * from history order by id desc", new String[0]);
         if (cursor.moveToFirst()) {
@@ -115,9 +151,18 @@ public class TranslateDB {
      * 1.尽可能的减少连接数据库的次数
      * 2.保证sql语句的唯一性（sqlite会对相类似的语句进行检存储，会在下一次调用相同语句时更加迅速）
      * */
-    public void deleteFromRhrasebook(List<Result> list) {
-        String sql = "delete from history where query in (?, ?, ?, ?, ?)";
-        
+    public void deleteFromPhrasebook(List<Result> list) {
+        String sql = "delete from phrasebook where query in (?, ?, ?, ?, ?)";
+        // N 是在sql语句中可变的部分的数量，我们可以找到一个效率的平衡点，来让sql更快的执行
+        int N = 5;
+        for (int i = 0; i <= list.size()/N; i++) {
+            String[] args = new String[N];
+            // 构造String
+            for (int j = 0; j < N && i*N+j < list.size(); j++) {
+                args[j] = list.get(i*N + j).getQuery();
+            }
+            db.execSQL(sql, args);
+        }
     }
 
     public List<Result> getAllPhrasebook() {
@@ -143,14 +188,60 @@ public class TranslateDB {
 
     /**
      * 面向应用的方法，比如在查询单词时，先查询本地的，在查询来自于网络的
-     * 如果有本地数据库：phrasebook表 -> localDatabase表
+     * localDatabase表存储的应该只是单词，并没有句子，所以可以先做一个判断。String中是否有空格存在
+     * trim后的String若是存在空格，那它就不属于一个单词
+     *
+     * 如果有本地数据库：phrasebook表 -> localDatabase表与history表联合（新的method）后查询
      * 没有本地数据库：phrasebook表 -> history表
      * */
+    @Nullable
     public Result getTransalte(String query) {
-        return null;
+        Result result = getTranslateFromPhrasebook(query);
+        if (result != null) {
+            return result;
+        }
+        return getTranslateFromHistory(query);
+    }
+
+    private Result getTranslateFromPhrasebook(String query) {
+        Result result = null;
+        Cursor cursor = db.rawQuery("select * from phrasebook where query = ?", new String[]{query});
+        if (cursor.moveToFirst()) {
+            result = new Result();
+            result.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            result.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+            result.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+            result.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+            result.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+            result.setBasic(cursor.getString(cursor.getColumnIndex("basic")));
+            //从Phrasebook表获取的数据，将Favor值设置为true
+            result.setFavor(true);
+        }
+        cursor.close();
+        return result;
+    }
+
+    private Result getTranslateFromHistory(String query) {
+        Result result = null;
+        Cursor cursor = db.rawQuery("select * from history where query = ?", new String[]{query});
+        if (cursor.moveToFirst()) {
+            result = new Result();
+            result.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            result.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+            result.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+            result.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+            result.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+            result.setBasic(cursor.getString(cursor.getColumnIndex("basic")));
+            //从Phrasebook表获取的数据，将Favor值设置为false， 嗯。。其实默认也是false
+            result.setFavor(false);
+        }
+        cursor.close();
+        return result;
     }
 
 
+
+    // old table --------------------------------------------
 
     public void saveWord(Result result) {
         if (result.getId() == 0) {

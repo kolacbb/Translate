@@ -19,6 +19,8 @@ import java.util.List;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.flux.actions.ActionCreator;
+import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.MainActivity;
 
@@ -36,12 +38,16 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
 //        this.setAdapter(adapter);
 //    }
 
+    Dispatcher dispatcher;
+    ActionCreator actionCreator;
     RecyclerView recyclerView;
 
     public DictionaryRecycleView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         //LayoutInflater.from(context).inflate(R.layout.recycle_view_dictionary, this);
         LayoutInflater.from(context).inflate(R.layout.recycle_view_dictionary, this);
+//        dispatcher = Dispatcher.get();
+//        actionCreator = ActionCreator.get(dispatcher);
         recyclerView = (RecyclerView) findViewById(R.id.rec_view);
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
@@ -112,7 +118,8 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
                     viewHolder.btFavor.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            TranslateDB.getInstance().deleteWordFromDict(result);
+                            //TranslateDB.getInstance().deleteWordFromDict(result);
+                            TranslateDB.getInstance().deleteFromPhrasebook(result);
                         }
                     });
                 } else {
@@ -120,10 +127,12 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
                     viewHolder.btFavor.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            TranslateDB.getInstance().updateHistoryToDict(result);
+                            //TranslateDB.getInstance().updateHistoryToDict(result);
+                            TranslateDB.getInstance().saveToPhrasebook(result);
                         }
                     });
                 }
+                //actionCreator.initView();
             } else {
                 viewHolder.btFavor.setVisibility(View.GONE);
             }

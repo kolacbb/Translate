@@ -55,7 +55,8 @@ public class ActionCreator {
                                 .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
                                 .build();
                         //save to database
-                        TranslateDB.getInstance().saveWord(youDaoResult.getResult());
+                        //TranslateDB.getInstance().saveWord(youDaoResult.getResult());
+                        TranslateDB.getInstance().saveToHistory(youDaoResult.getResult());
                         dispatcher.dispatch(action);
                     }
                 }, new Action1<Throwable>() {
@@ -72,7 +73,8 @@ public class ActionCreator {
     }
 
     public void fetchFavorList() {
-        List<Result> list = TranslateDB.getInstance().getAllDictWord();
+        //List<Result> list = TranslateDB.getInstance().getAllDictWord();
+        List<Result> list = TranslateDB.getInstance().getAllPhrasebook();
         Action action = new Action.Builder().with(TranslateActions.ACTION_PHRASEBOOK_INIT)
                 .bundle(TranslateActions.KEY_PHRASEBOOK_FAVORITE, list)
                 .build();
@@ -80,7 +82,8 @@ public class ActionCreator {
     }
 
     public void saveToPhrasebook(Result result) {
-        TranslateDB.getInstance().updateHistoryToDict(result);
+        //TranslateDB.getInstance().updateHistoryToDict(result);
+        TranslateDB.getInstance().saveToPhrasebook(result);
         result.setFavor(true);
         Action action = new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
                 .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, result)
@@ -89,8 +92,8 @@ public class ActionCreator {
     }
 
     public void initView() {
-        List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
-
+        //List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
+        List<Result> historyList = TranslateDB.getInstance().getAllHistory();
         dispatcher.dispatch(new Action.Builder()
                 .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
                 .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)

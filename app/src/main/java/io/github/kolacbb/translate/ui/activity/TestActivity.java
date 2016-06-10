@@ -31,27 +31,26 @@ public class TestActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.bt1:
                 System.out.println(result.getId());
-                TranslateDB.getInstance(this).saveWord(result);
                 result.setQuery(result.getQuery() + i);
                 i++;
                 break;
             case R.id.bt2:
-                TranslateDB.getInstance(this).updateHistoryToDict(result);
+                //TranslateDB.getInstance(this).updateHistoryToDict(result);
                 break;
             case R.id.bt3:
-                TranslateDB.getInstance(this).deleteWord(result);
+                //TranslateDB.getInstance(this).deleteWord(result);
                 break;
             case R.id.bt4:
-                List<Result> list =TranslateDB.getInstance(this).getAllDictWord();
-                for (Result r : list) {
-                    System.out.println(r.getId() + " " + r.getQuery());
-                }
+//                List<Result> list =TranslateDB.getInstance(this).getAllDictWord();
+//                for (Result r : list) {
+//                    System.out.println(r.getId() + " " + r.getQuery());
+//                }
                 break;
             case R.id.bt5:
-                List<Result> list2 =TranslateDB.getInstance(this).getAllHistoryWord();
-                for (Result r : list2) {
-                    System.out.println(r.getId() + " " + r.getQuery());
-                }
+//                List<Result> list2 =TranslateDB.getInstance(this).getAllHistoryWord();
+//                for (Result r : list2) {
+//                    System.out.println(r.getId() + " " + r.getQuery());
+//                }
                 break;
 
         }
