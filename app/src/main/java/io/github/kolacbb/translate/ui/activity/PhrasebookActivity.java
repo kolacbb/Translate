@@ -1,6 +1,8 @@
 package io.github.kolacbb.translate.ui.activity;
 
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,6 +24,11 @@ public class PhrasebookActivity extends AppCompatActivity {
     Dispatcher dispatcher;
     PhrasebookStore phrasebookStore;
     ActionCreator actionCreator;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, PhrasebookActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

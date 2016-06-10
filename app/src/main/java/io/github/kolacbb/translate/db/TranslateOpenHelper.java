@@ -16,6 +16,20 @@ public class TranslateOpenHelper extends SQLiteOpenHelper {
             "translation text, " +
             "basic text, " +
             "isFavor boolean)";
+    final String CREATE_PHRASEBOOK_TABLE_SQL = "create table phrasebook ( " +
+            "id integer primary key autoincrement, " +
+            "query text, " +
+            "us_phonetic text, " +
+            "uk_phonetic text, " +
+            "translation text, " +
+            "basic text) ";
+    final String CREATE_HISTORY_TABLE_SQL = "create table history ( " +
+            "id integer primary key autoincrement, " +
+            "query text, " +
+            "us_phonetic text, " +
+            "uk_phonetic text, " +
+            "translation text, " +
+            "basic text) ";
 
     public TranslateOpenHelper(Context context, String name, int version) {
         super(context, name, null, version);
@@ -23,8 +37,12 @@ public class TranslateOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // old version
         db.execSQL(CREATE_DICT_TABLE_SQL);
-        //db.execSQL(CREATE_HISTORY_TABLE_SQL);
+        // create phrasebook table
+        db.execSQL(CREATE_PHRASEBOOK_TABLE_SQL);
+        // create history table
+        db.execSQL(CREATE_HISTORY_TABLE_SQL);
     }
 
     @Override

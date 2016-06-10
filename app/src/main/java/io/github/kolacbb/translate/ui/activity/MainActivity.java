@@ -86,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
         mainStore.unregister(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String query = intent.getStringExtra("query");
+        System.out.println("query");
+        actionCreator.fetchTranslation(query);
+    }
 
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
@@ -140,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.phrasebook:
-                startActivity(new Intent(this, PhrasebookActivity.class));
+                PhrasebookActivity.start(this);
                 break;
         }
         return super.onOptionsItemSelected(item);

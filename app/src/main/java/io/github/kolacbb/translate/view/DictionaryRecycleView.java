@@ -1,6 +1,7 @@
 package io.github.kolacbb.translate.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -17,12 +18,14 @@ import java.util.List;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
+import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.ui.activity.MainActivity;
 
 /**
  * Created by Kola on 2016/6/8.
  */
-public class DictionaryRecycleView extends LinearLayout {
+public class DictionaryRecycleView extends LinearLayout implements View.OnClickListener{
 
     private DictionaryAdapter adapter;
 
@@ -42,7 +45,8 @@ public class DictionaryRecycleView extends LinearLayout {
         recyclerView = (RecyclerView) findViewById(R.id.rec_view);
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        adapter = new DictionaryAdapter(context, true);
+
+        adapter = new DictionaryAdapter(context, true, this);
         recyclerView.setAdapter(adapter);
         //设置ItemView的divider
         recyclerView.addItemDecoration(new DividerItemDecoration(context,
@@ -56,33 +60,74 @@ public class DictionaryRecycleView extends LinearLayout {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onClick(View v) {
+        //int id = v.getId();
+        int position = recyclerView.getChildAdapterPosition(v);
+        Result result = adapter.getItemData(position);
+        if (position != RecyclerView.NO_POSITION) {
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            intent.putExtra("query", result.getQuery());
+            getContext().startActivity(intent);
+        }
+
+//        Result result = adapter.getItemData(position);
+//        if (id == R.id.bt_favor) {
+//            TranslateDB.getInstance().updateHistoryToDict(result);
+//        } else {
+//            Intent intent = new Intent(getContext(), MainActivity.class);
+//            getContext().startActivity(intent);
+//        }
+    }
+
+
+    // custom RecyclerView Adapter
     public class DictionaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         List<Result> list = new ArrayList<>();
+        View.OnClickListener listener;
         Context context;
         boolean btVisible;
 
-        public DictionaryAdapter(Context context, boolean btVisible) {
+        public DictionaryAdapter(Context context, boolean btVisible, View.OnClickListener listener) {
             this.context = context;
             this.btVisible = btVisible;
+            this.listener = listener;
         }
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_dictionary, parent, false);
-
             return new DictionaryViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             DictionaryViewHolder viewHolder = (DictionaryViewHolder) holder;
-            Result result = list.get(position);
+            final Result result = list.get(position);
             viewHolder.tvQuery.setText(result.getQuery());
             viewHolder.tvTranslation.setText(result.getTranslation());
             if (btVisible) {
                 viewHolder.btFavor.setVisibility(View.VISIBLE);
+                if (result.isFavor()) {
+                    viewHolder.btFavor.setImageResource(R.drawable.ic_star_black_24px);
+                    viewHolder.btFavor.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TranslateDB.getInstance().deleteWordFromDict(result);
+                        }
+                    });
+                } else {
+                    viewHolder.btFavor.setImageResource(R.drawable.ic_star_border_black_24px);
+                    viewHolder.btFavor.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TranslateDB.getInstance().updateHistoryToDict(result);
+                        }
+                    });
+                }
             } else {
                 viewHolder.btFavor.setVisibility(View.GONE);
             }
+            viewHolder.itemView.setOnClickListener(listener);
         }
 
         @Override
