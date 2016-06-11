@@ -81,6 +81,16 @@ public class ActionCreator {
         dispatcher.dispatch(action);
     }
 
+    public void starWord(Result result) {
+        TranslateDB.getInstance().saveToPhrasebook(result);
+        initView();
+    }
+
+    public void unstarWord(Result result) {
+        TranslateDB.getInstance().deleteFromPhrasebook(result);
+        initView();
+    }
+
     public void saveToPhrasebook(Result result) {
         //TranslateDB.getInstance().updateHistoryToDict(result);
         TranslateDB.getInstance().saveToPhrasebook(result);

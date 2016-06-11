@@ -1,12 +1,14 @@
 package io.github.kolacbb.translate.ui.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,17 +20,22 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
+import io.github.kolacbb.translate.base.DividerItemDecoration;
+import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.MainStore;
 import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
 import io.github.kolacbb.translate.view.DictionaryRecycleView;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.error_view)
     View errorView;
     @BindView(R.id.history_rec_view)
-    DictionaryRecycleView historyRecView;
+    RecyclerView historyRecView;
     @BindView(R.id.progress_bar)
     ContentLoadingProgressBar progressBar;
     @BindView(R.id.translate_view)
@@ -56,20 +63,63 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.add_book)
     ImageButton btAddPhrasebook;
 
-
+    WordListAdapter adapter;
 
     Dispatcher dispatcher;
     MainStore mainStore;
     ActionCreator actionCreator;
 
+    public static void start(Context context, String query) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("query", query);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TranslateDB.init(this);
         ButterKnife.bind(this);
         initDependencies();
 
         mainStore.register(this);
+
+        RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        historyRecView.setLayoutManager(manager);
+        historyRecView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
+        adapter = new WordListAdapter(new ArrayList<Result>(),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = historyRecView.getChildAdapterPosition(v);
+                        Result result = adapter.getItemData(position);
+                        MainActivity.start(MainActivity.this, result.getQuery());
+                    }
+                },
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(MainActivity.this, "star", Toast.LENGTH_SHORT).show();
+                        int position = (int) v.getTag();
+                        Result result = adapter.getItemData(position);
+                        actionCreator.starWord(result);
+                        //((ImageButton) v).setImageResource(R.drawable.ic_star_black_24px);
+                    }
+                },
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(MainActivity.this, "unstar", Toast.LENGTH_SHORT).show();
+                        int position = (int) v.getTag();
+                        Result result = adapter.getItemData(position);
+                        actionCreator.unstarWord(result);
+                        //((ImageButton) v).setImageResource(R.drawable.ic_star_border_black_24px);
+                    }
+                });
+        historyRecView.setAdapter(adapter);
         actionCreator.initView();
     }
 
@@ -97,7 +147,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
         historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
-        historyRecView.setData(store.getHistoryData());
+//        historyRecView.setData(store.getHistoryData());
+        if (store.isInit()) {
+            adapter.setData(store.getHistoryData());
+            adapter.notifyDataSetChanged();
+        }
         if (store.isLoading()) {
             System.out.println("Loading");
             progressBar.show();

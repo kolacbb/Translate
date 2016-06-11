@@ -93,6 +93,10 @@ public class MainStore extends Store{
         return fetchStatue == FetchStatue.FINISH;
     }
 
+    public boolean isInit() {
+        return fetchStatue == FetchStatue.INIT;
+    }
+
     public Result getData() {
         return result;
     }

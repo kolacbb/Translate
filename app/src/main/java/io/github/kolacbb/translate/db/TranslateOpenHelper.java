@@ -9,13 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class TranslateOpenHelper extends SQLiteOpenHelper {
 
-    final String CREATE_DICT_TABLE_SQL = "create table dict ( id integer primary key autoincrement," +
-            "query text, " +
-            "us_phonetic text, " +
-            "uk_phonetic text, " +
-            "translation text, " +
-            "basic text, " +
-            "isFavor boolean)";
+//    final String CREATE_DICT_TABLE_SQL = "create table dict ( id integer primary key autoincrement," +
+//            "query text, " +
+//            "us_phonetic text, " +
+//            "uk_phonetic text, " +
+//            "translation text, " +
+//            "basic text, " +
+//            "isFavor boolean)";
     final String CREATE_PHRASEBOOK_TABLE_SQL = "create table phrasebook ( " +
             "id integer primary key autoincrement, " +
             "query text, " +
@@ -38,7 +38,7 @@ public class TranslateOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // old version
-        db.execSQL(CREATE_DICT_TABLE_SQL);
+        //db.execSQL(CREATE_DICT_TABLE_SQL);
         // create phrasebook table
         db.execSQL(CREATE_PHRASEBOOK_TABLE_SQL);
         // create history table

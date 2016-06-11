@@ -6,8 +6,13 @@
     android:background="#e2e2e2"
     tools:context="io.github.kolacbb.translate.ui.activity.PhrasebookActivity">
 
-    <io.github.kolacbb.translate.view.DictionaryRecycleView
+    <android.support.v7.widget.RecyclerView
         android:id="@id/dictionary_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
+
+    <!--<io.github.kolacbb.translate.view.DictionaryRecycleView-->
+        <!--android:id="@id/dictionary_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 </LinearLayout>

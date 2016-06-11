@@ -29,7 +29,7 @@ import io.github.kolacbb.translate.ui.activity.MainActivity;
  */
 public class DictionaryRecycleView extends LinearLayout implements View.OnClickListener{
 
-    private DictionaryAdapter adapter;
+    private static DictionaryAdapter adapter;
 
 //    public DictionaryRecycleView(Context context, @Nullable AttributeSet attrs, int defStyle) {
 //        super(context, attrs, defStyle);
@@ -51,12 +51,13 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
         recyclerView = (RecyclerView) findViewById(R.id.rec_view);
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(context,
+                DividerItemDecoration.VERTICAL_LIST));
 
         adapter = new DictionaryAdapter(context, true, this);
         recyclerView.setAdapter(adapter);
         //设置ItemView的divider
-        recyclerView.addItemDecoration(new DividerItemDecoration(context,
-                DividerItemDecoration.VERTICAL_LIST));
+
     }
 
 
@@ -120,6 +121,8 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
                         public void onClick(View v) {
                             //TranslateDB.getInstance().deleteWordFromDict(result);
                             TranslateDB.getInstance().deleteFromPhrasebook(result);
+
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 } else {
@@ -129,6 +132,7 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
                         public void onClick(View v) {
                             //TranslateDB.getInstance().updateHistoryToDict(result);
                             TranslateDB.getInstance().saveToPhrasebook(result);
+                            adapter.notifyDataSetChanged();
                         }
                     });
                 }
