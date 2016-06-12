@@ -1,69 +1,53 @@
 package io.github.kolacbb.translate.flux.actions;
 
-import android.util.Log;
+import android.os.Bundle;
 
 import java.util.List;
 
 import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
-import io.github.kolacbb.translate.inject.modules.ClientApiModel;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
-import io.github.kolacbb.translate.protocol.WarpClientApi;
+import io.github.kolacbb.translate.protocol.DataLayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Kola on 2016/6/5.
+ * Created by Kola on 2016/6/11.
  */
-public class ActionCreator {
-
-    private static ActionCreator instance;
-    final Dispatcher dispatcher;
-    private WarpClientApi mWarpClientApi;
-
-    ActionCreator(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-        mWarpClientApi = new WarpClientApi(ClientApiModel.provideClientApi());
+public class TranslateActionCreator extends BaseActionCreator{
+    public TranslateActionCreator(Dispatcher dispatcher, DataLayer dataLayer) {
+        super(dispatcher, dataLayer);
     }
 
-    public static ActionCreator get(Dispatcher dispatcher) {
-        if (instance == null) {
-            instance = new ActionCreator(dispatcher);
-        }
-        return instance;
-    }
+//    public void fetchHistoryListWord() {
+//        getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
+//    }
 
-    public void fetchTranslation(String word) {
+    public void fetchTranslation(String query) {
         //分发开始刷新列表事件
-        dispatcher.dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
+        getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
 
         //服务端数据源
-        Observable<YouDaoResult> observable = mWarpClientApi.translate(word);
+        Observable<YouDaoResult> network = getDataLayer().getTranslateService().getTranslation(query);
 
-        //本地数据库数据源
-
-
-        observable.subscribeOn(Schedulers.io())
+        // 订阅事件序列
+        network.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<YouDaoResult>() {
                     @Override
                     public void call(YouDaoResult youDaoResult) {
-                        Log.e("有结果了", youDaoResult.getTranslation().get(0));
-                        Action action = new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
-                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
-                                .build();
-                        //save to database
-                        //TranslateDB.getInstance().saveWord(youDaoResult.getResult());
+                        //先缓存一下
                         TranslateDB.getInstance().saveToHistory(youDaoResult.getResult());
-                        dispatcher.dispatch(action);
+                        getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
+                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
+                                .build());
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        System.out.println(throwable.getMessage());
                         Action action = new Action.Builder()
                                 .with(TranslateActions.ACTION_TRANSLATION_NET_ERROR)
                                 .bundle("key", "Value")
@@ -72,6 +56,7 @@ public class ActionCreator {
                     }
                 });
     }
+
 
     public void fetchFavorList() {
         //List<Result> list = TranslateDB.getInstance().getAllDictWord();

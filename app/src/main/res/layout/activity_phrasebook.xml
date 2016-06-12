@@ -11,8 +11,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <!--<io.github.kolacbb.translate.view.DictionaryRecycleView-->
-        <!--android:id="@id/dictionary_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
 </LinearLayout>

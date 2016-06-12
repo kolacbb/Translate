@@ -62,7 +62,7 @@ public class PhrasebookActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Result result = adapter.getItemData(dictionaryView.getChildAdapterPosition(v));
-                        MainActivity.start(PhrasebookActivity.this, result.getQuery());
+                        //MainActivity.start(PhrasebookActivity.this, result.getQuery());
                     }
                 });
         dictionaryView.setAdapter(adapter);

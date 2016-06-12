@@ -1,9 +1,11 @@
 package io.github.kolacbb.translate.model.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Kola on 2016/6/6.
  */
-public class Result {
+public class Result implements Serializable{
     private int id;
     private String query;
     private String translation;

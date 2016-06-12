@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,11 +30,8 @@ import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.MainStore;
-import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
-import io.github.kolacbb.translate.view.DictionaryRecycleView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -147,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("ResourceType")
     public void render(MainStore store) {
         historyRecView.setVisibility(store.getHistoryRecycleViewVisiableState());
-//        historyRecView.setData(store.getHistoryData());
         if (store.isInit()) {
             adapter.setData(store.getHistoryData());
             adapter.notifyDataSetChanged();
@@ -170,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 btAddPhrasebook.setImageResource(R.drawable.ic_star_border_black_24px);
             }
 
-            if (result.getUk_phonetic() != null) {
+            if (result.getUs_phonetic() != null) {
                 tvPhonetic.setText(result.getUk_phonetic());
-                dictionaryView.setVisibility(View.VISIBLE);
+                tvPhonetic.setVisibility(View.VISIBLE);
             } else {
                 tvPhonetic.setVisibility(View.GONE);
             }
