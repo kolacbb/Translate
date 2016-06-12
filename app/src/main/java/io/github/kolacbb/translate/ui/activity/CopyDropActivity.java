@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -19,37 +20,30 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
+import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
+import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
+import io.github.kolacbb.translate.flux.actions.creator.TranslateActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.CopyDropStore;
-import io.github.kolacbb.translate.flux.stores.Store;
+import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
-import io.github.kolacbb.translate.protocol.ApiKey;
-import io.github.kolacbb.translate.protocol.ClientApi;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import io.github.kolacbb.translate.service.base.DataLayer;
 
-public class CopyDropActivity extends Activity {
-    private CharSequence text; //Selection Text
-    private boolean readOnly; //is the Selection Text can change
-
+public class CopyDropActivity extends BaseActivity {
 
     @BindView(R.id.query)
     TextView queryTextView;
     @BindView(R.id.translation)
     TextView translationTextView;
-
     @BindView(R.id.replace_btn)
     Button replaceButton;
-
     @BindView(R.id.container)
     ViewGroup mContainerView;
     @BindView(R.id.error_view)
@@ -57,114 +51,66 @@ public class CopyDropActivity extends Activity {
 
     PopupMenu popupMenu = null;
 
-    Dispatcher dispatcher;
-    ActionCreator actionCreator;
     CopyDropStore copyDropStore;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_copy_drop);
-
-
-        WindowManager wm = this.getWindowManager();
-
-        int width = wm.getDefaultDisplay().getWidth();
-
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        //lp.
-        //lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.width =(int) ( width * 0.9);
-        lp.verticalMargin = 0.02F;
-        lp.gravity = Gravity.TOP;
-        getWindow().setAttributes(lp);
-
-        ButterKnife.bind(this);
-
-        translationTextView.setMovementMethod(new ScrollingMovementMethod());
-
-        initDependence();
-
-        handleIntent(getIntent());
+    protected int getLayoutId() {
+        return R.layout.activity_copy_drop;
     }
 
-    public void initDependence() {
-        dispatcher = Dispatcher.get();
-        actionCreator = ActionCreator.get(dispatcher);
+    @Override
+    protected void afterCreate(Bundle savedInstanceState) {
+        reSizeWindow();
         copyDropStore = new CopyDropStore();
-        dispatcher.register(copyDropStore);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        getDispatcher().register(copyDropStore);
         copyDropStore.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        copyDropStore.unregister(this);
+        handleIntent(getIntent());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dispatcher.unregister(copyDropStore);
+        copyDropStore.unregister(this);
+        getDispatcher().unregister(copyDropStore);
+    }
+
+    public void reSizeWindow() {
+        WindowManager wm = this.getWindowManager();
+        int width = wm.getDefaultDisplay().getWidth();
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.width =(int) ( width * 0.9);
+        lp.verticalMargin = 0.02F;
+        lp.gravity = Gravity.TOP;
+        getWindow().setAttributes(lp);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
     }
 
     public void handleIntent(Intent intent) {
         //Intent intent = getIntent();
-        text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
-        readOnly = intent.getBooleanExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, false);
+        CharSequence text = intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+        boolean readOnly = intent.getBooleanExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, false);
         replaceButton.setClickable(!readOnly);
         if (text != null) {
             queryTextView.setText(text.toString());
-            //queryTranslate(text.toString());
-            actionCreator.fetchTranslation(text.toString());
             Toast.makeText(CopyDropActivity.this, text, Toast.LENGTH_SHORT).show();
+            getActionCreatorManager().getTranslateActionCreator().fetchTranslation(text.toString());
+
         }
     }
 
-    private void render(CopyDropStore store) {
-        Result result = store.getData();
+    private void render() {
+        Result result = copyDropStore.getData();
         translationTextView.setText(result.getTranslation());
     }
 
     @Subscribe
     public void onStoreChange(CopyDropStore.CopyDropStoreChangeEvent event) {
-        render(copyDropStore);
-    }
-
-//    public void queryTranslate(String text){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://fanyi.youdao.com")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        ClientApi clientApi = retrofit.create(ClientApi.class);
-//
-//        Call<YouDaoResult> call = clientApi.getTranslationYouDao(ApiKey.YOUDAO_KEY_FROM,
-//                ApiKey.YOUDAO_KEY,
-//                ApiKey.YOUDAO_TYPE,
-//                ApiKey.YOUDAO_DOCTYPE,
-//                ApiKey.YOUDAO_VERSION,
-//                text);
-//        call.enqueue(new Callback<YouDaoResult>() {
-//            @Override
-//            public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
-//                translationTextView.setText(response.body().getTranslation().get(0));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<YouDaoResult> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
+        render();
     }
 
     public void setCallBackResult(String replacementText) {

@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.List;
 
 import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.inject.modules.ClientApiModel;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -16,6 +17,8 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
+ *
+ * DELETE ANYWAY
  * Created by Kola on 2016/6/5.
  */
 public class ActionCreator {

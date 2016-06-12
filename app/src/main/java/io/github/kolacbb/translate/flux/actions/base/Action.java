@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.flux.actions;
+package io.github.kolacbb.translate.flux.actions.base;
 
 import java.util.HashMap;
 
@@ -34,7 +34,7 @@ public class Action {
         private String type;
         private HashMap<String, Object> data;
 
-        Builder with(String type) {
+        public Builder with(String type) {
             if (type == null) {
                 throw new IllegalArgumentException("Type may not be null.");
             }

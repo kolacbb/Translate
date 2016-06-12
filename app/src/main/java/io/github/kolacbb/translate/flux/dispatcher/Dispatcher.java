@@ -3,8 +3,8 @@ package io.github.kolacbb.translate.flux.dispatcher;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kolacbb.translate.flux.actions.Action;
-import io.github.kolacbb.translate.flux.stores.Store;
+import io.github.kolacbb.translate.flux.actions.base.Action;
+import io.github.kolacbb.translate.flux.stores.base.Store;
 
 /**
  * Created by Kola on 2016/6/4.

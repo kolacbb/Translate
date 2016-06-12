@@ -1,5 +1,7 @@
 package io.github.kolacbb.translate.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -16,6 +18,20 @@ import io.github.kolacbb.translate.ui.fragment.TranslateMainFragment;
  * Created by Kola on 2016/6/12.
  */
 public class HomeActivity extends BaseActivity{
+
+    public static void start(Context context, String query) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("query", query);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String query = intent.getStringExtra("query");
+        getActionCreatorManager().getTranslateActionCreator().fetchTranslation(query);
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_home;

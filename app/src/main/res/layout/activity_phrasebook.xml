@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@id/fl_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e2e2e2"
     tools:context="io.github.kolacbb.translate.ui.activity.PhrasebookActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/dictionary_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/dictionary_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
-</LinearLayout>
+</FrameLayout>

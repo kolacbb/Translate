@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    tools:context="io.github.kolacbb.translate.ui.activity.CopyDropActivity">
+    android:orientation="vertical">
     <LinearLayout
 
         android:id="@+id/copydrop_view"
@@ -90,7 +89,7 @@
                 android:layout_weight="1"
                 android:maxLines="3"
                 android:padding="8dp"
-                android:text="..."
+                android:text="...00"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#6a7be3" />
 

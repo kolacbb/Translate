@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import io.github.kolacbb.translate.flux.actions.ActionCreatorManager;
+import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
-import io.github.kolacbb.translate.flux.stores.Store;
+import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 
 /**

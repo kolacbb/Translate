@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -21,9 +20,10 @@ import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
-import io.github.kolacbb.translate.flux.stores.Store;
+import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.flux.stores.TranslateMainStore;
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
 
 /**
@@ -104,13 +104,12 @@ public class TranslateMainFragment extends BaseFragment {
                     public void onClick(View v) {
                         int position = historyRecView.getChildAdapterPosition(v);
                         Result result = adapter.getItemData(position);
-                        //MainActivity.start(MainActivity.this, result.getQuery());
+                        HomeActivity.start(getContext(), result.getQuery());
                     }
                 },
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(MainActivity.this, "star", Toast.LENGTH_SHORT).show();
                         int position = (int) v.getTag();
                         Result result = adapter.getItemData(position);
                         getActionCreatorManager().getTranslateActionCreator().starWord(result);
@@ -120,7 +119,6 @@ public class TranslateMainFragment extends BaseFragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(MainActivity.this, "unstar", Toast.LENGTH_SHORT).show();
                         int position = (int) v.getTag();
                         Result result = adapter.getItemData(position);
                         getActionCreatorManager().getTranslateActionCreator().unstarWord(result);
@@ -138,16 +136,13 @@ public class TranslateMainFragment extends BaseFragment {
                 getActionCreatorManager().getTranslateActionCreator().initView();
                 break;
             case R.id.bt_translate:
-                //Toast.makeText(MainActivity.this, "translate", Toast.LENGTH_SHORT).show();
                 if (pointTextView.getText().toString().trim().length() != 0)
-                    //actionCreator.fetchTranslation(pointTextView.getText().toString().trim());
                     getActionCreatorManager().getTranslateActionCreator().fetchTranslation(pointTextView.getText().toString().trim());
                     break;
             case R.id.add_book:
 
                 if (translateMainStore.getData() != null) {
                     getActionCreatorManager().getTranslateActionCreator().saveToPhrasebook(translateMainStore.getData());
-                    //Toast.makeText(MainActivity.this, "已加入生词本", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

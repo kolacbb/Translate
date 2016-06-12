@@ -4,10 +4,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.github.kolacbb.translate.flux.actions.ActionCreatorManager;
-import io.github.kolacbb.translate.flux.actions.TranslateActionCreator;
+import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
+import io.github.kolacbb.translate.flux.actions.creator.TranslateActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
-import io.github.kolacbb.translate.protocol.DataLayer;
+import io.github.kolacbb.translate.service.base.DataLayer;
 
 /**
  * Created by Kola on 2016/6/12.

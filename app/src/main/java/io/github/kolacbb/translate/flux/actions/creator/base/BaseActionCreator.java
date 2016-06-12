@@ -1,14 +1,14 @@
-package io.github.kolacbb.translate.flux.actions;
+package io.github.kolacbb.translate.flux.actions.creator.base;
 
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
-import io.github.kolacbb.translate.protocol.DataLayer;
+import io.github.kolacbb.translate.service.base.DataLayer;
 
 /**
  * Created by Kola on 2016/6/12.
  */
 public abstract class BaseActionCreator {
-    Dispatcher dispatcher;
-    DataLayer dataLayer;
+    public Dispatcher dispatcher;
+    public  DataLayer dataLayer;
 
     public BaseActionCreator(Dispatcher dispatcher, DataLayer dataLayer) {
         this.dispatcher = dispatcher;

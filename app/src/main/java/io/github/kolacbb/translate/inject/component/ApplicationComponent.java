@@ -9,7 +9,8 @@ import dagger.Component;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.inject.modules.ApplicationModule;
-import io.github.kolacbb.translate.protocol.BaseManager;
+import io.github.kolacbb.translate.service.base.BaseManager;
+import io.github.kolacbb.translate.ui.activity.CopyDropActivity;
 
 /**
  * Created by Kola on 2016/6/11.

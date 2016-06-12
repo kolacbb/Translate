@@ -3,11 +3,11 @@ package io.github.kolacbb.translate.flux.stores;
 import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kolacbb.translate.flux.actions.Action;
+import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
+import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.model.entity.Result;
 
 /**

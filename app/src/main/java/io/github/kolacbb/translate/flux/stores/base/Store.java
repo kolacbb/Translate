@@ -1,10 +1,10 @@
-package io.github.kolacbb.translate.flux.stores;
+package io.github.kolacbb.translate.flux.stores.base;
 
 import com.squareup.otto.Bus;
 
 import java.io.Serializable;
 
-import io.github.kolacbb.translate.flux.actions.Action;
+import io.github.kolacbb.translate.flux.actions.base.Action;
 
 /**
  * Store基类,所有Store都需要继承此类,Store主要对View的状态进行管理,以及发送Store改变事件给View
@@ -29,7 +29,7 @@ public abstract class Store implements Serializable{
         bus.unregister(view);
     }
 
-    void emitStoreChange() {
+    public void emitStoreChange() {
         bus.post(getChangeEvent());
     }
 

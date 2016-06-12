@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import io.github.kolacbb.translate.flux.actions.ActionCreatorManager;
+import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
-import io.github.kolacbb.translate.protocol.DataLayer;
+import io.github.kolacbb.translate.service.base.DataLayer;
 
 /**
  * Created by Kola on 2016/6/5.

@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.protocol;
+package io.github.kolacbb.translate.service.base;
 
 
 import io.github.kolacbb.translate.model.entity.Result;

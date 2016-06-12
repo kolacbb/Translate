@@ -22,7 +22,6 @@ import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.actions.ActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.ui.activity.MainActivity;
 
 /**
  * Created by Kola on 2016/6/8.
@@ -47,7 +46,6 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
         //LayoutInflater.from(context).inflate(R.layout.recycle_view_dictionary, this);
         LayoutInflater.from(context).inflate(R.layout.recycle_view_dictionary, this);
 //        dispatcher = Dispatcher.get();
-//        actionCreator = ActionCreator.get(dispatcher);
         recyclerView = (RecyclerView) findViewById(R.id.rec_view);
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
@@ -73,18 +71,10 @@ public class DictionaryRecycleView extends LinearLayout implements View.OnClickL
         int position = recyclerView.getChildAdapterPosition(v);
         Result result = adapter.getItemData(position);
         if (position != RecyclerView.NO_POSITION) {
-            Intent intent = new Intent(getContext(), MainActivity.class);
-            intent.putExtra("query", result.getQuery());
-            getContext().startActivity(intent);
+
         }
 
-//        Result result = adapter.getItemData(position);
-//        if (id == R.id.bt_favor) {
-//            TranslateDB.getInstance().updateHistoryToDict(result);
-//        } else {
-//            Intent intent = new Intent(getContext(), MainActivity.class);
-//            getContext().startActivity(intent);
-//        }
+
     }
 
 

@@ -1,14 +1,19 @@
-package io.github.kolacbb.translate.flux.actions;
+package io.github.kolacbb.translate.flux.actions.creator;
 
-import android.os.Bundle;
+/**
+ * Created by Kola on 2016/6/12.
+ */
 
 import java.util.List;
 
 import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.flux.actions.TranslateActions;
+import io.github.kolacbb.translate.flux.actions.base.Action;
+import io.github.kolacbb.translate.flux.actions.creator.base.BaseActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
-import io.github.kolacbb.translate.protocol.DataLayer;
+import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -17,7 +22,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Kola on 2016/6/11.
  */
-public class TranslateActionCreator extends BaseActionCreator{
+public class TranslateActionCreator extends BaseActionCreator {
     public TranslateActionCreator(Dispatcher dispatcher, DataLayer dataLayer) {
         super(dispatcher, dataLayer);
     }
@@ -96,3 +101,4 @@ public class TranslateActionCreator extends BaseActionCreator{
                 .build());
     }
 }
+
