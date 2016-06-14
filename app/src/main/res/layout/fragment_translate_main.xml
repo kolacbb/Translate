@@ -45,8 +45,7 @@
             android:maxHeight="100dp"
             android:minHeight="100dp"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:text="Make" />
+            android:paddingStart="16dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"

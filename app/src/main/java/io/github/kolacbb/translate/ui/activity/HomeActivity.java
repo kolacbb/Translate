@@ -2,6 +2,7 @@ package io.github.kolacbb.translate.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -60,6 +61,14 @@ public class HomeActivity extends BaseActivity{
                 break;
             case R.id.setting:
                 SettingsActivity.start(HomeActivity.this);
+                break;
+            case R.id.open_copy_translate:
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.putExtra(android.content.Intent.EXTRA_EMAIL, "mailto:555@qq.com");
+//                intent.setType("text/plain");
+//                //intent.setData(Uri.parse("mailto:555@qq.com"));
+//                HomeActivity.this.startActivity(Intent.createChooser(intent, "选择方式"));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

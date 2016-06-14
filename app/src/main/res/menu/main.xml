@@ -7,9 +7,7 @@
         android:title="单词本"/>
     <item android:id="@+id/open_copy_translate"
         app:showAsAction="never"
-        android:title="开启划词翻译"
-        android:checkable="true"
-        android:checked="true"/>
+        android:title="开启划词翻译"/>
     <item android:id="@+id/setting"
         app:showAsAction="never"
         android:title="Setting"/>
