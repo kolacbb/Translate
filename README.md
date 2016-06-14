@@ -22,7 +22,7 @@
 
  - [x] Retrofit
  - [X] RxJava
- - [ ] Dagger2
+ - [X] Dagger2
  - [X] Flux
 
 

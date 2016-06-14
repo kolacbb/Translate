@@ -10,4 +10,7 @@
         android:title="开启划词翻译"
         android:checkable="true"
         android:checked="true"/>
+    <item android:id="@+id/setting"
+        app:showAsAction="never"
+        android:title="Setting"/>
 </menu>

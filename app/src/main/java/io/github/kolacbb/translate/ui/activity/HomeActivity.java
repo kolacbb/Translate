@@ -58,6 +58,8 @@ public class HomeActivity extends BaseActivity{
             case R.id.phrasebook:
                 PhrasebookActivity.start(this);
                 break;
+            case R.id.setting:
+                SettingsActivity.start(HomeActivity.this);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Tap to Translate"
+        android:key="pref_key_copy_drop_settings">
+        <CheckBoxPreference
+            android:key="pref_key_copy_drop_translate"
+            android:summary="summary"
+            android:title="Enable Tap to Translate"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
