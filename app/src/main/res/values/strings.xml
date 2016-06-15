@@ -2,23 +2,23 @@
     <string name="app_name">Translate</string>
 
 
-    <string name="pref_showFrameTypes_default">pref_key_show_type_notification</string>
+    <string name="pref_showFrameTypes_default">notification</string>
     <array name="pref_showFrameTypes_entries">
         <item>Notification</item>
         <item>Float Frame</item>
     </array>
     <array name="pref_showFrameTypes_values">
-        <item>pref_key_show_type_notification</item>
-        <item>pref_key_show_type_frame</item>
+        <item>notification</item>
+        <item>floating frame</item>
     </array>
     
-    <string name="pref_phonetic_default">pref_key_phonetic_uk</string>
+    <string name="pref_phonetic_default">uk phonetic</string>
     <array name="pref_phonetic_entries">
         <item>UK Phonetic</item>
         <item>US Phonetic</item>
     </array>
     <array name="pref_phonetic_values">
-        <item>pref_key_phonetic_uk</item>
-        <item>pref_key_phonetic_us</item>
+        <item>uk phonetic</item>
+        <item>us phonetic</item>
     </array>
 </resources>

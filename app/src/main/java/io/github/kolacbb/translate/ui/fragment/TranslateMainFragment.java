@@ -25,6 +25,7 @@ import io.github.kolacbb.translate.flux.stores.TranslateMainStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
+import io.github.kolacbb.translate.util.SpUtil;
 
 /**
  * Created by Kola on 2016/6/12.
@@ -177,7 +178,13 @@ public class TranslateMainFragment extends BaseFragment {
             }
 
             if (result.getUs_phonetic() != null) {
-                tvPhonetic.setText(result.getUk_phonetic());
+                if (SpUtil.find(SettingsFragment.KEY_PHONETIC_LIST)
+                        .equals(getString(R.string.pref_phonetic_default))) {
+                    tvPhonetic.setText(result.getUk_phonetic());
+                } else {
+                    tvPhonetic.setText(result.getUs_phonetic());
+                }
+
                 tvPhonetic.setVisibility(View.VISIBLE);
             } else {
                 tvPhonetic.setVisibility(View.GONE);

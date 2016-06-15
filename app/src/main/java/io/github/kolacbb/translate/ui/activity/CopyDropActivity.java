@@ -27,14 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
-import io.github.kolacbb.translate.flux.actions.ActionCreator;
-import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
-import io.github.kolacbb.translate.flux.actions.creator.TranslateActionCreator;
-import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.flux.stores.CopyDropStore;
-import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.service.base.DataLayer;
 
 public class CopyDropActivity extends BaseActivity {
 

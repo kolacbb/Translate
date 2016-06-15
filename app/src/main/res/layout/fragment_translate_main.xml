@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,62 +73,53 @@
     </LinearLayout>
 
     <FrameLayout
-        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="#e2e2e2"
         android:paddingTop="4dp">
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/error_view"
-            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:visibility="gone">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_cloud_off"
-                android:layout_centerVertical="true"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 app:srcCompat="@drawable/ic_cloud_off_black_48px" />
 
             <TextView
-                android:padding="12dp"
                 android:id="@+id/tv_error_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/img_cloud_off"
+                android:padding="12dp"
                 android:text="ERROR"
                 android:textAppearance="?android:textAppearanceLarge" />
+
             <TextView
-                android:layout_marginStart="48dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:layout_below="@id/tv_error_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_error_title"
+                android:layout_marginStart="48dp"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
                 android:text="网络被劫持，说出来你可能不信。是外星人先动的手" />
         </RelativeLayout>
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/history_rec_view"
-            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:visibility="gone" />
-
-
-
-        <!--<io.github.kolacbb.translate.view.DictionaryRecycleView-->
-        <!--android:id="@+id/history_rec_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:padding="8dp"-->
-        <!--android:visibility="gone"-->
-        <!--/>-->
 
         <android.support.v4.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar"
@@ -141,8 +131,7 @@
         <ScrollView
             android:id="@+id/translate_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,11 +146,12 @@
                     android:background="#fafafa"
 
                     card_view:cardCornerRadius="4dp">
+
                     <TextView
-                        android:padding="16dp"
                         android:id="@+id/translation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="16dp"
                         android:paddingEnd="56dp"
                         android:text="TEXT"
                         android:textAppearance="?android:textAppearanceMedium"
@@ -169,12 +159,12 @@
 
                     <ImageButton
                         android:id="@+id/add_book"
-                        android:padding="16dp"
-                        android:layout_gravity="end"
-                        android:src="@drawable/ic_star_border_black_24px"
-                        android:background="@drawable/bg_clickable_circle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_clickable_circle"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_star_border_black_24px" />
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"

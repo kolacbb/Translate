@@ -40,7 +40,7 @@ public class HomeActivity extends BaseActivity{
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        TranslateDB.init(this);
+        //TranslateDB.init(this);
         Fragment fragment = TranslateMainFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fl_container, fragment, TranslateMainFragment.TAG);

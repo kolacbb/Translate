@@ -100,5 +100,10 @@ public class TranslateActionCreator extends BaseActionCreator {
                 .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)
                 .build());
     }
+
+    public void clearHistory() {
+        TranslateDB.getInstance().clearHistory();
+        initView();
+    }
 }
 

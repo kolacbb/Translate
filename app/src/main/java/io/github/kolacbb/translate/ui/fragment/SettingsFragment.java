@@ -32,7 +32,7 @@ public class SettingsFragment extends BasePreferenceFragment
     // 复制查词功能（check box）
     public static final String KEY_TAP_TO_TRANSLATE = "pref_key_tap_to_translate";
     // 音标显示 （list）
-    public static final String KEY_PHONETIC_LIST = "pref_key_tap_to_translate";
+    public static final String KEY_PHONETIC_LIST = "pref_key_phonetic_list";
     // 复制查词结果显示方式(list)
     public static final String KEY_SHOW_TRANSLATE_WAYS = "pref_key_show_translate_ways";
 
@@ -128,7 +128,7 @@ public class SettingsFragment extends BasePreferenceFragment
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        getActionCreatorManager().getTranslateActionCreator().clearHistory();
                     }
                 });
         //显示Dialog
