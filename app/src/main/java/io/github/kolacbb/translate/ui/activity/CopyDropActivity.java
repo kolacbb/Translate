@@ -91,7 +91,7 @@ public class CopyDropActivity extends BaseActivity {
         replaceButton.setClickable(!readOnly);
         if (text != null) {
             queryTextView.setText(text.toString());
-            Toast.makeText(CopyDropActivity.this, text, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CopyDropActivity.this, text, Toast.LENGTH_SHORT).show();
             getActionCreatorManager().getTranslateActionCreator().fetchTranslation(text.toString());
 
         }

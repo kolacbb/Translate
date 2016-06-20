@@ -178,7 +178,7 @@ public class TranslateMainFragment extends BaseFragment {
             }
 
             if (result.getUs_phonetic() != null) {
-                if (SpUtil.find(SettingsFragment.KEY_PHONETIC_LIST)
+                if (SpUtil.findString(SettingsFragment.KEY_PHONETIC_LIST)
                         .equals(getString(R.string.pref_phonetic_default))) {
                     tvPhonetic.setText(result.getUk_phonetic());
                 } else {

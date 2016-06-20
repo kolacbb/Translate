@@ -2,6 +2,7 @@ package io.github.kolacbb.translate.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -14,6 +15,7 @@ import com.squareup.otto.Subscribe;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BasePreferenceFragment;
+import io.github.kolacbb.translate.component.service.ClipboardListenerService;
 import io.github.kolacbb.translate.flux.stores.SettingsStore;
 import io.github.kolacbb.translate.flux.stores.base.Store;
 
@@ -95,11 +97,14 @@ public class SettingsFragment extends BasePreferenceFragment
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(KEY_TAP_TO_TRANSLATE)) {
+            // 处理CopyTap选项，开启或者关闭Tap to translate 功能
             CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(key);
             if (checkBoxPref.isChecked()) {
-                Toast.makeText(getActivity(), "OPen", Toast.LENGTH_SHORT).show();
+                getActivity().startService(new Intent(getActivity(), ClipboardListenerService.class));
+                Toast.makeText(getActivity(), "turn on tap to translate", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getActivity(), "close", Toast.LENGTH_SHORT).show();
+                getActivity().stopService(new Intent(getActivity(), ClipboardListenerService.class));
+                Toast.makeText(getActivity(), "turn off tap to translate", Toast.LENGTH_SHORT).show();
             }
         } else if (key.equals(KEY_PHONETIC_LIST)) {
             Preference pref = findPreference(key);

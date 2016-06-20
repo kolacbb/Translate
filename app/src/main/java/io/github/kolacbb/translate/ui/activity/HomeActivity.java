@@ -9,11 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
 import io.github.kolacbb.translate.ui.fragment.TranslateMainFragment;
+import io.github.kolacbb.translate.util.SpUtil;
 
 /**
  * Created by Kola on 2016/6/12.
@@ -40,7 +43,6 @@ public class HomeActivity extends BaseActivity{
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        //TranslateDB.init(this);
         Fragment fragment = TranslateMainFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fl_container, fragment, TranslateMainFragment.TAG);
