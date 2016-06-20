@@ -4,7 +4,6 @@
 
  + [简书](http://www.jianshu.com/users/7d7c77e7eb91/latest_articles)
  + [Github](https://kolacbb.github.io)
- + [知乎](https://www.zhihu.com/people/kola-5)
 
 ## 项目初衷
 自己经常会在手机上阅读技术文章或者Android开发文档，然而自己的英语水平有没有到达像读母语一样流畅，总是会遇到生词。在没有接触Android开发之前用过有道翻译，可是自己觉得有道翻译的体量太大，琐碎且对于我没有用处的功能太多了。后来又用了Google Translate，深深的觉得，Google Translate才是一个翻译应用该有的样子。虽说穿越长城是每一个程序员必备的技能，但是也挺麻烦不是。而且我梦想中的翻译应用，是不会干扰到我的阅读体验的。所以我就一直在开发自己的翻译应用。
