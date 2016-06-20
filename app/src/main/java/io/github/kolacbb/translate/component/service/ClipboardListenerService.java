@@ -1,15 +1,18 @@
 package io.github.kolacbb.translate.component.service;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
 import io.github.kolacbb.translate.util.SpUtil;
+import io.github.kolacbb.translate.util.StringUtils;
 
 public class ClipboardListenerService extends Service
         implements ClipboardManager.OnPrimaryClipChangedListener{
@@ -67,6 +70,40 @@ public class ClipboardListenerService extends Service
     }
 
     public void showTranslation(String data) {
+        if (StringUtils.isOnlyNumber(data)) {
+            return;
+        }
+
+        String email = StringUtils.isValidEmail(data);
+        if (!email.equals(StringUtils.INVALID)) {
+            //Toast.makeText(getApplicationContext(), "email:" + email, Toast.LENGTH_SHORT).show();
+            showChooseDialog("email", email);
+            return;
+        }
+
+        String url = StringUtils.isValidURL(data);
+        if (!url.equals(StringUtils.INVALID)) {
+//            Toast.makeText(getApplicationContext(), "url:" + url, Toast.LENGTH_SHORT).show();
+            showChooseDialog("url", url);
+            return;
+        }
+
+        String tel = StringUtils.isValidTEL(data);
+        if (!tel.equals(StringUtils.INVALID)) {
+//            Toast.makeText(getApplicationContext(), "tel:" + tel, Toast.LENGTH_SHORT).show();
+            showChooseDialog("tel", tel);
+            return;
+        }
+
         Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showChooseDialog(String title, String message) {
+        AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
+                .setTitle(title)
+                .setMessage(message)
+                .create();
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dialog.show();
     }
 }
