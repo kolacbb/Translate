@@ -25,13 +25,16 @@ public class DataLayer {
         /**
          * 获取翻译结果
          * */
-        Observable<YouDaoResult> getTranslation(String query);
+        Observable<Result> getTranslation(String query);
 
         /**
          * 获取本地翻译结果
          * */
         Observable<Result> getLocalTranslation(String query);
 
-
+        /**
+         * 将翻译结果加入数据库（History）
+         */
+        void saveToHistory(Result result);
     }
 }

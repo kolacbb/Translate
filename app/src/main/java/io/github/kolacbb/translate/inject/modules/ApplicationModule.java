@@ -10,7 +10,7 @@ import dagger.Provides;
 /**
  * Created by Kola on 2016/6/11.
  */
-@Module(includes = {DataLayerModule.class, ClientApiModel.class, FluxModule.class})
+@Module(includes = {DataLayerModule.class, ClientApiModel.class, FluxModule.class, TranslateDBModule.class})
 public class ApplicationModule {
     Application application;
 

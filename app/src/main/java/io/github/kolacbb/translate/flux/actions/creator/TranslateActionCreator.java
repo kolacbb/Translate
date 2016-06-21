@@ -17,6 +17,7 @@ import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -32,30 +33,49 @@ public class TranslateActionCreator extends BaseActionCreator {
 //    }
 
     public void fetchTranslation(String query) {
-        //分发开始刷新列表事件
+        // 分发开始刷新列表事件
         getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
 
-        //服务端数据源
-        Observable<YouDaoResult> network = getDataLayer().getTranslateService().getTranslation(query);
+        // 本地数据库数据源
+        Observable<Result> cache = getDataLayer().getTranslateService().getLocalTranslation(query);
 
-        // 订阅事件序列
-        network.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<YouDaoResult>() {
+        // 服务端数据源
+        Observable<Result> network = getDataLayer().getTranslateService().getTranslation(query);
+
+        // 没有本地数据在使用网络数据
+        Observable<Result> source = Observable
+                .concat(cache, network)
+                // 依次遍历序列中的数据源， 返回第一个符合条件的数据源
+                .first(new Func1<Result, Boolean>() {
                     @Override
-                    public void call(YouDaoResult youDaoResult) {
-                        //先缓存一下
-                        TranslateDB.getInstance().saveToHistory(youDaoResult.getResult());
+                    public Boolean call(Result result) {
+                        return result != null;
+                    }
+                });
+
+        // 重新查询数据则更新history列表，在save方法中有判断，具体见TranslateDB
+        source = source.doOnNext(new Action1<Result>() {
+            @Override
+            public void call(Result result) {
+                getDataLayer().getTranslateService().saveToHistory(result);
+            }
+        });
+
+        source.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Result>() {
+                    @Override
+                    public void call(Result result) {
                         getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_FINISH)
-                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, youDaoResult.getResult())
+                                .bundle(TranslateActions.KEY_TRANSLATION_ANSWER, result)
                                 .build());
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        System.out.println(throwable.getMessage());
                         Action action = new Action.Builder()
                                 .with(TranslateActions.ACTION_TRANSLATION_NET_ERROR)
-                                .bundle("key", "Value")
                                 .build();
                         dispatcher.dispatch(action);
                     }

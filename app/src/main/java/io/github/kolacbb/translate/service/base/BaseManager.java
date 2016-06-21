@@ -2,6 +2,7 @@ package io.github.kolacbb.translate.service.base;
 
 import javax.inject.Inject;
 
+import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.protocol.ClientApi;
 
@@ -11,6 +12,8 @@ import io.github.kolacbb.translate.protocol.ClientApi;
 public abstract class BaseManager {
     @Inject
     ClientApi api;
+    @Inject
+    TranslateDB translateDB;
 
     public BaseManager() {
         ApplicationComponent.Instance.get().inject(this);
@@ -18,5 +21,9 @@ public abstract class BaseManager {
 
     public ClientApi getApi() {
         return api;
+    }
+
+    public TranslateDB getTranslateDB() {
+        return translateDB;
     }
 }

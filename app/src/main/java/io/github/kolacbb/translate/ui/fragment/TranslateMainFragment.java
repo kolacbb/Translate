@@ -159,7 +159,6 @@ public class TranslateMainFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         }
         if (translateMainStore.isLoading()) {
-            System.out.println("Loading");
             progressBar.show();
         } else {
             progressBar.hide();
@@ -178,8 +177,8 @@ public class TranslateMainFragment extends BaseFragment {
             }
 
             if (result.getUs_phonetic() != null) {
-                if (SpUtil.findString(SettingsFragment.KEY_PHONETIC_LIST)
-                        .equals(getString(R.string.pref_phonetic_default))) {
+                String setting = SpUtil.findString(SettingsFragment.KEY_PHONETIC_LIST);
+                if (setting == null || setting.equals(getString(R.string.pref_phonetic_default))) {
                     tvPhonetic.setText(result.getUk_phonetic());
                 } else {
                     tvPhonetic.setText(result.getUs_phonetic());
