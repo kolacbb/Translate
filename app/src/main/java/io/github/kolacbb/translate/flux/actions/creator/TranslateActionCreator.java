@@ -12,7 +12,6 @@ import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.actions.creator.base.BaseActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -113,12 +112,18 @@ public class TranslateActionCreator extends BaseActionCreator {
     }
 
     public void initView() {
-        //List<Result> historyList = TranslateDB.getInstance().getAllHistoryWord();
-        List<Result> historyList = TranslateDB.getInstance().getAllHistory();
-        dispatcher.dispatch(new Action.Builder()
-                .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
-                .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, historyList)
-                .build());
+        Observable<List<Result>> data = getDataLayer().getTranslateService().getAllHistoryWord();
+        data.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<Result>>() {
+                    @Override
+                    public void call(List<Result> results) {
+                        dispatcher.dispatch(new Action.Builder()
+                                .with(TranslateActions.ACTION_TRANSLATION_INIT_VIEW)
+                                .bundle(TranslateActions.KEY_TRANSLATION_HISTORY, results)
+                                .build());
+                    }
+                });
     }
 
     public void clearHistory() {

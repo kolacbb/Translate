@@ -1,6 +1,8 @@
 package io.github.kolacbb.translate.service.base;
 
 
+import java.util.List;
+
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import rx.Observable;
@@ -33,8 +35,18 @@ public class DataLayer {
         Observable<Result> getLocalTranslation(String query);
 
         /**
+         * 获取所有History记录
+         * */
+        Observable<List<Result>> getAllHistoryWord();
+
+        /**
          * 将翻译结果加入数据库（History）
          */
         void saveToHistory(Result result);
+
+        /**
+         * 向Phrasebook 添加记录
+         * */
+        void saveToPhrasebook(Result result);
     }
 }

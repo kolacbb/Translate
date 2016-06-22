@@ -1,5 +1,7 @@
 package io.github.kolacbb.translate.service;
 
+import java.util.List;
+
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.ApiKey;
@@ -47,7 +49,31 @@ public class TranslateManager extends BaseManager implements DataLayer.Translate
     }
 
     @Override
+    public Observable<List<Result>> getAllHistoryWord() {
+        return Observable.create(new Observable.OnSubscribe<List<Result>>() {
+            @Override
+            public void call(Subscriber<? super List<Result>> subscriber) {
+                try{
+                    subscriber.onStart();
+                    List<Result> list = getTranslateDB().getAllHistoryWord();
+                    subscriber.onNext(list);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
     public void saveToHistory(Result result) {
         getTranslateDB().saveToHistory(result);
     }
+
+    @Override
+    public void saveToPhrasebook(Result result) {
+        getTranslateDB().saveToPhrasebook(result);
+    }
+
+
 }
