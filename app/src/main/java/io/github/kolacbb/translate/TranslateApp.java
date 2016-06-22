@@ -16,7 +16,7 @@ public class TranslateApp extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        TranslateDB.init(getApplicationContext());
+        //TranslateDB.init(getApplicationContext());
         Log.e("TransalteApp", "Database init");
         initDagger();
     }

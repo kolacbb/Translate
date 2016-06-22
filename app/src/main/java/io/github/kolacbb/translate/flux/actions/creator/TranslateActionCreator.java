@@ -5,6 +5,7 @@ package io.github.kolacbb.translate.flux.actions.creator;
  */
 
 import java.util.List;
+import java.util.Observer;
 
 import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
@@ -26,10 +27,6 @@ public class TranslateActionCreator extends BaseActionCreator {
     public TranslateActionCreator(Dispatcher dispatcher, DataLayer dataLayer) {
         super(dispatcher, dataLayer);
     }
-
-//    public void fetchHistoryListWord() {
-//        getDispatcher().dispatch(new Action.Builder().with(TranslateActions.ACTION_TRANSLATION_LOADING).build());
-//    }
 
     public void fetchTranslation(String query) {
         // 分发开始刷新列表事件
@@ -92,6 +89,7 @@ public class TranslateActionCreator extends BaseActionCreator {
     }
 
     public void starWord(Result result) {
+
         TranslateDB.getInstance().saveToPhrasebook(result);
         initView();
     }
@@ -112,7 +110,7 @@ public class TranslateActionCreator extends BaseActionCreator {
     }
 
     public void initView() {
-        Observable<List<Result>> data = getDataLayer().getTranslateService().getAllHistoryWord();
+        Observable<List<Result>> data = getDataLayer().getTranslateService().getAllHistory();
         data.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Result>>() {

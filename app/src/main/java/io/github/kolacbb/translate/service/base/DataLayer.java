@@ -37,7 +37,7 @@ public class DataLayer {
         /**
          * 获取所有History记录
          * */
-        Observable<List<Result>> getAllHistoryWord();
+        Observable<List<Result>> getAllHistory();
 
         /**
          * 将翻译结果加入数据库（History）

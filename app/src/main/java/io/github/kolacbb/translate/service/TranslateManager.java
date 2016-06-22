@@ -49,13 +49,13 @@ public class TranslateManager extends BaseManager implements DataLayer.Translate
     }
 
     @Override
-    public Observable<List<Result>> getAllHistoryWord() {
+    public Observable<List<Result>> getAllHistory() {
         return Observable.create(new Observable.OnSubscribe<List<Result>>() {
             @Override
             public void call(Subscriber<? super List<Result>> subscriber) {
                 try{
                     subscriber.onStart();
-                    List<Result> list = getTranslateDB().getAllHistoryWord();
+                    List<Result> list = getTranslateDB().getAllHistory();
                     subscriber.onNext(list);
                     subscriber.onCompleted();
                 } catch (Exception e) {
