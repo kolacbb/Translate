@@ -14,7 +14,7 @@ public class StringUtils {
     // 判断选中的字符是不是纯数字，与isValidTEL方法互不干扰
     public static boolean isOnlyNumber(String input) {
         String regex = "\\d+";
-        return input.matches(regex) && input.length() != 11;
+        return input.matches(regex) && !isValidTEL(input).equals(INVALID);
     }
 
     /**

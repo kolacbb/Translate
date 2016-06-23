@@ -9,6 +9,7 @@ import dagger.Component;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.BasePreferenceFragment;
+import io.github.kolacbb.translate.component.service.ClipboardListenerService;
 import io.github.kolacbb.translate.inject.modules.ApplicationModule;
 import io.github.kolacbb.translate.service.base.BaseManager;
 import io.github.kolacbb.translate.ui.activity.CopyDropActivity;
@@ -28,6 +29,8 @@ public interface ApplicationComponent {
     void inject(BaseFragment fragment);
 
     void inject(BasePreferenceFragment preferenceFragment);
+
+    void inject(ClipboardListenerService service);
 
     Application getApplication();
 

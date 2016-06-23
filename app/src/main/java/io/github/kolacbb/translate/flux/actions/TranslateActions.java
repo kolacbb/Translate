@@ -13,8 +13,6 @@ public interface TranslateActions {
 
     String ACTION_PHRASEBOOK_INIT = "actioin_phrasebook_init";
 
-
-
     String KEY_TRANSLATION_ANSWER = "key_translation_answer";
     String KEY_TRANSLATION_HISTORY = "key_translation_history";
     String KEY_PHRASEBOOK_FAVORITE = "key_phrasebook_favorite";
