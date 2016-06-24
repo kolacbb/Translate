@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <style name="CopyDropOverlay" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:backgroundDimAmount">0.35</item>

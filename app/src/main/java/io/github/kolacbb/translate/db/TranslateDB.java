@@ -186,6 +186,27 @@ public class TranslateDB {
         return list;
     }
 
+    public List<Result> getAllPhrasebookSoryByAlpha() {
+        String sql = "select * from phrasebook order by query";
+        List<Result> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, new String[0]);
+        if (cursor.moveToFirst()) {
+            do {
+                Result result = new Result();
+                result.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                result.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+                result.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+                result.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+                result.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+                result.setBasic(cursor.getString(cursor.getColumnIndex("basic")));
+
+                list.add(result);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
     /**
      * 面向应用的方法，比如在查询单词时，先查询本地的，在查询来自于网络的
      * localDatabase表存储的应该只是单词，并没有句子，所以可以先做一个判断。String中是否有空格存在

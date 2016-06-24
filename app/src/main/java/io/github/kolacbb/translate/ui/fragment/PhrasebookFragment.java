@@ -2,9 +2,16 @@ package io.github.kolacbb.translate.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -24,6 +31,9 @@ import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
  * Created by Kola on 2016/6/12.
  */
 public class PhrasebookFragment extends BaseFragment {
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     WordListAdapter adapter;
     @BindView(R.id.dictionary_view)
@@ -68,6 +78,17 @@ public class PhrasebookFragment extends BaseFragment {
     }
 
     private void init() {
+        // 设置toolbar
+        mToolbar.setTitle("Phrasebook");
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(mToolbar);
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        setHasOptionsMenu(true);
+
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         dictionaryView.setLayoutManager(manager);
         dictionaryView.addItemDecoration(new DividerItemDecoration(getContext(),
@@ -92,5 +113,24 @@ public class PhrasebookFragment extends BaseFragment {
     public void render() {
         adapter.setData(phrasebookStore.getFavorList());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.phrasebook_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort_by_alpha:
+                getActionCreatorManager().getTranslateActionCreator().fetchFavorListSortByAlpha();
+                break;
+            case R.id.sort_by_time:
+                getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

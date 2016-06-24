@@ -88,6 +88,14 @@ public class TranslateActionCreator extends BaseActionCreator {
         dispatcher.dispatch(action);
     }
 
+    public void fetchFavorListSortByAlpha() {
+        List<Result> list = TranslateDB.getInstance().getAllPhrasebookSoryByAlpha();
+        Action action = new Action.Builder().with(TranslateActions.ACTION_PHRASEBOOK_INIT)
+                .bundle(TranslateActions.KEY_PHRASEBOOK_FAVORITE, list)
+                .build();
+        dispatcher.dispatch(action);
+    }
+
     public void starWord(Result result) {
 
         TranslateDB.getInstance().saveToPhrasebook(result);

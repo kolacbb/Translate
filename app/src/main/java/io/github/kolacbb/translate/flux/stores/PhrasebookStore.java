@@ -25,11 +25,11 @@ public class PhrasebookStore extends Store {
     public void onAction(Action action) {
         switch (action.getType()) {
             case TranslateActions.ACTION_PHRASEBOOK_INIT: {
-                Log.e("OnAction", "有了Action");
+//                Log.e("OnAction", "有了Action");
                 favorList = (List<Result>) action.getData().get(TranslateActions.KEY_PHRASEBOOK_FAVORITE);
-                for (Result r : favorList) {
-                    System.out.println(r.getQuery());
-                }
+//                for (Result r : favorList) {
+//                    System.out.println(r.getQuery());
+//                }
                 mChangeEvent = new PhrasebookStoreChangeEvent();
                 emitStoreChange();
                 break;

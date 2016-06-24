@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
+
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.ui.fragment.PhrasebookFragment;
@@ -30,4 +32,13 @@ public class PhrasebookActivity extends BaseActivity {
         ft.commit();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

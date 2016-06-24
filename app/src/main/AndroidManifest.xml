@@ -24,7 +24,8 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PhrasebookActivity" />
+        <activity android:name=".ui.activity.PhrasebookActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.HomeActivity"
             android:launchMode="singleTask">
@@ -41,7 +42,7 @@
         <service
             android:name=".component.service.ClipboardListenerService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
     </application>
 
 </manifest>
