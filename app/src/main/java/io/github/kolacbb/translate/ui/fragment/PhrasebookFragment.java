@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -119,7 +121,26 @@ public class PhrasebookFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.phrasebook_menu, menu);
+        if (searchView == null) {
+            MenuItem item = menu.findItem(R.id.action_search);
+            searchView = (SearchView) item.getActionView();
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
+            });
+        }
     }
+
+    SearchView searchView;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
