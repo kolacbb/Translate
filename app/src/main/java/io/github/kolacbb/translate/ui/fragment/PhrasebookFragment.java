@@ -132,8 +132,14 @@ public class PhrasebookFragment extends BaseFragment {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
+                    String text = newText.trim();
+                    if (text.trim().length() == 0) {
+                        adapter.initData();
+                    } else {
+                        adapter.setQueryWord(newText);
+                    }
+                    adapter.notifyDataSetChanged();
                     return true;
                 }
             });

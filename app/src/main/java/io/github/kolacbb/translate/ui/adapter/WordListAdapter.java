@@ -23,10 +23,14 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     View.OnClickListener starListener;
     View.OnClickListener unStarListener;
 
+    int[] data;
+    int dataLength = 0;
+
     public WordListAdapter(List<Result> list,View.OnClickListener itemListener) {
         this.list = list;
         this.itemListener = itemListener;
         this.showFavorButton = false;
+        initData();
     }
 
     public WordListAdapter(List<Result> list, View.OnClickListener itemListener,
@@ -36,7 +40,34 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.showFavorButton = true;
         this.starListener = starListener;
         this.unStarListener = unStarListener;
+
+        initData();
     }
+
+    public void initData() {
+        dataLength = list.size();
+        data = new int[dataLength];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = i;
+        }
+    }
+
+    public void setQueryWord(String query) {
+        int flag = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Result result = list.get(i);
+            if (result.getQuery().startsWith(query)) {
+                data[flag++] = i;
+            }
+        }
+        dataLength = flag;
+        //notifyDataSetChanged();
+    }
+
+//    public void setData(int[] data) {
+//        this.data = data;
+//        dataLength = data.length;
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,7 +78,10 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemVH itemVH = (ItemVH) holder;
-        Result result = list.get(position);
+
+        //Result result = list.get(position);
+        Result result = list.get(data[position]);
+
         itemVH.tvQuery.setText(result.getQuery());
         itemVH.tvTranslation.setText(result.getTranslation());
         itemVH.itemView.setOnClickListener(itemListener);
@@ -67,21 +101,18 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return list.size();
+        //return list.size();
+        return dataLength;
     }
 
     public void setData(List<Result> list) {
         this.list = list;
+        initData();
     }
 
     public Result getItemData(int position) {
-        return list.get(position);
+        return list.get(data[position]);
     }
-
-//    public interface CallBack {
-//        void starclick(Result result);
-//        void unStarClick(Result result);
-//    }
 
     public static class ItemVH extends RecyclerView.ViewHolder {
         TextView tvQuery;
