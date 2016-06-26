@@ -1,5 +1,7 @@
 package io.github.kolacbb.translate.service.base;
 
+import android.app.Application;
+
 import javax.inject.Inject;
 
 import io.github.kolacbb.translate.db.TranslateDB;
@@ -14,6 +16,8 @@ public abstract class BaseManager {
     ClientApi api;
     @Inject
     TranslateDB translateDB;
+    @Inject
+    Application application;
 
     public BaseManager() {
         ApplicationComponent.Instance.get().inject(this);
@@ -25,5 +29,9 @@ public abstract class BaseManager {
 
     public TranslateDB getTranslateDB() {
         return translateDB;
+    }
+
+    public Application getApplication() {
+        return application;
     }
 }

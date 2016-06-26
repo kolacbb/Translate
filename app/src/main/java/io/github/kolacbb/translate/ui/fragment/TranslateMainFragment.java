@@ -153,7 +153,7 @@ public class TranslateMainFragment extends BaseFragment {
     public void render() {
         //Toast.makeText(getContext(), "action", Toast.LENGTH_SHORT).show();
         historyRecView.setVisibility(translateMainStore.getHistoryRecycleViewVisiableState());
-        if (translateMainStore.isInit()) {
+        if (translateMainStore.isInit() && translateMainStore.getHistoryData() != null) {
             tvPhonetic.setVisibility(View.GONE);
             adapter.setData(translateMainStore.getHistoryData());
             adapter.notifyDataSetChanged();
@@ -195,10 +195,6 @@ public class TranslateMainFragment extends BaseFragment {
                 dictionaryView.setVisibility(View.GONE);
             }
         }
-    }
-
-    private void dispatchFetchListNews() {
-        //getActionCreatorManager().getTranslateActionCreator().fetchHistoryListWord();
     }
 
     @Subscribe

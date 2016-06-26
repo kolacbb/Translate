@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
+
+    <LinearLayout
+        style="@style/CardSpacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_list_full"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_padding">
+
+            <TextView
+                android:text="111"
+                android:id="@+id/txt_sms_address"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:text="111"
+                android:id="@+id/txt_sms_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/secondary_text" />
+        </LinearLayout>
+
+        <TextView
+            android:text="aasdfasdf"
+            android:id="@android:id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingBottom="@dimen/card_padding"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingStart="@dimen/card_padding"
+            android:singleLine="true"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/primary_text" />
+    </LinearLayout>
+</FrameLayout>

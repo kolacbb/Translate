@@ -4,6 +4,7 @@ package io.github.kolacbb.translate.service.base;
 import java.util.List;
 
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.model.entity.SmsEntry;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import rx.Observable;
 
@@ -40,6 +41,11 @@ public class DataLayer {
         Observable<List<Result>> getAllHistory();
 
         /**
+         * 获取所有Sms 记录
+         * */
+        Observable<List<SmsEntry>> getSmsList();
+
+        /**
          * 将翻译结果加入数据库（History）
          */
         void saveToHistory(Result result);
@@ -48,5 +54,7 @@ public class DataLayer {
          * 向Phrasebook 添加记录
          * */
         void saveToPhrasebook(Result result);
+
+
     }
 }

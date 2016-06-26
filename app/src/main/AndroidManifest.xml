@@ -3,7 +3,8 @@
     package="io.github.kolacbb.translate">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
 
     <application
         android:name=".TranslateApp"
@@ -24,12 +25,13 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PhrasebookActivity"
+        <activity
+            android:name=".ui.activity.PhrasebookActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,13 +39,23 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activity.SmsInputActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/label_sms_translation"
+            android:parentActivityName="io.github.kolacbb.translate.ui.activity.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.kolacbb.translate.ui.activity.HomeActivity" />
+        </activity>
+        <activity
             android:name=".ui.activity.SettingsActivity"
-            android:label="Settings" />
+            android:label="Settings"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".component.service.ClipboardListenerService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -56,6 +56,7 @@ public class HomeActivity extends BaseActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -67,31 +68,31 @@ public class HomeActivity extends BaseActivity
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.phrasebook:
-                PhrasebookActivity.start(this);
-                break;
-            case R.id.setting:
-                SettingsActivity.start(HomeActivity.this);
-                break;
-            case R.id.open_copy_translate:
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                intent.putExtra(android.content.Intent.EXTRA_EMAIL, "mailto:555@qq.com");
-//                intent.setType("text/plain");
-//                //intent.setData(Uri.parse("mailto:555@qq.com"));
-//                HomeActivity.this.startActivity(Intent.createChooser(intent, "选择方式"));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.phrasebook:
+//                PhrasebookActivity.start(this);
+//                break;
+//            case R.id.setting:
+//                SettingsActivity.start(HomeActivity.this);
+//                break;
+//            case R.id.open_copy_translate:
+////                Intent intent = new Intent(Intent.ACTION_SEND);
+////                intent.putExtra(android.content.Intent.EXTRA_EMAIL, "mailto:555@qq.com");
+////                intent.setType("text/plain");
+////                //intent.setData(Uri.parse("mailto:555@qq.com"));
+////                HomeActivity.this.startActivity(Intent.createChooser(intent, "选择方式"));
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -108,11 +109,11 @@ public class HomeActivity extends BaseActivity
         if (id == R.id.nav_phrasebook) {
             PhrasebookActivity.start(HomeActivity.this);
         } else if (id == R.id.nav_sms) {
-
+            SmsInputActivity.start(HomeActivity.this);
         } else if (id == R.id.nav_setting) {
             SettingsActivity.start(HomeActivity.this);
         }
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 }

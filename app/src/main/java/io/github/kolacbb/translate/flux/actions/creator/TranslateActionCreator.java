@@ -13,8 +13,10 @@ import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.actions.creator.base.BaseActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.model.entity.SmsEntry;
 import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -135,6 +137,28 @@ public class TranslateActionCreator extends BaseActionCreator {
     public void clearHistory() {
         TranslateDB.getInstance().clearHistory();
         initView();
+    }
+
+    public void fetchSmsList() {
+        Observable<List<SmsEntry>> data = getDataLayer().getTranslateService().getSmsList();
+        data.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<SmsEntry>>() {
+                    @Override
+                    public void call(List<SmsEntry> smsEntries) {
+                        dispatcher.dispatch(new Action.Builder()
+                                .with(TranslateActions.ACTION_SMS_INIT)
+                                .bundle(TranslateActions.KEY_SMS_LIST, smsEntries)
+                                .build());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dispatcher.dispatch(new Action.Builder()
+                                .with(TranslateActions.ACTION_SMS_ERROR)
+                                .build());
+                    }
+                });
     }
 }
 

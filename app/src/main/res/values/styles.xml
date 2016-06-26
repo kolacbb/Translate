@@ -2,10 +2,10 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primary_blue</item>
         <item name="colorPrimaryDark">@color/primary_blue_dark</item>
         <item name="colorAccent">@color/primary_blue</item>
+        <item name="android:windowBackground">@color/activity_background</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -35,4 +35,10 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CardSpacing">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:layout_marginLeft">@dimen/card_spacing</item>
+        <item name="android:layout_marginRight">@dimen/card_spacing</item>
+    </style>
 </resources>

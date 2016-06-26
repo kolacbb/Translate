@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Translate</string>
+    <string name="app_name">Kola Translate</string>
+
+    <string name="label_sms_translation">SMS translation</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

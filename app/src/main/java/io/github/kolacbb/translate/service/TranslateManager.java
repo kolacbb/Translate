@@ -1,8 +1,16 @@
 package io.github.kolacbb.translate.service;
 
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.provider.Telephony;
+import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.model.entity.SmsEntry;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.ApiKey;
 import io.github.kolacbb.translate.service.base.BaseManager;
@@ -53,13 +61,44 @@ public class TranslateManager extends BaseManager implements DataLayer.Translate
         return Observable.create(new Observable.OnSubscribe<List<Result>>() {
             @Override
             public void call(Subscriber<? super List<Result>> subscriber) {
-                try{
+                try {
                     subscriber.onStart();
                     List<Result> list = getTranslateDB().getAllHistory();
                     subscriber.onNext(list);
                     subscriber.onCompleted();
                 } catch (Exception e) {
                     subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<SmsEntry>> getSmsList() {
+        return Observable.create(new Observable.OnSubscribe<List<SmsEntry>>() {
+            @Override
+            public void call(Subscriber<? super List<SmsEntry>> subscriber) {
+                Cursor cursor = null;
+                try {
+                    subscriber.onStart();
+                    cursor = getApplication().getContentResolver().query(Uri.parse("content://sms/inbox"),
+                            null, null, null, null);
+                    List<SmsEntry> list = new ArrayList<>();
+                    while (cursor.moveToNext()) {
+                        SmsEntry smsEntry = new SmsEntry();
+                        smsEntry.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+                        smsEntry.setContent(cursor.getString(cursor.getColumnIndex("body")));
+                        smsEntry.setDate(cursor.getString(cursor.getColumnIndex("date")));
+                        list.add(smsEntry);
+                    }
+                    subscriber.onNext(list);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
             }
         });

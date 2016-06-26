@@ -13,6 +13,10 @@ public interface TranslateActions {
 
     String ACTION_PHRASEBOOK_INIT = "actioin_phrasebook_init";
 
+    String ACTION_SMS_INIT = "action_sms_init";
+    String ACTION_SMS_ERROR = "action_sms_error";
+    String KEY_SMS_LIST = "key_sms_list";
+
     String KEY_TRANSLATION_ANSWER = "key_translation_answer";
     String KEY_TRANSLATION_HISTORY = "key_translation_history";
     String KEY_PHRASEBOOK_FAVORITE = "key_phrasebook_favorite";
