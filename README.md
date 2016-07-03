@@ -23,6 +23,14 @@
  - [X] RxJava
  - [X] Dagger2
  - [X] Flux
+ 
+## 项目截图
+
+[image](https://github.com/kolacbb/Translate/art/homepage.png)
+[image](https://github.com/kolacbb/Translate/art/menupage.png)
+[image](https://github.com/kolacbb/Translate/art/phrasebook.png)
+[image](https://github.com/kolacbb/Translate/art/CopyDrop.png)
+[image](https://github.com/kolacbb/Translate/art/TapToTranslate.png)
 
 
 
