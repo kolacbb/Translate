@@ -26,15 +26,15 @@
  
 ## 项目截图
 
-[image](https://github.com/kolacbb/Translate/raw/master/art/homepage.png)
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/homepage.png)
 
-[image](https://github.com/kolacbb/Translate/raw/master/art/menupage.png)
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/menupage.png)
 
-[image](https://github.com/kolacbb/Translate/raw/master/art/phrasebook.png)
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/phrasebook.png)
 
-[image](https://github.com/kolacbb/Translate/raw/master/art/CopyDrop.png)
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/CopyDrop.png)
 
-[image](https://github.com/kolacbb/Translate/raw/master/art/TapToTranslate.png)
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/TapToTranslate.png)
 
 
 
