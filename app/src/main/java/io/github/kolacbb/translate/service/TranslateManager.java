@@ -81,7 +81,7 @@ public class TranslateManager extends BaseManager implements DataLayer.Translate
                 Cursor cursor = null;
                 try {
                     subscriber.onStart();
-                    cursor = getApplication().getContentResolver().query(Uri.parse("content://sms/inbox"),
+                    cursor = getApplication().getContentResolver().query(Uri.parse("content://sms/"),
                             null, null, null, null);
                     List<SmsEntry> list = new ArrayList<>();
                     while (cursor.moveToNext()) {

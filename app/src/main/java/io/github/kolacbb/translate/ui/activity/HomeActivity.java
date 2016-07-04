@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
+import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.ui.fragment.TranslateMainFragment;
 
 /**
@@ -32,6 +33,8 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
+    BaseFragment homeFragment;
+
     public static void start(Context context, String query) {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra("query", query);
@@ -42,7 +45,9 @@ public class HomeActivity extends BaseActivity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         String query = intent.getStringExtra("query");
-        getActionCreatorManager().getTranslateActionCreator().fetchTranslation(query);
+        if (query != null && query.trim().length() != 0) {
+            getActionCreatorManager().getTranslateActionCreator().fetchTranslation(query);
+        }
     }
 
     @Override
@@ -60,45 +65,21 @@ public class HomeActivity extends BaseActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = TranslateMainFragment.newInstance();
+        homeFragment = (BaseFragment) TranslateMainFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.container, fragment, TranslateMainFragment.TAG);
+        ft.replace(R.id.container, homeFragment, TranslateMainFragment.TAG);
         ft.commit();
     }
-
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.phrasebook:
-//                PhrasebookActivity.start(this);
-//                break;
-//            case R.id.setting:
-//                SettingsActivity.start(HomeActivity.this);
-//                break;
-//            case R.id.open_copy_translate:
-////                Intent intent = new Intent(Intent.ACTION_SEND);
-////                intent.putExtra(android.content.Intent.EXTRA_EMAIL, "mailto:555@qq.com");
-////                intent.setType("text/plain");
-////                //intent.setData(Uri.parse("mailto:555@qq.com"));
-////                HomeActivity.this.startActivity(Intent.createChooser(intent, "选择方式"));
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+            return;
+        }
+
+        // 分发返回键点击事件
+        if (!homeFragment.onBackPressed()) {
             super.onBackPressed();
         }
     }

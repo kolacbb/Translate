@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="N0 SMS message"
+            android:text="No SMS message"
             android:textColor="@color/secondary_text"
             android:visibility="gone" />
 

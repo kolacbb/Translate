@@ -1,15 +1,19 @@
 package io.github.kolacbb.translate.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -25,6 +29,7 @@ import io.github.kolacbb.translate.flux.stores.TranslateMainStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
+import io.github.kolacbb.translate.util.InputMethodUtils;
 import io.github.kolacbb.translate.util.SpUtil;
 
 /**
@@ -54,6 +59,9 @@ public class TranslateMainFragment extends BaseFragment {
     @BindView(R.id.add_book)
     ImageButton btAddPhrasebook;
 
+    @BindView(R.id.bt_translate)
+    Button translateButton;
+
     TranslateMainStore translateMainStore;
     public static String BUNDLE_KEY = "translate_store";
 
@@ -74,20 +82,33 @@ public class TranslateMainFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(BUNDLE_KEY, translateMainStore);
+        Log.e("HomePage", "onSaveInstanceState");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.e("HomePage", "onViewStateRestored");
     }
 
     @Override
     protected void afterCreate(Bundle saveInstanceState) {
         if (saveInstanceState != null) {
             translateMainStore = (TranslateMainStore) saveInstanceState.getSerializable(BUNDLE_KEY);
-        } else if (translateMainStore == null){
+            Log.e("HomePage", "afterCreate");
+            return;
+        }
+
+        if (translateMainStore == null) {
             translateMainStore = new TranslateMainStore();
         }
+
         init();
         //dispatchFetchListNews();
+        Log.e("HomePage", "dispatch initView action");
         getActionCreatorManager().getTranslateActionCreator().initView();
-    }
 
+    }
 
 
     public static Fragment newInstance() {
@@ -137,9 +158,10 @@ public class TranslateMainFragment extends BaseFragment {
                 getActionCreatorManager().getTranslateActionCreator().initView();
                 break;
             case R.id.bt_translate:
+                InputMethodUtils.closeSoftKeyboard(translateButton);
                 if (pointTextView.getText().toString().trim().length() != 0)
                     getActionCreatorManager().getTranslateActionCreator().fetchTranslation(pointTextView.getText().toString().trim());
-                    break;
+                break;
             case R.id.add_book:
 
                 if (translateMainStore.getData() != null) {
@@ -147,6 +169,16 @@ public class TranslateMainFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (translateMainStore.isFinish()) {
+            getActionCreatorManager().getTranslateActionCreator().initView();
+        } else {
+            return super.onBackPressed();
+        }
+        return true;
     }
 
     @SuppressWarnings("ResourceType")
@@ -167,8 +199,9 @@ public class TranslateMainFragment extends BaseFragment {
         errorView.setVisibility(translateMainStore.getErrorViewState());
 
         if (translateMainStore.isFinish() && translateMainStore.getData() != null) {
-            System.out.println(translateMainStore.getData().getTranslation());
+            //System.out.println(translateMainStore.getData().getTranslation());
             Result result = translateMainStore.getData();
+            pointTextView.setText(result.getQuery());
             translation.setText(result.getTranslation());
             if (result.isFavor()) {
                 btAddPhrasebook.setImageResource(R.drawable.ic_star_black_24px);

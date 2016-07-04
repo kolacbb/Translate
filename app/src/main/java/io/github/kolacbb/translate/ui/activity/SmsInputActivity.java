@@ -1,8 +1,14 @@
 package io.github.kolacbb.translate.ui.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,6 +47,8 @@ public class SmsInputActivity extends BaseActivity {
 
     SmsInputStore store;
 
+    private final static int REQUEST_CODE_ASK_SMS = 0;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, SmsInputActivity.class);
         context.startActivity(intent);
@@ -76,7 +84,30 @@ public class SmsInputActivity extends BaseActivity {
         super.onResume();
         getDispatcher().register(store);
         store.register(this);
-        getActionCreatorManager().getTranslateActionCreator().fetchSmsList();
+
+        int checkSmsPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
+        if (checkSmsPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, REQUEST_CODE_ASK_SMS);
+            //return;
+        } else {
+            getActionCreatorManager().getTranslateActionCreator().fetchSmsList();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_SMS: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getActionCreatorManager().getTranslateActionCreator().fetchSmsList();
+                } else {
+                    // do nothing
+                }
+                break;
+            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

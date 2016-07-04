@@ -58,6 +58,10 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public boolean onBackPressed() {
+        return false;
+    }
+
     public Dispatcher getDispatcher() {
         return dispatcher;
     }

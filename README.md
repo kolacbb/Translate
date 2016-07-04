@@ -3,7 +3,6 @@
 这是我的第一个开源项目也是第一个想要一直用心做下去的项目。在这个项目中我会使用上我所学习的最新的Android知识技能，力求做到最棒，能够成为Android初学者进阶最好的开源项目。我每当学习了新的Android知识，都会总结出学习笔记，可以在我的简书和Github主页上看到。
 
  + [简书](http://www.jianshu.com/users/7d7c77e7eb91/latest_articles)
- + [Github](https://kolacbb.github.io)
 
 ## 项目初衷
 自己经常会在手机上阅读技术文章或者Android开发文档，然而自己的英语水平有没有到达像读母语一样流畅，总是会遇到生词。在没有接触Android开发之前用过有道翻译，可是自己觉得有道翻译的体量太大，琐碎且对于我没有用处的功能太多了。后来又用了Google Translate，深深的觉得，Google Translate才是一个翻译应用该有的样子。虽说穿越长城是每一个程序员必备的技能，但是也挺麻烦不是。而且我梦想中的翻译应用，是不会干扰到我的阅读体验的。所以我就一直在开发自己的翻译应用。
@@ -27,15 +26,18 @@
 ## 项目截图
 
  ![image](https://github.com/kolacbb/Translate/raw/master/art/homepage.png)
-
  ![image](https://github.com/kolacbb/Translate/raw/master/art/menupage.png)
 
- ![image](https://github.com/kolacbb/Translate/raw/master/art/phrasebook.png)
-
+ ![image](https://github.com/kolacbb/Translate/raw/master/art/phrasebook.png) 
  ![image](https://github.com/kolacbb/Translate/raw/master/art/CopyDrop.png)
 
  ![image](https://github.com/kolacbb/Translate/raw/master/art/TapToTranslate.png)
 
+## TODO
+
+ * 优化UI设计
+ * 添加读音功能
+ * 切换为MVP架构(目前的Flux架构存在短板，如果完全按照Flux编程规范来做，任务量巨大，一个按钮的点击事件都要完全走一遍ActionCreator，Dispatcher，Store流程，太过于繁琐)
 
 
 
