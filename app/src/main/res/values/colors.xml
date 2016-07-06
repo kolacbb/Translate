@@ -10,6 +10,8 @@
     <color name="activity_background">#ffe5e5e5</color>
     <color name="primary_text">#ff222222</color>
     <color name="secondary_text">#ff777777</color>
+    <color name="result_text">#ffffffff</color>
+    <color name="quantum_googblue500">#ff4285f4</color>
 
     <color name="focused_background">#33999999</color>
 

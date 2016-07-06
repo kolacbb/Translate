@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_result_card"
+    android:addStatesFromChildren="true"
+    android:baselineAligned="false"
+    android:minHeight="160dp"
+    style="@style/CardSpacing"
+
+    >
+
+    <LinearLayout
+
+        android:gravity="center_vertical"
+        android:id="@+id/speaker_view_wrapper"
+        android:duplicateParentState="false"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_clickable_rect"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:padding="12dp"
+                android:background="@drawable/bg_clickable_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_volume_up_black_24px" />
+
+            <TextView
+                android:layout_width="0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="ENGLISH"
+                android:textAllCaps="true"
+                android:textAppearance="?android:textAppearanceSmall" />
+        </LinearLayout>
+
+        <ImageButton
+            android:padding="12dp"
+            android:background="@drawable/bg_clickable_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_star_border_white_24px" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/card_padding"
+        android:paddingStart="@dimen/card_padding"
+        android:text="HELLO"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@color/result_text"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/txt_transliteration"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0"
+        android:paddingEnd="@dimen/card_padding"
+        android:paddingStart="@dimen/card_padding"
+        android:text="nohello"
+        android:textColor="@color/result_text"
+        android:textIsSelectable="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ic_cloud_off_white_24dp"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:paddingTop="12.0dip"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/copy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_clickable_rect"
+            android:padding="12.0dip"
+            android:src="@drawable/ic_content_copy_white_24px" />
+
+        <ImageView
+            android:id="@+id/menu_overflow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_clickable_rect"
+            android:padding="12.0dip"
+            android:src="@drawable/ic_more_vert_white_24px" />
+    </LinearLayout>
+
+</LinearLayout>
