@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CardSpacing"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bg_result_card"
     android:addStatesFromChildren="true"
+    android:background="@drawable/bg_result_card"
     android:baselineAligned="false"
     android:minHeight="160dp"
-    style="@style/CardSpacing"
-
-    >
+    android:orientation="vertical">
 
     <LinearLayout
-
-        android:gravity="center_vertical"
-        android:id="@+id/speaker_view_wrapper"
-        android:duplicateParentState="false"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        >
+        android:duplicateParentState="false"
+        android:gravity="center_vertical">
 
         <LinearLayout
+            android:id="@+id/speaker_view_wrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_clickable_rect"
             android:layout_weight="1"
+            android:background="@drawable/bg_clickable_rect"
             android:orientation="horizontal">
 
             <ImageButton
-                android:padding="12dp"
-                android:background="@drawable/bg_clickable_circle"
+                android:id="@+id/speak_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_clickable_circle"
+                android:padding="12dp"
                 android:src="@drawable/ic_volume_up_black_24px" />
 
             <TextView
-                android:layout_width="0"
+                android:id="@+id/text_lang"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="ENGLISH"
                 android:textAllCaps="true"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/result_text" />
         </LinearLayout>
 
         <ImageButton
-            android:padding="12dp"
-            android:background="@drawable/bg_clickable_circle"
+            android:id="@+id/btn_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_clickable_circle"
+            android:padding="12dp"
             android:src="@drawable/ic_star_border_white_24px" />
 
     </LinearLayout>

@@ -15,7 +15,7 @@
         <item>notification</item>
         <item>floating frame</item>
     </array>
-    
+
     <string name="pref_phonetic_default">uk phonetic</string>
     <array name="pref_phonetic_entries">
         <item>UK Phonetic</item>
