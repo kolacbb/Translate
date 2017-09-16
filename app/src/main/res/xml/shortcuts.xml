@@ -21,10 +21,10 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/ic_class_black_24dp"
-        android:shortcutDisabledMessage="@string/sms_translate"
+        android:shortcutDisabledMessage="@string/sms_translation"
         android:shortcutId="sms"
-        android:shortcutLongLabel="@string/sms_translate"
-        android:shortcutShortLabel="@string/sms_translate">
+        android:shortcutLongLabel="@string/sms_translation"
+        android:shortcutShortLabel="@string/sms_translation">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="io.github.kolacbb.translate.ui.activity.HomeActivity"

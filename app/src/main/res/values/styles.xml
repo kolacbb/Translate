@@ -5,7 +5,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/primary_blue</item>
-        <item name="android:windowBackground">@color/activity_background</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_launch</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

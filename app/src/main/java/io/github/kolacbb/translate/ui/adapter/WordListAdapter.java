@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.kolacbb.translate.R;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
 
@@ -130,7 +131,6 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void removeData(List<Result> list) {
         this.list.removeAll(list);
-        //initData();
         notifyDataSetChanged();
     }
 
@@ -161,12 +161,15 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void removeItemFromMultiList(int position) {
         mMultiSelectedItem.delete(position);
+        TranslateDB.getInstance().deleteFromHistory(getItemData(position));
         notifyItemChanged(position);
     }
 
     @Override
     public void onItemRemoved(int position) {
-        list.remove(getItemData(position));
+        Result result = getItemData(position);
+        TranslateDB.getInstance().deleteFromHistory(result);
+        list.remove(result);
         notifyItemRemoved(position);
     }
 

@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".ui.activity.PhrasebookActivity"/>
         <activity
+            android:theme="@style/AppTheme.Launcher"
             android:name=".ui.activity.HomeActivity"
             android:launchMode="singleTask">
 
@@ -42,7 +43,7 @@
         </activity>
         <activity
             android:name=".ui.activity.SmsInputActivity"
-            android:label="@string/label_sms_translation"
+            android:label="@string/sms_translation"
             android:parentActivityName=".ui.activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -52,6 +53,7 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="Settings"
+            android:parentActivityName=".ui.activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <service

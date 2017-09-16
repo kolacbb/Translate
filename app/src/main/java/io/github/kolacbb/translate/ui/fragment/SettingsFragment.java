@@ -1,14 +1,18 @@
 package io.github.kolacbb.translate.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.view.View;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -18,6 +22,8 @@ import io.github.kolacbb.translate.base.BasePreferenceFragment;
 import io.github.kolacbb.translate.component.service.ClipboardListenerService;
 import io.github.kolacbb.translate.flux.stores.SettingsStore;
 import io.github.kolacbb.translate.flux.stores.base.Store;
+import io.github.kolacbb.translate.ui.activity.HomeActivity;
+import io.github.kolacbb.translate.ui.activity.SettingsActivity;
 
 /**
  * Created by Kola on 2016/6/13.
@@ -37,6 +43,8 @@ public class SettingsFragment extends BasePreferenceFragment
     public static final String KEY_PHONETIC_LIST = "pref_key_phonetic_list";
     // 复制查词结果显示方式(list)
     public static final String KEY_SHOW_TRANSLATE_WAYS = "pref_key_show_translate_ways";
+    // 显示通知
+    public static final String KEY_SHOW_NOTIFICATION = "pref_key_show_notification";
 
     @Override
     protected int getXMLId() {
@@ -112,6 +120,14 @@ public class SettingsFragment extends BasePreferenceFragment
         } else if (key.equals(KEY_SHOW_TRANSLATE_WAYS)) {
             Preference pref = findPreference(key);
             pref.setSummary(sharedPreferences.getString(key, ""));
+        } else if (key.equals(KEY_SHOW_NOTIFICATION)) {
+            CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(key);
+            if (checkBoxPref.isChecked()) {
+                showNotification();
+            } else {
+                cancelNotification();
+            }
+
         }
     }
 
@@ -127,10 +143,10 @@ public class SettingsFragment extends BasePreferenceFragment
 
     private void showClearHistoryDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Clear history")
-                .setMessage("Clear translation history?")
-                .setNegativeButton("NO", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.clear_history)
+                .setMessage(R.string.clear_translate_history)
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getActionCreatorManager().getTranslateActionCreator().clearHistory();
@@ -138,6 +154,33 @@ public class SettingsFragment extends BasePreferenceFragment
                 });
         //显示Dialog
         builder.create().show();
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
+                .setSmallIcon(R.drawable.ic_star_black_24px)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setContentTitle(getString(R.string.notification_tap_translate_open))
+                .setContentText(getString(R.string.more_options))
+                .setOngoing(true);
+
+
+        Intent resultIntent = new Intent(getActivity(), SettingsActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+        stackBuilder.addParentStack(HomeActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent settingPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(settingPendingIntent);
+        final NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1213, mBuilder.build());
+    }
+
+    private void cancelNotification() {
+        final NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(1213);
     }
 
 

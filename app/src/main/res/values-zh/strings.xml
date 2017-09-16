@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Kola 翻译</string>
+    <string name="translate">翻译</string>
+    <string name="phrasebook">翻译收藏夹</string>
+    <string name="sms_translation">短信翻译</string>
+    <string name="settings">设置</string>
+    <string name="enter_text">输入文字</string>
+    <string name="sort_alphabetically">按字母顺序排序</string>
+    <string name="sort_by_time">按时间顺序排序</string>
+    <string name="tap_to_translate">复制查词</string>
+    <string name="translation_settings">翻译设置</string>
+    <string name="help_and_feedback">帮助和反馈</string>
+    <string name="phonetic_symbol">音标</string>
+    <string name="enable_tap_to_translate">启用复制查词</string>
+    <string name="show_notification">显示通知</string>
+    <string name="uk_phonetic">UK phonetic</string>
+    <string name="us_phonetic">US phonetic</string>
+    <string name="clear_history">清空历史</string>
+    <string name="feedback">反馈</string>
+    <string name="open_source_licenses">开放源代码许可</string>
+    <string name="about_kola_translate">关于 Kola 翻译</string>
+    <string name="notification_tap_translate_open">“复制查词”已开启</string>
+    <string name="more_options">更多选项</string>
+    <string name="clear_translate_history">清空翻译历史？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="sms_translate">短信翻译</string>
+
+    <string name="pref_showFrameTypes_default">notification</string>
+    <array name="pref_showFrameTypes_entries">
+        <item>Notification</item>
+        <item>Float Frame</item>
+    </array>
+    <array name="pref_showFrameTypes_values">
+        <item>notification</item>
+        <item>floating frame</item>
+    </array>
+
+    <string name="pref_phonetic_default">uk phonetic</string>
+    <array name="pref_phonetic_entries">
+        <item>UK Phonetic</item>
+        <item>US Phonetic</item>
+    </array>
+    <array name="pref_phonetic_values">
+        <item>uk phonetic</item>
+        <item>us phonetic</item>
+    </array>
+</resources>

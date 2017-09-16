@@ -148,7 +148,5 @@ public class ClipboardListenerService extends Service
                 notificationManager.cancel(0);
             }
         }, 5000);
-
-
     }
 }

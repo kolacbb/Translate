@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,7 +23,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:paddingStart="16dp"
-                android:text="输入文字" />
+                android:text="@string/enter_text"/>
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/tv_clear"
@@ -31,7 +33,7 @@
                 android:background="@drawable/bg_clickable_circle"
                 android:clickable="true"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_clear_black_24px" />
+                app:srcCompat="@drawable/ic_clear_black_24px"/>
 
         </RelativeLayout>
 
@@ -44,7 +46,7 @@
             android:maxHeight="100dp"
             android:minHeight="100dp"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp" />
+            android:paddingStart="16dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="16dp"
                 android:text="hɛˈlo, hə-"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/bt_translate"
@@ -67,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
-                android:text="翻译" />
+                android:text="@string/translate"/>
         </RelativeLayout>
 
     </LinearLayout>
@@ -92,7 +94,7 @@
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_cloud_off_black_48px" />
+                app:srcCompat="@drawable/ic_cloud_off_black_48px"/>
 
             <TextView
                 android:id="@+id/tv_error_title"
@@ -101,7 +103,7 @@
                 android:layout_toEndOf="@id/img_cloud_off"
                 android:padding="12dp"
                 android:text="ERROR"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:textAppearance="?android:textAppearanceLarge"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,23 +112,23 @@
                 android:layout_marginStart="48dp"
                 android:paddingEnd="12dp"
                 android:paddingStart="12dp"
-                android:text="网络被劫持，说出来你可能不信。是外星人先动的手" />
+                android:text="网络被劫持，说出来你可能不信。是外星人先动的手"/>
         </RelativeLayout>
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/history_rec_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="8dp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <android.support.v4.widget.ContentLoadingProgressBar
             android:id="@+id/progress_bar"
             style="?android:progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"/>
 
         <ScrollView
             android:id="@+id/translate_view"
@@ -145,23 +147,24 @@
                     android:layout_gravity="center"
                     android:background="#fafafa">
 
-                        <TextView
-                            android:id="@+id/translation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp"
-                            android:paddingEnd="56dp"
-                            android:text="TEXT"
-                            android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="#ff000000" />
-                        <ImageButton
-                            android:id="@+id/add_book"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:background="@drawable/bg_clickable_circle"
-                            android:padding="16dp"
-                            android:src="@drawable/ic_star_border_black_24px" />
+                    <TextView
+                        android:id="@+id/translation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:paddingEnd="56dp"
+                        android:text="TEXT"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#ff000000"/>
+
+                    <ImageButton
+                        android:id="@+id/add_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/bg_clickable_circle"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_star_border_black_24px"/>
                 </FrameLayout>
 
                 <FrameLayout
@@ -184,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:padding="8dp"
                             android:text="DICTIONARY"
-                            android:textColor="#ff000000" />
+                            android:textColor="#ff000000"/>
 
                         <TextView
                             android:id="@+id/basic"
@@ -192,7 +195,7 @@
                             android:layout_height="wrap_content"
                             android:paddingEnd="16dp"
                             android:paddingStart="16dp"
-                            android:text="n.动词 开心 \n v.名词 更开心" />
+                            android:text="n.动词 开心 \n v.名词 更开心"/>
                     </LinearLayout>
 
                 </FrameLayout>

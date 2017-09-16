@@ -1,5 +1,6 @@
 package io.github.kolacbb.translate.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -155,7 +156,7 @@ public class TranslateMainFragment extends BaseFragment {
         touchHelper.attachToRecyclerView(historyRecView);
     }
 
-    @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book})
+    @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book, R.id.translation})
     public void widgetOnClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_clear:
@@ -172,6 +173,11 @@ public class TranslateMainFragment extends BaseFragment {
                 if (translateMainStore.getData() != null) {
                     getActionCreatorManager().getTranslateActionCreator().saveToPhrasebook(translateMainStore.getData());
                 }
+                break;
+            case R.id.translation:
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                intent.putExtra("query", translation.getText().toString());
+                startActivity(intent);
                 break;
         }
     }

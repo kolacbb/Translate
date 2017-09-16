@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
@@ -42,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         afterCreate(savedInstanceState);

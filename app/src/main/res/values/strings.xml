@@ -1,12 +1,33 @@
 <resources>
     <string name="app_name">Kola Translate</string>
-
-    <string name="label_sms_translation">SMS translation</string>
+    <string name="translate">Translate</string>
+    <string name="phrasebook">Phrasebook</string>
+    <string name="sms_translation">SMS translation</string>
+    <string name="settings">Settings</string>
+    <string name="enter_text">Enter text</string>
+    <string name="sort_alphabetically">Sort alphabetically</string>
+    <string name="sort_by_time">Sort by time</string>
+    <string name="tap_to_translate">Tap to translate</string>
+    <string name="translation_settings">Translation settings</string>
+    <string name="help_and_feedback">Help and feedback</string>
+    <string name="phonetic_symbol">Phonetic symbol</string>
+    <string name="enable_tap_to_translate">Enable Tap to Translate</string>
+    <string name="show_notification">Show notification</string>
+    <string name="uk_phonetic">UK phonetic</string>
+    <string name="us_phonetic">US phonetic</string>
+    <string name="clear_history">Clear history</string>
+    <string name="feedback">Feedback</string>
+    <string name="open_source_licenses">Open source licenses</string>
+    <string name="about_kola_translate">About Kola Translate</string>
+    <string name="notification_tap_translate_open">Tap to Translate is on</string>
+    <string name="more_options">More options</string>
+    <string name="clear_translate_history">Clear translate history?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="phrasebook">单词本</string>
     <string name="sms_translate">短信翻译</string>
 
     <string name="pref_showFrameTypes_default">notification</string>

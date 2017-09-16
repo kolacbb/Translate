@@ -24,6 +24,7 @@ import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
 import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -155,6 +156,7 @@ public class PhrasebookFragment extends BaseFragment {
             MenuItem item = menu.findItem(R.id.action_search);
             searchView = (SearchView) item.getActionView();
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                ArrayList mQueryedList = new ArrayList();
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     return false;
@@ -165,9 +167,15 @@ public class PhrasebookFragment extends BaseFragment {
                     //Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
                     String text = newText.trim();
                     if (text.trim().length() == 0) {
-                        //adapter.initData();
+                        adapter.setData(phrasebookStore.getFavorList());
                     } else {
-                        adapter.setQueryWord(newText);
+                        mQueryedList.clear();
+                        for (Result result : phrasebookStore.getFavorList()) {
+                            if (result.getQuery().contains(newText)) {
+                                mQueryedList.add(result);
+                            }
+                        }
+                        adapter.setData(mQueryedList);
                     }
                     adapter.notifyDataSetChanged();
                     return true;
@@ -219,6 +227,7 @@ public class PhrasebookFragment extends BaseFragment {
                 }
                 adapter.removeData(removeList);
                 adapter.setMultiSelectMode(false);
+                TranslateDB.getInstance().deleteFromPhrasebook(removeList);
                 getActivity().invalidateOptionsMenu();
                 break;
         }

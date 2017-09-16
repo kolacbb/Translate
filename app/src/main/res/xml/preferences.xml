@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Tap to translate"
+    <PreferenceCategory android:title="@string/tap_to_translate"
         android:key="pref_key_copy_drop_settings">
         <CheckBoxPreference
             android:key="pref_key_tap_to_translate"
             android:summary="summary"
-            android:title="Enable Tap to Translate"
+            android:title="@string/enable_tap_to_translate"
+            android:defaultValue="false"/>
+        <CheckBoxPreference
+            android:key="pref_key_show_notification"
+            android:summary="summary"
+            android:title="@string/show_notification"
             android:defaultValue="false"/>
         <ListPreference
             android:key="pref_key_show_translate_ways"
@@ -18,7 +23,7 @@
             />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="translation settings">
+    <PreferenceCategory android:title="@string/translation_settings">
         <ListPreference
             android:key="pref_key_phonetic_list"
             android:summary="@string/pref_phonetic_default"
@@ -29,16 +34,16 @@
             android:defaultValue="@string/pref_phonetic_default" />
 
         <Preference android:key="pref_key_clear_history"
-            android:title="Clear history"
+            android:title="@string/clear_history"
             />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Help and feedback">
-        <Preference android:title="Feedback">
+    <PreferenceCategory android:title="@string/help_and_feedback">
+        <Preference android:title="@string/feedback">
             <intent android:action="android.intent.action.SENDTO"
                 android:data="mailto:664864743@qq.com"/>
         </Preference>
-        <Preference android:title="Open source licenses"/>
-        <Preference android:title="About Kola Translate"/>
+        <Preference android:title="@string/open_source_licenses"/>
+        <Preference android:title="@string/about_kola_translate"/>
     </PreferenceCategory>
 </PreferenceScreen>
