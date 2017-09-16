@@ -139,13 +139,11 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="#fafafa"
-
-                    card_view:cardCornerRadius="4dp">
+                    android:background="#fafafa">
 
                         <TextView
                             android:id="@+id/translation"
@@ -164,20 +162,16 @@
                             android:background="@drawable/bg_clickable_circle"
                             android:padding="16dp"
                             android:src="@drawable/ic_star_border_black_24px" />
+                </FrameLayout>
 
-
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                <FrameLayout
                     android:id="@+id/dictionary_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:background="#fafafa"
-                    android:padding="16dp"
-                    card_view:cardCornerRadius="4dp">
+                    android:padding="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -201,7 +195,7 @@
                             android:text="n.动词 开心 \n v.名词 更开心" />
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
+                </FrameLayout>
 
             </LinearLayout>
         </ScrollView>

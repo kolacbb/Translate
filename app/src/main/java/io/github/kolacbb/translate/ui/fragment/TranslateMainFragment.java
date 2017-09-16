@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import io.github.kolacbb.translate.flux.stores.TranslateMainStore;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
+import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
 import io.github.kolacbb.translate.util.InputMethodUtils;
 import io.github.kolacbb.translate.util.SpUtil;
 
@@ -53,7 +55,7 @@ public class TranslateMainFragment extends BaseFragment {
     @BindView(R.id.translation)
     TextView translation;
     @BindView(R.id.dictionary_view)
-    CardView dictionaryView;
+    FrameLayout dictionaryView;
     @BindView(R.id.basic)
     TextView basicTextView;
     @BindView(R.id.add_book)
@@ -148,6 +150,9 @@ public class TranslateMainFragment extends BaseFragment {
                     }
                 });
         historyRecView.setAdapter(adapter);
+        ItemTouchHelperCallBack callBack = new ItemTouchHelperCallBack(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callBack);
+        touchHelper.attachToRecyclerView(historyRecView);
     }
 
     @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book})

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_sms_black_12dp"
+        android:shortcutDisabledMessage="@string/phrasebook"
+        android:shortcutId="phrasebook"
+        android:shortcutLongLabel="@string/phrasebook"
+        android:shortcutShortLabel="@string/phrasebook">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="io.github.kolacbb.translate.ui.activity.HomeActivity"
+            android:targetPackage="io.github.kolacbb.translate"/>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="io.github.kolacbb.translate.ui.activity.PhrasebookActivity"
+            android:targetPackage="io.github.kolacbb.translate"/>
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_class_black_24dp"
+        android:shortcutDisabledMessage="@string/sms_translate"
+        android:shortcutId="sms"
+        android:shortcutLongLabel="@string/sms_translate"
+        android:shortcutShortLabel="@string/sms_translate">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="io.github.kolacbb.translate.ui.activity.HomeActivity"
+            android:targetPackage="io.github.kolacbb.translate"/>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="io.github.kolacbb.translate.ui.activity.SmsInputActivity"
+            android:targetPackage="io.github.kolacbb.translate"/>
+        <categories android:name="android.shortcut.conversation"/>
+    </shortcut>
+</shortcuts>

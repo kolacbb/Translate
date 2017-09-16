@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 
 /**

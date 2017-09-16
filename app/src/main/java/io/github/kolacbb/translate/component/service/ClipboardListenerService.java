@@ -9,18 +9,14 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.squareup.otto.Subscribe;
-
-import javax.inject.Inject;
 
 import io.github.kolacbb.translate.R;
-import io.github.kolacbb.translate.flux.actions.creator.ActionCreatorManager;
-import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
-import io.github.kolacbb.translate.flux.stores.ClipboardListenerStore;
+import io.github.kolacbb.translate.data.TranslateDataSource;
+import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
@@ -30,12 +26,6 @@ import io.github.kolacbb.translate.util.StringUtils;
 
 public class ClipboardListenerService extends Service
         implements ClipboardManager.OnPrimaryClipChangedListener{
-
-    @Inject
-    Dispatcher dispatcher;
-    @Inject
-    ActionCreatorManager actionCreatorManager;
-    ClipboardListenerStore store;
 
     private ClipboardManager clipboardManager = null;
     // 存储上一次复制时间
@@ -61,36 +51,13 @@ public class ClipboardListenerService extends Service
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        store = new ClipboardListenerStore();
-        dispatcher.register(store);
-        store.register(ClipboardListenerService.this);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         clipboardManager.removePrimaryClipChangedListener(this);
         if (SpUtil.findBoolean(SettingsFragment.KEY_TAP_TO_TRANSLATE)) {
             SpUtil.save(SettingsFragment.KEY_TAP_TO_TRANSLATE, false);
         }
-
-        dispatcher.unregister(store);
-        store.unregister(ClipboardListenerService.this);
     }
-
-    public void render() {
-        Result result = store.getData();
-        //showChooseDialog(result.getQuery(), result.getTranslation());
-        showHeadsUpNotification(result.getQuery(), result.getTranslation());
-    }
-
-    @Subscribe
-    public void onStoreChanged(ClipboardListenerStore.ClipboardListenerChangeEvent event) {
-        render();
-    }
-
 
     @Override
     public void onPrimaryClipChanged() {
@@ -103,8 +70,10 @@ public class ClipboardListenerService extends Service
         previousTime = nowTime;
         // 获取剪贴板内容
         ClipData.Item item = clipboardManager.getPrimaryClip().getItemAt(0);
-        String copyData = item.getText().toString();
-        showTranslation(copyData);
+        if (item != null && item.getText() != null) {
+            String copyData = item.getText().toString();
+            showTranslation(copyData);
+        }
     }
 
     public void showTranslation(String data) {
@@ -134,7 +103,15 @@ public class ClipboardListenerService extends Service
         }
 
         //Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
-        actionCreatorManager.getTranslateActionCreator().fetchTranslation(data);
+        //actionCreatorManager.getTranslateActionCreator().fetchTranslation(data);
+        TranslateRepository.getInstance().getTranslation(data, new TranslateDataSource.LoadTranslationCallback() {
+            @Override
+            public void onTranslationLoaded(Result result) {
+                if (result != null) {
+                    showHeadsUpNotification(result.getQuery(), result.getTranslation());
+                }
+            }
+        });
     }
 
     public void showChooseDialog(String title, String message) {
@@ -147,20 +124,31 @@ public class ClipboardListenerService extends Service
     }
 
     public void showHeadsUpNotification(String title, String message) {
-        Notification.Builder builder = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.ic_star_black_24px)
-                .setPriority(Notification.PRIORITY_DEFAULT)
-                .setCategory(Notification.CATEGORY_MESSAGE)
-                .setContentTitle(title)
-                .setContentText(message);
-        Intent push = new Intent();
-        push.setClass(getApplicationContext(), HomeActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, push, PendingIntent.FLAG_CANCEL_CURRENT);
-        builder.setFullScreenIntent(pendingIntent, true);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
-        notificationManager.cancel(0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_star_black_24px)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setVibrate(new long[]{1, 0});
+
+        Intent push = new Intent();
+        push.putExtra("query", title);
+        push.setClass(this, HomeActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, push, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
+
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, mBuilder.build());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notificationManager.cancel(0);
+            }
+        }, 5000);
+
 
     }
 }

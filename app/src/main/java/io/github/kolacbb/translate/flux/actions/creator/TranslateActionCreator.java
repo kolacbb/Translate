@@ -5,9 +5,8 @@ package io.github.kolacbb.translate.flux.actions.creator;
  */
 
 import java.util.List;
-import java.util.Observer;
 
-import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
 import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.actions.creator.base.BaseActionCreator;
@@ -16,7 +15,6 @@ import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.SmsEntry;
 import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;

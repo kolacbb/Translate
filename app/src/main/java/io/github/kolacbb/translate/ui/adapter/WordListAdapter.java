@@ -1,8 +1,12 @@
 package io.github.kolacbb.translate.ui.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -11,26 +15,29 @@ import java.util.List;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
 
 /**
  * Created by Kola on 2016/6/11.
  */
-public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperCallBack.ItemTouchHelperListener{
     List<Result> list;
     boolean showFavorButton;
     View.OnClickListener itemListener;
-
+    View.OnLongClickListener mOnLongClickListener;
     View.OnClickListener starListener;
     View.OnClickListener unStarListener;
+    private SparseBooleanArray mMultiSelectedItem;
 
-    int[] data;
-    int dataLength = 0;
+    //int[] data;
+    //int dataLength = 0;
 
-    public WordListAdapter(List<Result> list,View.OnClickListener itemListener) {
+    public WordListAdapter(List<Result> list, View.OnClickListener itemListener, View.OnLongClickListener longClickListener) {
         this.list = list;
         this.itemListener = itemListener;
+        this.mOnLongClickListener = longClickListener;
         this.showFavorButton = false;
-        initData();
+        //initData();
     }
 
     public WordListAdapter(List<Result> list, View.OnClickListener itemListener,
@@ -40,27 +47,26 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.showFavorButton = true;
         this.starListener = starListener;
         this.unStarListener = unStarListener;
-
-        initData();
+        //initData();
     }
 
-    public void initData() {
-        dataLength = list.size();
-        data = new int[dataLength];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = i;
-        }
-    }
+//    public void initData() {
+//        dataLength = list.size();
+//        data = new int[dataLength];
+//        for (int i = 0; i < data.length; i++) {
+//            data[i] = i;
+//        }
+//    }
 
     public void setQueryWord(String query) {
         int flag = 0;
         for (int i = 0; i < list.size(); i++) {
             Result result = list.get(i);
             if (result.getQuery().startsWith(query)) {
-                data[flag++] = i;
+                //data[flag++] = i;
             }
         }
-        dataLength = flag;
+        //dataLength = flag;
         //notifyDataSetChanged();
     }
 
@@ -79,12 +85,20 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemVH itemVH = (ItemVH) holder;
 
-        //Result result = list.get(position);
-        Result result = list.get(data[position]);
+        Result result = list.get(position);
+        //Result result = list.get(data[position]);
 
         itemVH.tvQuery.setText(result.getQuery());
         itemVH.tvTranslation.setText(result.getTranslation());
         itemVH.itemView.setOnClickListener(itemListener);
+        if (mMultiSelectedItem != null && mMultiSelectedItem.get(position, false)) {
+            itemVH.itemView.setBackgroundColor(Color.parseColor("#e0e0e0"));
+        } else {
+            itemVH.itemView.setBackgroundColor(Color.parseColor("#fafafa"));
+        }
+        if (mOnLongClickListener != null) {
+            itemVH.itemView.setOnLongClickListener(mOnLongClickListener);
+        }
         if (showFavorButton) {
             if (result.isFavor()) {
                 itemVH.btFavor.setImageResource(R.drawable.ic_star_black_24px);
@@ -101,23 +115,66 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        //return list.size();
-        return dataLength;
+        return list.size();
+        //return dataLength;
     }
 
     public void setData(List<Result> list) {
         this.list = list;
-        initData();
+        //initData();
     }
 
     public Result getItemData(int position) {
-        return list.get(data[position]);
+        return list.get(position);
+    }
+
+    public void removeData(List<Result> list) {
+        this.list.removeAll(list);
+        //initData();
+        notifyDataSetChanged();
+    }
+
+    public void setMultiSelectMode(boolean isMulti) {
+        if (isMulti) {
+            if (mMultiSelectedItem == null) {
+                mMultiSelectedItem = new SparseBooleanArray();
+            }
+            mMultiSelectedItem.clear();
+        } else {
+            mMultiSelectedItem = null;
+            notifyDataSetChanged();
+        }
+    }
+
+    public boolean isMultiMode() {
+        return mMultiSelectedItem != null;
+    }
+
+    public SparseBooleanArray getMultiSelectedItems() {
+        return mMultiSelectedItem;
+    }
+
+    public void addItemToMultiList(int position) {
+        mMultiSelectedItem.append(position, true);
+        notifyItemChanged(position);
+    }
+
+    public void removeItemFromMultiList(int position) {
+        mMultiSelectedItem.delete(position);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void onItemRemoved(int position) {
+        list.remove(getItemData(position));
+        notifyItemRemoved(position);
     }
 
     public static class ItemVH extends RecyclerView.ViewHolder {
         TextView tvQuery;
         TextView tvTranslation;
         ImageButton btFavor;
+
         public ItemVH(View itemView) {
             super(itemView);
             tvQuery = (TextView) itemView.findViewById(R.id.query);

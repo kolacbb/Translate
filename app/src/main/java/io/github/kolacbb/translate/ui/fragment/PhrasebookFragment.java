@@ -1,6 +1,7 @@
 package io.github.kolacbb.translate.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import io.github.kolacbb.translate.R;
@@ -45,6 +46,8 @@ public class PhrasebookFragment extends BaseFragment {
 
     public static String BUNDLE_KEY = "bundle_phrasebook_store";
 
+    public static final String TITLE_STRING = "Phrasebook";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_phrasebook;
@@ -62,14 +65,19 @@ public class PhrasebookFragment extends BaseFragment {
     protected void afterCreate(Bundle saveInstanceState) {
         if (saveInstanceState != null) {
             phrasebookStore = (PhrasebookStore) saveInstanceState.getSerializable(BUNDLE_KEY);
-        } else if (phrasebookStore == null){
+        } else if (phrasebookStore == null) {
             phrasebookStore = new PhrasebookStore();
         }
         init();
-        getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
+            }
+        }, 300);
     }
 
-    public static Fragment newInstance() {
+    public static BaseFragment newInstance() {
         return new PhrasebookFragment();
     }
 
@@ -81,7 +89,7 @@ public class PhrasebookFragment extends BaseFragment {
 
     private void init() {
         // 设置toolbar
-        mToolbar.setTitle("Phrasebook");
+        mToolbar.setTitle(TITLE_STRING);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(mToolbar);
         ActionBar actionBar = activity.getSupportActionBar();
@@ -99,8 +107,30 @@ public class PhrasebookFragment extends BaseFragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Result result = adapter.getItemData(dictionaryView.getChildAdapterPosition(v));
-                        HomeActivity.start(getContext(), result.getQuery());
+                        int position = dictionaryView.getChildAdapterPosition(v);
+                        if (adapter.isMultiMode()) {
+                            if (adapter.getMultiSelectedItems().get(position, false)) {
+                                adapter.removeItemFromMultiList(position);
+                            } else {
+                                adapter.addItemToMultiList(position);
+                            }
+                            getActivity().invalidateOptionsMenu();
+                        } else {
+                            Result result = adapter.getItemData(position);
+                            HomeActivity.start(getContext(), result.getQuery());
+                        }
+                    }
+                },
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        if (!adapter.isMultiMode()) {
+                            adapter.setMultiSelectMode(true);
+                            adapter.addItemToMultiList(dictionaryView.getChildAdapterPosition(view));
+                            getActivity().invalidateOptionsMenu();
+                            return true;
+                        }
+                        return false;
                     }
                 });
         dictionaryView.setAdapter(adapter);
@@ -135,7 +165,7 @@ public class PhrasebookFragment extends BaseFragment {
                     //Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
                     String text = newText.trim();
                     if (text.trim().length() == 0) {
-                        adapter.initData();
+                        //adapter.initData();
                     } else {
                         adapter.setQueryWord(newText);
                     }
@@ -144,6 +174,25 @@ public class PhrasebookFragment extends BaseFragment {
                 }
             });
         }
+
+        if (adapter != null && adapter.isMultiMode()) {
+            menu.findItem(R.id.action_search).setVisible(false);
+            menu.findItem(R.id.sort).setVisible(false);
+            int size = adapter.getMultiSelectedItems().size();
+            if (size > 0) {
+                menu.findItem(R.id.action_delete).setVisible(true);
+                mToolbar.setTitle(String.valueOf(size));
+            } else {
+                menu.findItem(R.id.action_delete).setVisible(false);
+                mToolbar.setTitle("");
+            }
+
+        } else {
+            menu.findItem(R.id.action_search).setVisible(true);
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.sort).setVisible(true);
+            mToolbar.setTitle(TITLE_STRING);
+        }
     }
 
     SearchView searchView;
@@ -151,13 +200,38 @@ public class PhrasebookFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.sort_by_alpha:
                 getActionCreatorManager().getTranslateActionCreator().fetchFavorListSortByAlpha();
                 break;
             case R.id.sort_by_time:
                 getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
                 break;
+            case R.id.action_delete:
+                SparseBooleanArray array = adapter.getMultiSelectedItems();
+                List<Result> removeList = new ArrayList<>();
+                for (int i = 0; i < adapter.getItemCount(); i++) {
+                    if (array.get(i, false)) {
+                        removeList.add(adapter.getItemData(i));
+                    }
+                }
+                adapter.removeData(removeList);
+                adapter.setMultiSelectMode(false);
+                getActivity().invalidateOptionsMenu();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (adapter.isMultiMode()) {
+            adapter.setMultiSelectMode(false);
+            getActivity().invalidateOptionsMenu();
+            return true;
+        }
+        return super.onBackPressed();
     }
 }

@@ -15,6 +15,7 @@ import io.github.kolacbb.translate.model.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.ApiKey;
 import io.github.kolacbb.translate.service.base.BaseManager;
 import io.github.kolacbb.translate.service.base.DataLayer;
+import io.github.kolacbb.translate.util.DateUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -88,7 +89,7 @@ public class TranslateManager extends BaseManager implements DataLayer.Translate
                         SmsEntry smsEntry = new SmsEntry();
                         smsEntry.setAddress(cursor.getString(cursor.getColumnIndex("address")));
                         smsEntry.setContent(cursor.getString(cursor.getColumnIndex("body")));
-                        smsEntry.setDate(cursor.getString(cursor.getColumnIndex("date")));
+                        smsEntry.setDate(DateUtils.getDateString(cursor.getLong(cursor.getColumnIndex("date"))));
                         list.add(smsEntry);
                     }
                     subscriber.onNext(list);

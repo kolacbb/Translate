@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.db;
+package io.github.kolacbb.translate.data.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

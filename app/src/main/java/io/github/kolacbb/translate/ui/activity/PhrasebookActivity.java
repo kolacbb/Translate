@@ -9,10 +9,13 @@ import android.view.MenuItem;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
+import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.ui.fragment.PhrasebookFragment;
 import io.github.kolacbb.translate.ui.fragment.TranslateMainFragment;
 
 public class PhrasebookActivity extends BaseActivity {
+
+    BaseFragment mPhrasebookFragment;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, PhrasebookActivity.class);
@@ -26,9 +29,9 @@ public class PhrasebookActivity extends BaseActivity {
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        Fragment fragment = PhrasebookFragment.newInstance();
+        mPhrasebookFragment = PhrasebookFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fl_container, fragment, TranslateMainFragment.TAG);
+        ft.replace(R.id.fl_container, mPhrasebookFragment, TranslateMainFragment.TAG);
         ft.commit();
     }
 
@@ -40,5 +43,12 @@ public class PhrasebookActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mPhrasebookFragment.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 }

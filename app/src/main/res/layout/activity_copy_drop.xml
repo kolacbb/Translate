@@ -30,7 +30,14 @@
                 android:src="@drawable/quantum_ic_settings_grey600_24" />
 
 
+            <TextView
+                android:text="Translate"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <ImageView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

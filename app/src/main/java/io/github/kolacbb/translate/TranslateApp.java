@@ -3,7 +3,6 @@ package io.github.kolacbb.translate;
 import android.app.Application;
 import android.util.Log;
 
-import io.github.kolacbb.translate.db.TranslateDB;
 import io.github.kolacbb.translate.inject.component.DaggerApplicationComponent;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 

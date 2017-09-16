@@ -4,7 +4,7 @@ import android.app.Application;
 
 import javax.inject.Inject;
 
-import io.github.kolacbb.translate.db.TranslateDB;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.protocol.ClientApi;
 

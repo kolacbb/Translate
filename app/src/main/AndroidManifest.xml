@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.kolacbb.translate">
+          package="io.github.kolacbb.translate">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
 
     <application
         android:name=".TranslateApp"
@@ -18,26 +18,27 @@
             android:launchMode="singleTop"
             android:theme="@style/CopyDropOverlay">
             <intent-filter android:label="Translate">
-                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <action android:name="android.intent.action.PROCESS_TEXT"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.PhrasebookActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.PhrasebookActivity"/>
         <activity
             android:name=".ui.activity.HomeActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTask">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
         </activity>
         <activity
             android:name=".ui.activity.SmsInputActivity"
@@ -46,17 +47,17 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.github.kolacbb.translate.ui.activity.HomeActivity" />
+                android:value="io.github.kolacbb.translate.ui.activity.HomeActivity"/>
         </activity>
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="Settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".component.service.ClipboardListenerService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
 
         <activity android:name=".TestActivity">
 
