@@ -1,5 +1,8 @@
 package io.github.kolacbb.translate.data;
 
+import java.util.List;
+
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.model.entity.Result;
 
 /**
@@ -13,4 +16,29 @@ public interface TranslateDataSource {
     }
 
     void getTranslation(String message, LoadTranslationCallback callback);
+
+    interface GetTranslateCallback {
+
+        void onTranslateLoaded(Translate translate);
+
+        void onDataNotAvailable();
+    }
+
+    void getTranslate(String query, String source, GetTranslateCallback callback);
+
+    List<Translate> getPhrasebook();
+
+    void addPhrasebook(Translate translate);
+
+    void addHistory(Translate translate);
+
+    void deletePhrasebook(Translate translate);
+
+    void deletePhrasebooks(List<Translate> translates);
+
+    List<Translate> getHistory();
+
+    void deleteAllHistory();
+
+    void deleteHistory(Translate translate);
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.model.entity.Result;
 
 /**
@@ -15,8 +16,6 @@ import io.github.kolacbb.translate.model.entity.Result;
  */
 public class TranslateDB {
     public static final String DB_NAME = "translate";
-    public static final String DB_HISTORY_NAME = "history";
-    public static final String DB_PHRASEBOOK_NAME = "phrasebook";
     public static final int VERSION = 1;
     private static TranslateDB translateDB;
     private SQLiteDatabase db;
@@ -46,6 +45,151 @@ public class TranslateDB {
         }
         return translateDB;
     }
+
+    public void addTranslate(String tableName, Translate translate) {
+        String sql = "insert into " + tableName + " (query, source, us_phonetic, uk_phonetic, translation, explains, web) values (?, ?, ?, ?, ?)";
+        db.execSQL(sql, new String[]{
+                translate.getQuery(),
+                translate.getQuery(),
+                translate.getUs_phonetic(),
+                translate.getUk_phonetic(),
+                translate.getTranslation(),
+                translate.getExplains(),
+                translate.getWeb()
+        });
+    }
+
+    public Translate getTranslate(String query, String source) {
+        String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from dict t1 " +
+                "where query = ? and source = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{query, source});
+        Translate translate = null;
+        if (cursor.moveToFirst()) {
+            translate = new Translate();
+            translate.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+            translate.setSource(cursor.getString(cursor.getColumnIndex("source")));
+            translate.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+            translate.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+            translate.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+            translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
+            translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
+            translate.setFavor(cursor.getString(cursor.getColumnIndex("isfavor")) != null);
+        }
+        cursor.close();
+        return translate;
+    }
+
+    /**
+     * 获取历史中全部单词记录
+     */
+    public List<Translate> getTranslateFromHistory() {
+        String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from history t1";
+        List<Translate> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, new String[0]);
+        if (cursor.moveToFirst()) {
+            do {
+                Translate translate = new Translate();
+                translate.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+                translate.setSource(cursor.getString(cursor.getColumnIndex("source")));
+                translate.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+                translate.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+                translate.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+                translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
+                translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
+                translate.setFavor(cursor.getString(cursor.getColumnIndex("isfavor")) != null);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    /**
+     * 获取单词本中全部单词记录
+     */
+    public List<Translate> getTranslateFromPhrasebook() {
+        List<Translate> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + TranslateOpenHelper.TABLE_NAME_PHRASEBOOK, new String[0]);
+        if (cursor.moveToFirst()) {
+            do {
+                Translate translate = new Translate();
+                translate.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+                translate.setSource(cursor.getString(cursor.getColumnIndex("source")));
+                translate.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+                translate.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+                translate.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+                translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
+                translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
+                translate.setFavor(true);
+                list.add(translate);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+
+    public void removeTranslate(String tableName, Translate translate) {
+        db.execSQL("delete from " + tableName + " where query = ? & source = ?", new String[]{translate.getQuery(), translate.getSource()});
+    }
+
+    public void removeTranslate(String tableName, List<Translate> list) {
+        String sql = "delete from " + tableName + " where query in (?, ?, ?, ?, ?)";
+        // N 是在sql语句中可变的部分的数量，我们可以找到一个效率的平衡点，来让sql更快的执行
+        int N = 5;
+        for (int i = 0; i <= list.size() / N; i++) {
+            String[] args = new String[N];
+            // 构造String
+            for (int j = 0; j < N && i * N + j < list.size(); j++) {
+                args[j] = list.get(i * N + j).getQuery();
+            }
+            db.execSQL(sql, args);
+        }
+    }
+//
+//    public Translate getTranslate(String tableName, String query, String source) {
+//        Translate translate = null;
+//        Cursor cursor = db.rawQuery("select * from " + tableName + " where query = ? and source = ?",
+//                new String[]{query, source});
+//        if (cursor.moveToFirst()) {
+//            translate = new Translate();
+//            translate.setQuery(query);
+//            translate.setSource(source);
+//            translate.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+//            translate.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+//            translate.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+//            translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
+//            translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
+//        }
+//        cursor.close();
+//        return translate;
+//    }
+
+    public List<Translate> getTranslate(String tableName) {
+        List<Translate> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from " + tableName, new String[0]);
+        if (cursor.moveToFirst()) {
+            do {
+                Translate translate = new Translate();
+                translate.setQuery(cursor.getString(cursor.getColumnIndex("query")));
+                translate.setSource(cursor.getString(cursor.getColumnIndex("source")));
+                translate.setUk_phonetic(cursor.getString(cursor.getColumnIndex("us_phonetic")));
+                translate.setUs_phonetic(cursor.getString(cursor.getColumnIndex("uk_phonetic")));
+                translate.setTranslation(cursor.getString(cursor.getColumnIndex("translation")));
+                translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
+                translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
+                list.add(translate);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void clearTranslate(String tableName) {
+        String sql = "delete from " + tableName;
+        db.execSQL(sql, new String[0]);
+    }
+
+    // ----------------------------------------- 下面方法全部删除---------------------------
 
     /**
      * 操作History表
@@ -77,7 +221,7 @@ public class TranslateDB {
 
     public void deleteFromHistory(Result result) {
         String sql = "delete from history where query = ?";
-        db.execSQL(sql, new String[] {result.getQuery()});
+        db.execSQL(sql, new String[]{result.getQuery()});
     }
 
     public void clearHistory() {
@@ -128,8 +272,7 @@ public class TranslateDB {
 
     /**
      * 操作Phrasebook表
-     *
-     * */
+     */
     public void saveToPhrasebook(Result result) {
         String sql = "insert into phrasebook (query, us_phonetic, uk_phonetic, translation, basic) values (?, ?, ?, ?, ?)";
         db.execSQL(sql, new String[]{result.getQuery(),
@@ -143,23 +286,23 @@ public class TranslateDB {
 
     public void deleteFromPhrasebook(Result result) {
         String sql = "delete from phrasebook where query = ?";
-        db.execSQL(sql, new String[] {result.getQuery()});
+        db.execSQL(sql, new String[]{result.getQuery()});
     }
 
     /**
      * 删除多条Phrasebook表中的列
      * 1.尽可能的减少连接数据库的次数
      * 2.保证sql语句的唯一性（sqlite会对相类似的语句进行检存储，会在下一次调用相同语句时更加迅速）
-     * */
+     */
     public void deleteFromPhrasebook(List<Result> list) {
         String sql = "delete from phrasebook where query in (?, ?, ?, ?, ?)";
         // N 是在sql语句中可变的部分的数量，我们可以找到一个效率的平衡点，来让sql更快的执行
         int N = 5;
-        for (int i = 0; i <= list.size()/N; i++) {
+        for (int i = 0; i <= list.size() / N; i++) {
             String[] args = new String[N];
             // 构造String
-            for (int j = 0; j < N && i*N+j < list.size(); j++) {
-                args[j] = list.get(i*N + j).getQuery();
+            for (int j = 0; j < N && i * N + j < list.size(); j++) {
+                args[j] = list.get(i * N + j).getQuery();
             }
             db.execSQL(sql, args);
         }
@@ -211,10 +354,10 @@ public class TranslateDB {
      * 面向应用的方法，比如在查询单词时，先查询本地的，在查询来自于网络的
      * localDatabase表存储的应该只是单词，并没有句子，所以可以先做一个判断。String中是否有空格存在
      * trim后的String若是存在空格，那它就不属于一个单词
-     *
+     * <p>
      * 如果有本地数据库：phrasebook表 -> localDatabase表与history表联合（新的method）后查询
      * 没有本地数据库：phrasebook表 -> history表
-     * */
+     */
     @Nullable
     public Result getTransalte(String query) {
         Result result = getTranslateFromPhrasebook(query);
@@ -259,7 +402,6 @@ public class TranslateDB {
         cursor.close();
         return result;
     }
-
 
 
     // old table --------------------------------------------

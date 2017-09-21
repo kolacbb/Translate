@@ -9,6 +9,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -127,6 +128,7 @@ public class ClipboardListenerService extends Service
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_star_black_24px)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_star_black_24px))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle(title)

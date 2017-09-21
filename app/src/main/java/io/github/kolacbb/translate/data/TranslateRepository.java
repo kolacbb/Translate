@@ -1,5 +1,8 @@
 package io.github.kolacbb.translate.data;
 
+import java.util.List;
+
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.data.local.TranslateLocalDataSource;
 import io.github.kolacbb.translate.data.remote.TranslateRemoteDataSource;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -14,7 +17,7 @@ public class TranslateRepository implements TranslateDataSource{
     final TranslateLocalDataSource mTranslateLocalDataSource;
     final TranslateRemoteDataSource mTranslateRemoteDataSource;
 
-    private TranslateRepository(){
+    private TranslateRepository() {
         mTranslateLocalDataSource = new TranslateLocalDataSource();
         mTranslateRemoteDataSource = new TranslateRemoteDataSource();
     }
@@ -43,5 +46,50 @@ public class TranslateRepository implements TranslateDataSource{
             }
         });
 
+    }
+
+    @Override
+    public void getTranslate(String query, String source, GetTranslateCallback callback) {
+        mTranslateLocalDataSource.getTranslate(query, source, callback);
+    }
+
+    @Override
+    public List<Translate> getPhrasebook() {
+        return mTranslateLocalDataSource.getPhrasebook();
+    }
+
+    @Override
+    public void addPhrasebook(Translate translate) {
+        mTranslateLocalDataSource.addPhrasebook(translate);
+    }
+
+    @Override
+    public void addHistory(Translate translate) {
+        mTranslateLocalDataSource.addHistory(translate);
+    }
+
+    @Override
+    public void deletePhrasebook(Translate translate) {
+        mTranslateLocalDataSource.deletePhrasebook(translate);
+    }
+
+    @Override
+    public void deletePhrasebooks(List<Translate> translates) {
+        mTranslateLocalDataSource.deletePhrasebooks(translates);
+    }
+
+    @Override
+    public List<Translate> getHistory() {
+        return mTranslateLocalDataSource.getHistory();
+    }
+
+    @Override
+    public void deleteAllHistory() {
+        mTranslateLocalDataSource.deleteAllHistory();
+    }
+
+    @Override
+    public void deleteHistory(Translate translate) {
+        mTranslateLocalDataSource.deleteHistory(translate);
     }
 }

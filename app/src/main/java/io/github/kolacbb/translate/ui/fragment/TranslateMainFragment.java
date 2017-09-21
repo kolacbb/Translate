@@ -11,8 +11,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +28,11 @@ import butterknife.OnClick;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
+import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.flux.stores.TranslateMainStore;
 import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.ui.activity.CameraTranslateActivity;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
 import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
@@ -42,7 +46,7 @@ public class TranslateMainFragment extends BaseFragment {
 
     WordListAdapter adapter;
     @BindView(R.id.tv_point)
-    TextView pointTextView;
+    EditText pointTextView;
     @BindView(R.id.phonetic)
     TextView tvPhonetic;
     @BindView(R.id.error_view)
@@ -61,6 +65,8 @@ public class TranslateMainFragment extends BaseFragment {
     TextView basicTextView;
     @BindView(R.id.add_book)
     ImageButton btAddPhrasebook;
+    @BindView(R.id.cameraTranslate)
+    ImageView mCameraTranslateBtn;
 
     @BindView(R.id.bt_translate)
     Button translateButton;
@@ -156,7 +162,7 @@ public class TranslateMainFragment extends BaseFragment {
         touchHelper.attachToRecyclerView(historyRecView);
     }
 
-    @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book, R.id.translation})
+    @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book, R.id.translation, R.id.cameraTranslate})
     public void widgetOnClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_clear:
@@ -169,15 +175,23 @@ public class TranslateMainFragment extends BaseFragment {
                     getActionCreatorManager().getTranslateActionCreator().fetchTranslation(pointTextView.getText().toString().trim());
                 break;
             case R.id.add_book:
-
                 if (translateMainStore.getData() != null) {
-                    getActionCreatorManager().getTranslateActionCreator().saveToPhrasebook(translateMainStore.getData());
+                    if (translateMainStore.getData().isFavor()) {
+                        TranslateDB.getInstance().deleteFromPhrasebook(translateMainStore.getData());
+                        translateMainStore.getData().setFavor(false);
+                        render();
+                    }else {
+                        getActionCreatorManager().getTranslateActionCreator().saveToPhrasebook(translateMainStore.getData());
+                    }
                 }
                 break;
             case R.id.translation:
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.putExtra("query", translation.getText().toString());
                 startActivity(intent);
+                break;
+            case R.id.cameraTranslate:
+                startActivity(new Intent(getContext(), CameraTranslateActivity.class));
                 break;
         }
     }
@@ -198,6 +212,7 @@ public class TranslateMainFragment extends BaseFragment {
         historyRecView.setVisibility(translateMainStore.getHistoryRecycleViewVisiableState());
         if (translateMainStore.isInit() && translateMainStore.getHistoryData() != null) {
             tvPhonetic.setVisibility(View.GONE);
+            mCameraTranslateBtn.setVisibility(View.VISIBLE);
             adapter.setData(translateMainStore.getHistoryData());
             adapter.notifyDataSetChanged();
         }
@@ -213,6 +228,7 @@ public class TranslateMainFragment extends BaseFragment {
             //System.out.println(translateMainStore.getData().getTranslation());
             Result result = translateMainStore.getData();
             pointTextView.setText(result.getQuery());
+            pointTextView.setSelection(pointTextView.getText().toString().length());
             translation.setText(result.getTranslation());
             if (result.isFavor()) {
                 btAddPhrasebook.setImageResource(R.drawable.ic_star_black_24px);
@@ -229,8 +245,10 @@ public class TranslateMainFragment extends BaseFragment {
                 }
 
                 tvPhonetic.setVisibility(View.VISIBLE);
+                mCameraTranslateBtn.setVisibility(View.GONE);
             } else {
                 tvPhonetic.setVisibility(View.GONE);
+                mCameraTranslateBtn.setVisibility(View.VISIBLE);
             }
             if (result.getBasic() != null) {
                 basicTextView.setText(result.getBasic());

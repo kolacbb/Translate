@@ -1,6 +1,9 @@
 package io.github.kolacbb.translate.data.remote;
 
+import java.util.List;
+
 import io.github.kolacbb.translate.data.TranslateDataSource;
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.model.entity.YouDaoResult;
@@ -35,7 +38,50 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
                 callback.onTranslationLoaded(null);
             }
         });
+    }
 
+    @Override
+    public void getTranslate(String query, String source, GetTranslateCallback callback) {
+
+    }
+
+    @Override
+    public List<Translate> getPhrasebook() {
+        return null;
+    }
+
+    @Override
+    public void addPhrasebook(Translate translate) {
+
+    }
+
+    @Override
+    public void addHistory(Translate translate) {
+
+    }
+
+    @Override
+    public void deletePhrasebook(Translate translate) {
+
+    }
+
+    @Override
+    public void deletePhrasebooks(List<Translate> translates) {
+
+    }
+
+    @Override
+    public List<Translate> getHistory() {
+        return null;
+    }
+
+    @Override
+    public void deleteAllHistory() {
+
+    }
+
+    @Override
+    public void deleteHistory(Translate translate) {
 
     }
 }

@@ -61,6 +61,14 @@
                 android:paddingLeft="16dp"
                 android:text="hɛˈlo, hə-"
                 android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/cameraTranslate"
+                android:padding="8dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_clickable_circle"
+                android:src="@drawable/ic_camera_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/bt_translate"

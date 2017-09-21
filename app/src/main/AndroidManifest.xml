@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name = "android.permission.CAMERA" />
+    <uses-feature android:name = "android.hardware.camera" android:required = "false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".TranslateApp"
@@ -26,9 +29,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.PhrasebookActivity"/>
+        <activity android:name=".ui.activity.CameraTranslateActivity"/>
         <activity
             android:theme="@style/AppTheme.Launcher"
             android:name=".ui.activity.HomeActivity"
+            android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask">
 
             <intent-filter>
