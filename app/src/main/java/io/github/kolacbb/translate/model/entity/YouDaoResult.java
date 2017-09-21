@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.kolacbb.translate.data.entity.Translate;
+
 /**
  * Created by Kola on 2016/6/4.
  */
@@ -40,6 +42,13 @@ public class YouDaoResult {
 
         return result;
     }
+
+    public Translate getTranslate() {
+        Translate translate = new Translate();
+        translate.setQuery(getQuery());
+        translate.setSource();
+    }
+
 
     public Integer getErrorCode() {
         return errorCode;

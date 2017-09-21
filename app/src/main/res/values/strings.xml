@@ -28,7 +28,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="sms_translate">短信翻译</string>
+    <string name="sms_translate">Sms Translate</string>
+
+    <string name="pref_translate_title">Translate source</string>
+    <string name="pref_translate_source_default">YouDao</string>
+    <array name="pref_translate_source_entries">
+        <item>YouDao</item>
+        <item>Baidu</item>
+    </array>
 
     <string name="pref_showFrameTypes_default">notification</string>
     <array name="pref_showFrameTypes_entries">

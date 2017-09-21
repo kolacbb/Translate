@@ -25,6 +25,15 @@
 
     <PreferenceCategory android:title="@string/translation_settings">
         <ListPreference
+            android:key="pref_key_translate_source"
+            android:summary="@string/pref_showFrameTypes_default"
+            android:title="pref_translate_title"
+            android:dialogTitle="pref_translate_title"
+            android:entries="@array/pref_translate_source_entries"
+            android:entryValues="@array/pref_translate_source_entries"
+            android:defaultValue="@string/pref_translate_source_default"
+            />
+        <ListPreference
             android:key="pref_key_phonetic_list"
             android:summary="@string/pref_phonetic_default"
             android:title="Phonetic symbol"

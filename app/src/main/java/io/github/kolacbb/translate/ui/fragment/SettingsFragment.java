@@ -45,6 +45,8 @@ public class SettingsFragment extends BasePreferenceFragment
     public static final String KEY_SHOW_TRANSLATE_WAYS = "pref_key_show_translate_ways";
     // 显示通知
     public static final String KEY_SHOW_NOTIFICATION = "pref_key_show_notification";
+    // 翻译来源
+    public static final String KEY_TRANSLATE_SOURCE = "pref_key_translate_source";
 
     @Override
     protected int getXMLId() {
@@ -127,7 +129,9 @@ public class SettingsFragment extends BasePreferenceFragment
             } else {
                 cancelNotification();
             }
-
+        } else if (key.equals(KEY_TRANSLATE_SOURCE)) {
+            Preference pref = findPreference(key);
+            pref.setSummary(sharedPreferences.getString(key, ""));
         }
     }
 
@@ -157,7 +161,7 @@ public class SettingsFragment extends BasePreferenceFragment
     }
 
     private void showNotification() {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext())
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity())
                 .setSmallIcon(R.drawable.ic_star_black_24px)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(Notification.PRIORITY_MAX)
