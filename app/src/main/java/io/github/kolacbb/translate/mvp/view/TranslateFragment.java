@@ -2,12 +2,10 @@ package io.github.kolacbb.translate.mvp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +24,6 @@ import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.flux.stores.base.Store;
-import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.mvp.contract.TranslateContract;
 import io.github.kolacbb.translate.ui.activity.CameraTranslateActivity;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
@@ -80,11 +76,6 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_translate_main;
-    }
-
-    @Override
-    protected Store getStore() {
-        return null;
     }
 
     @Override

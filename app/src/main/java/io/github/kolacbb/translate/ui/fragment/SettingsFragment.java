@@ -15,13 +15,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
-import com.squareup.otto.Subscribe;
-
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BasePreferenceFragment;
 import io.github.kolacbb.translate.component.service.ClipboardListenerService;
-import io.github.kolacbb.translate.flux.stores.SettingsStore;
-import io.github.kolacbb.translate.flux.stores.base.Store;
+import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.activity.SettingsActivity;
 
@@ -125,7 +122,7 @@ public class SettingsFragment extends BasePreferenceFragment
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getActionCreatorManager().getTranslateActionCreator().clearHistory();
+                        TranslateRepository.getInstance().clearHistory();
                     }
                 });
         //显示Dialog

@@ -123,4 +123,9 @@ public class TranslateRepository implements TranslateDataSource{
     public List<SmsEntry> getSms(Context context) {
         return mTranslateLocalDataSource.getSms(context);
     }
+
+    @Override
+    public void clearHistory() {
+        mTranslateLocalDataSource.clearHistory();
+    }
 }

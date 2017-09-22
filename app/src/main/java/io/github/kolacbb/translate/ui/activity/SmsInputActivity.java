@@ -16,8 +16,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,6 @@ import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.data.TranslateRepository;
-import io.github.kolacbb.translate.flux.stores.SmsInputStore;
 import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.ui.adapter.SmsAdapter;
 

@@ -50,10 +50,4 @@ public class SettingsActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//    }
 }

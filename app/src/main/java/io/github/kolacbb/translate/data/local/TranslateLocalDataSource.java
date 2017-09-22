@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.kolacbb.translate.data.TranslateDataSource;
+import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -105,5 +106,10 @@ public class TranslateLocalDataSource implements TranslateDataSource {
             }
         }
         return list;
+    }
+
+    @Override
+    public void clearHistory() {
+        TranslateRepository.getInstance().clearHistory();
     }
 }

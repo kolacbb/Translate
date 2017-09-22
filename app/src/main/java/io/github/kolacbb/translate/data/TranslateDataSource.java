@@ -46,4 +46,6 @@ public interface TranslateDataSource {
     void deleteHistory(Translate translate);
 
     List<SmsEntry> getSms(Context context);
+
+    void clearHistory();
 }

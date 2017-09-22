@@ -109,4 +109,9 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
     public List<SmsEntry> getSms(Context context) {
         return null;
     }
+
+    @Override
+    public void clearHistory() {
+
+    }
 }

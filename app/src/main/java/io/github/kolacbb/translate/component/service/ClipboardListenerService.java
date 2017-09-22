@@ -19,8 +19,6 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.inject.component.ApplicationComponent;
-import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
 import io.github.kolacbb.translate.util.SpUtil;
@@ -32,10 +30,6 @@ public class ClipboardListenerService extends Service
     private ClipboardManager clipboardManager = null;
     // 存储上一次复制时间
     private long previousTime = 0;
-
-    public ClipboardListenerService() {
-        ApplicationComponent.Instance.get().inject(this);
-    }
 
     @Override
     public IBinder onBind(Intent intent) {

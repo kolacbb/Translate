@@ -22,8 +22,6 @@ import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
-import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
 import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
@@ -41,8 +39,6 @@ public class PhrasebookFragment extends BaseFragment {
     @BindView(R.id.dictionary_view)
     RecyclerView dictionaryView;
 
-    PhrasebookStore phrasebookStore;
-
     public static String BUNDLE_KEY = "bundle_phrasebook_store";
 
     public static final String TITLE_STRING = "Phrasebook";
@@ -53,26 +49,12 @@ public class PhrasebookFragment extends BaseFragment {
     }
 
     @Override
-    protected Store getStore() {
-        if (phrasebookStore == null) {
-            phrasebookStore = new PhrasebookStore();
-        }
-        return phrasebookStore;
-    }
-
-    @Override
     protected void afterCreate(Bundle saveInstanceState) {
         init();
     }
 
     public static BaseFragment newInstance() {
         return new PhrasebookFragment();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(BUNDLE_KEY, phrasebookStore);
     }
 
     private void init() {
@@ -147,11 +129,11 @@ public class PhrasebookFragment extends BaseFragment {
                         adapter.setData(mTranslates);
                     } else {
                         mQueryedList.clear();
-                        for (Result result : phrasebookStore.getFavorList()) {
-                            if (result.getQuery().contains(newText)) {
-                                mQueryedList.add(result);
-                            }
-                        }
+//                        for (Result result : phrasebookStore.getFavorList()) {
+//                            if (result.getQuery().contains(newText)) {
+//                                mQueryedList.add(result);
+//                            }
+//                        }
                         adapter.setData(mQueryedList);
                     }
                     adapter.notifyDataSetChanged();
@@ -189,10 +171,10 @@ public class PhrasebookFragment extends BaseFragment {
                 onBackPressed();
                 break;
             case R.id.sort_by_alpha:
-                getActionCreatorManager().getTranslateActionCreator().fetchFavorListSortByAlpha();
+                //getActionCreatorManager().getTranslateActionCreator().fetchFavorListSortByAlpha();
                 break;
             case R.id.sort_by_time:
-                getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
+                //getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
                 break;
             case R.id.action_delete:
                 SparseBooleanArray array = adapter.getMultiSelectedItems();
