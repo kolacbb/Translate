@@ -31,8 +31,6 @@ import io.github.kolacbb.translate.ui.activity.SettingsActivity;
 public class SettingsFragment extends BasePreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener{
 
-    SettingsStore settingsStore;
-
     public static String BUNDLE_KEY = "settings_fragment";
 
     // 清除单词搜索历史纪录
@@ -54,29 +52,14 @@ public class SettingsFragment extends BasePreferenceFragment
     }
 
     @Override
-    protected Store getStore() {
-        if (settingsStore == null) {
-            settingsStore = new SettingsStore();
-        }
-        return settingsStore;
-    }
-
-    @Override
     protected void afterCreate(Bundle saveInstanceState) {
-        if (saveInstanceState != null) {
-            settingsStore = (SettingsStore) saveInstanceState.getSerializable(BUNDLE_KEY);
-        } else if (settingsStore == null) {
-            settingsStore = new SettingsStore();
-        }
-
         findPreference(KEY_CLEAR_HISTORY).setOnPreferenceClickListener(this);
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(BUNDLE_KEY, settingsStore);
+
     }
 
     @Override
@@ -92,17 +75,6 @@ public class SettingsFragment extends BasePreferenceFragment
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
-
-    @Subscribe
-    public void onStoreChange(SettingsStore.SettingsStoreChangeEvent event) {
-        render();
-    }
-
-    public void render() {
-
-    }
-
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {

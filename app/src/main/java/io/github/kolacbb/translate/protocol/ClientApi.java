@@ -1,7 +1,6 @@
 package io.github.kolacbb.translate.protocol;
 
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
-import retrofit2.Call;
+import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;

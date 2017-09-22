@@ -5,20 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.base.BaseFragment;
-import io.github.kolacbb.translate.ui.fragment.TranslateMainFragment;
+import io.github.kolacbb.translate.data.TranslateRepository;
+import io.github.kolacbb.translate.mvp.presenter.TranslatePresenter;
+import io.github.kolacbb.translate.mvp.view.TranslateFragment;
 
 /**
  * Created by Kola on 2016/6/12.
@@ -33,7 +33,7 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
-    BaseFragment homeFragment;
+    TranslateFragment mTranslateFragment;
 
     public static void start(Context context, String query) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -46,7 +46,9 @@ public class HomeActivity extends BaseActivity
         super.onNewIntent(intent);
         String query = intent.getStringExtra("query");
         if (query != null && query.trim().length() != 0) {
-            getActionCreatorManager().getTranslateActionCreator().fetchTranslation(query);
+            if (mTranslateFragment != null && mTranslateFragment.isAdded()) {
+                mTranslateFragment.onNewTranslate(query);
+            }
         }
     }
 
@@ -65,9 +67,11 @@ public class HomeActivity extends BaseActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        homeFragment = (BaseFragment) TranslateMainFragment.newInstance();
+        mTranslateFragment = TranslateFragment.newInstance();
+        TranslatePresenter presenter = new TranslatePresenter(TranslateRepository.getInstance(), mTranslateFragment);
+        mTranslateFragment.setPresenter(presenter);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.container, homeFragment, TranslateMainFragment.TAG);
+        ft.replace(R.id.container, mTranslateFragment, TranslateFragment.TAG);
         ft.commit();
     }
 
@@ -79,7 +83,7 @@ public class HomeActivity extends BaseActivity
         }
 
         // 分发返回键点击事件
-        if (!homeFragment.onBackPressed()) {
+        if (!mTranslateFragment.onBackPressed()) {
             super.onBackPressed();
         }
     }

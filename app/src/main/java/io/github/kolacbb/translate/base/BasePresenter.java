@@ -6,8 +6,4 @@ package io.github.kolacbb.translate.base;
 
 public interface BasePresenter {
 
-    void subscribe();
-
-    void unsubscribe();
-
 }

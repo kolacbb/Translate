@@ -36,16 +36,16 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getDispatcher().register(getStore());
-        getStore().register(this);
+//        getDispatcher().register(getStore());
+//        getStore().register(this);
         afterCreate(savedInstanceState);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getDispatcher().unregister(getStore());
-        getStore().unregister(this);
+//        getDispatcher().unregister(getStore());
+//        getStore().unregister(this);
     }
 
     public Dispatcher getDispatcher() {
@@ -58,7 +58,7 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     protected abstract int getXMLId();
 
-    protected abstract Store getStore();
+    //protected abstract Store getStore();
 
     protected abstract void afterCreate(Bundle saveInstanceState);
 }

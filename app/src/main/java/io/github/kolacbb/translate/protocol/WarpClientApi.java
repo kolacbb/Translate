@@ -1,6 +1,6 @@
 package io.github.kolacbb.translate.protocol;
 
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import rx.Observable;
 
 /**

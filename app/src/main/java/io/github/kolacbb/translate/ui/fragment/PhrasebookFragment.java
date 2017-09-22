@@ -1,8 +1,6 @@
 package io.github.kolacbb.translate.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +20,8 @@ import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
-import io.github.kolacbb.translate.data.local.TranslateDB;
+import io.github.kolacbb.translate.data.TranslateRepository;
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.flux.stores.PhrasebookStore;
 import io.github.kolacbb.translate.flux.stores.base.Store;
 import io.github.kolacbb.translate.model.entity.Result;
@@ -39,6 +36,7 @@ public class PhrasebookFragment extends BaseFragment {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    List<Translate> mTranslates;
     WordListAdapter adapter;
     @BindView(R.id.dictionary_view)
     RecyclerView dictionaryView;
@@ -64,18 +62,7 @@ public class PhrasebookFragment extends BaseFragment {
 
     @Override
     protected void afterCreate(Bundle saveInstanceState) {
-        if (saveInstanceState != null) {
-            phrasebookStore = (PhrasebookStore) saveInstanceState.getSerializable(BUNDLE_KEY);
-        } else if (phrasebookStore == null) {
-            phrasebookStore = new PhrasebookStore();
-        }
         init();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getActionCreatorManager().getTranslateActionCreator().fetchFavorList();
-            }
-        }, 300);
     }
 
     public static BaseFragment newInstance() {
@@ -104,7 +91,8 @@ public class PhrasebookFragment extends BaseFragment {
         dictionaryView.setLayoutManager(manager);
         dictionaryView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL_LIST));
-        adapter = new WordListAdapter(new ArrayList<Result>(),
+        mTranslates = TranslateRepository.getInstance().getPhrasebook();
+        adapter = new WordListAdapter(mTranslates,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -117,8 +105,8 @@ public class PhrasebookFragment extends BaseFragment {
                             }
                             getActivity().invalidateOptionsMenu();
                         } else {
-                            Result result = adapter.getItemData(position);
-                            HomeActivity.start(getContext(), result.getQuery());
+                            Translate translate = adapter.getItemData(position);
+                            HomeActivity.start(getContext(), translate.getQuery());
                         }
                     }
                 },
@@ -135,17 +123,6 @@ public class PhrasebookFragment extends BaseFragment {
                     }
                 });
         dictionaryView.setAdapter(adapter);
-    }
-
-    @Subscribe
-    public void onStoreChange(PhrasebookStore.PhrasebookStoreChangeEvent event) {
-        render();
-
-    }
-
-    public void render() {
-        adapter.setData(phrasebookStore.getFavorList());
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -167,7 +144,7 @@ public class PhrasebookFragment extends BaseFragment {
                     //Toast.makeText(getActivity(), newText, Toast.LENGTH_SHORT).show();
                     String text = newText.trim();
                     if (text.trim().length() == 0) {
-                        adapter.setData(phrasebookStore.getFavorList());
+                        adapter.setData(mTranslates);
                     } else {
                         mQueryedList.clear();
                         for (Result result : phrasebookStore.getFavorList()) {
@@ -219,7 +196,7 @@ public class PhrasebookFragment extends BaseFragment {
                 break;
             case R.id.action_delete:
                 SparseBooleanArray array = adapter.getMultiSelectedItems();
-                List<Result> removeList = new ArrayList<>();
+                List<Translate> removeList = new ArrayList<>();
                 for (int i = 0; i < adapter.getItemCount(); i++) {
                     if (array.get(i, false)) {
                         removeList.add(adapter.getItemData(i));
@@ -227,7 +204,7 @@ public class PhrasebookFragment extends BaseFragment {
                 }
                 adapter.removeData(removeList);
                 adapter.setMultiSelectMode(false);
-                TranslateDB.getInstance().deleteFromPhrasebook(removeList);
+                TranslateRepository.getInstance().deletePhrasebooks(removeList);
                 getActivity().invalidateOptionsMenu();
                 break;
         }

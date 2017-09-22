@@ -12,7 +12,7 @@ import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.actions.creator.base.BaseActionCreator;
 import io.github.kolacbb.translate.flux.dispatcher.Dispatcher;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.service.base.DataLayer;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

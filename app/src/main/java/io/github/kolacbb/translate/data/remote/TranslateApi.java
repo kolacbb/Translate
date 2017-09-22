@@ -1,6 +1,6 @@
 package io.github.kolacbb.translate.data.remote;
 
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

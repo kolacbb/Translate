@@ -1,12 +1,15 @@
 package io.github.kolacbb.translate.data.remote;
 
+import android.content.Context;
+
 import java.util.List;
 
 import io.github.kolacbb.translate.data.TranslateDataSource;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.data.local.TranslateDB;
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import io.github.kolacbb.translate.net.RetrofitManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,15 +53,13 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
         call.enqueue(new Callback<YouDaoResult>() {
             @Override
             public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
-                Translate t = response.body().getResult();
-                TranslateDB.getInstance().saveToHistory(t);
-
+                Translate t = response.body().getTranslate();
                 callback.onTranslateLoaded(t);
             }
 
             @Override
             public void onFailure(Call<YouDaoResult> call, Throwable t) {
-                callback.onTranslationLoaded(null);
+                callback.onDataNotAvailable();
             }
         });
     }
@@ -101,5 +102,10 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
     @Override
     public void deleteHistory(Translate translate) {
 
+    }
+
+    @Override
+    public List<SmsEntry> getSms(Context context) {
+        return null;
     }
 }

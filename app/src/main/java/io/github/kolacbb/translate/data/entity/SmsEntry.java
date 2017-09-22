@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.model.entity;
+package io.github.kolacbb.translate.data.entity;
 
 /**
  * Created by Kola on 2016/6/26.

@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.inject.component.ApplicationComponent;
 import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.ui.activity.HomeActivity;
@@ -103,14 +104,15 @@ public class ClipboardListenerService extends Service
             return;
         }
 
-        //Toast.makeText(getApplicationContext(), data, Toast.LENGTH_SHORT).show();
-        //actionCreatorManager.getTranslateActionCreator().fetchTranslation(data);
-        TranslateRepository.getInstance().getTranslation(data, new TranslateDataSource.LoadTranslationCallback() {
+        TranslateRepository.getInstance().getTranslate(data, SpUtil.findString(SettingsFragment.KEY_TRANSLATE_SOURCE), new TranslateDataSource.GetTranslateCallback() {
             @Override
-            public void onTranslationLoaded(Result result) {
-                if (result != null) {
-                    showHeadsUpNotification(result.getQuery(), result.getTranslation());
-                }
+            public void onTranslateLoaded(Translate translate) {
+                showHeadsUpNotification(translate.getQuery(), translate.getTranslation());
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
             }
         });
     }

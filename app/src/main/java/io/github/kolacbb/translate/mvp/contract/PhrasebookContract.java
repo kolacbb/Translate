@@ -18,8 +18,6 @@ public interface PhrasebookContract {
         List<Result> getSortedPhrasebook(int type);
 
         void removePhrase(Result result);
-
-
     }
 
     interface View extends BaseView<Presenter> {

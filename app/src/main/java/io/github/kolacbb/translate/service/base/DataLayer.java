@@ -4,8 +4,7 @@ package io.github.kolacbb.translate.service.base;
 import java.util.List;
 
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import rx.Observable;
 
 /**

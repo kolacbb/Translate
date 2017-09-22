@@ -1,7 +1,10 @@
 package io.github.kolacbb.translate.data;
 
+import android.content.Context;
+
 import java.util.List;
 
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.data.local.TranslateLocalDataSource;
 import io.github.kolacbb.translate.data.remote.TranslateRemoteDataSource;
@@ -49,8 +52,31 @@ public class TranslateRepository implements TranslateDataSource{
     }
 
     @Override
-    public void getTranslate(String query, String source, GetTranslateCallback callback) {
-        mTranslateLocalDataSource.getTranslate(query, source, callback);
+    public void getTranslate(final String query, final String source, final GetTranslateCallback callback) {
+        mTranslateLocalDataSource.getTranslate(query, source, new GetTranslateCallback() {
+            @Override
+            public void onTranslateLoaded(Translate translate) {
+                callback.onTranslateLoaded(translate);
+                mTranslateLocalDataSource.deleteHistory(translate); // 先删除后添加，保持最近查询在history顶端
+                mTranslateLocalDataSource.addHistory(translate);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mTranslateRemoteDataSource.getTranslate(query, source, new GetTranslateCallback() {
+                    @Override
+                    public void onTranslateLoaded(Translate translate) {
+                        callback.onTranslateLoaded(translate);
+                        mTranslateLocalDataSource.addHistory(translate);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        callback.onDataNotAvailable();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -91,5 +117,10 @@ public class TranslateRepository implements TranslateDataSource{
     @Override
     public void deleteHistory(Translate translate) {
         mTranslateLocalDataSource.deleteHistory(translate);
+    }
+
+    @Override
+    public List<SmsEntry> getSms(Context context) {
+        return mTranslateLocalDataSource.getSms(context);
     }
 }

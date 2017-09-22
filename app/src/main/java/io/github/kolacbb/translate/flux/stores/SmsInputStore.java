@@ -6,7 +6,7 @@ import java.util.List;
 import io.github.kolacbb.translate.flux.actions.TranslateActions;
 import io.github.kolacbb.translate.flux.actions.base.Action;
 import io.github.kolacbb.translate.flux.stores.base.Store;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 
 /**
  * Created by Kola on 2016/6/26.

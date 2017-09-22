@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.kolacbb.translate.R;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 
 /**
  * Created by Kola on 2016/6/26.

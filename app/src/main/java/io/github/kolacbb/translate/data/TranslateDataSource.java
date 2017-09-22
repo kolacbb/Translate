@@ -1,7 +1,10 @@
 package io.github.kolacbb.translate.data;
 
+import android.content.Context;
+
 import java.util.List;
 
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.model.entity.Result;
 
@@ -41,4 +44,6 @@ public interface TranslateDataSource {
     void deleteAllHistory();
 
     void deleteHistory(Translate translate);
+
+    List<SmsEntry> getSms(Context context);
 }

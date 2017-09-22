@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -14,15 +12,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.kolacbb.translate.R;
-import io.github.kolacbb.translate.data.local.TranslateDB;
-import io.github.kolacbb.translate.model.entity.Result;
+import io.github.kolacbb.translate.data.TranslateRepository;
+import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
 
 /**
  * Created by Kola on 2016/6/11.
  */
 public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperCallBack.ItemTouchHelperListener{
-    List<Result> list;
+    List<Translate> list;
     boolean showFavorButton;
     View.OnClickListener itemListener;
     View.OnLongClickListener mOnLongClickListener;
@@ -33,7 +31,7 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //int[] data;
     //int dataLength = 0;
 
-    public WordListAdapter(List<Result> list, View.OnClickListener itemListener, View.OnLongClickListener longClickListener) {
+    public WordListAdapter(List<Translate> list, View.OnClickListener itemListener, View.OnLongClickListener longClickListener) {
         this.list = list;
         this.itemListener = itemListener;
         this.mOnLongClickListener = longClickListener;
@@ -41,7 +39,7 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         //initData();
     }
 
-    public WordListAdapter(List<Result> list, View.OnClickListener itemListener,
+    public WordListAdapter(List<Translate> list, View.OnClickListener itemListener,
                            View.OnClickListener starListener, View.OnClickListener unStarListener) {
         this.list = list;
         this.itemListener = itemListener;
@@ -62,8 +60,8 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setQueryWord(String query) {
         int flag = 0;
         for (int i = 0; i < list.size(); i++) {
-            Result result = list.get(i);
-            if (result.getQuery().startsWith(query)) {
+            Translate translate = list.get(i);
+            if (translate.getQuery().startsWith(query)) {
                 //data[flag++] = i;
             }
         }
@@ -86,11 +84,11 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemVH itemVH = (ItemVH) holder;
 
-        Result result = list.get(position);
-        //Result result = list.get(data[position]);
+        Translate translate = list.get(position);
+        //Result translate = list.get(data[position]);
 
-        itemVH.tvQuery.setText(result.getQuery());
-        itemVH.tvTranslation.setText(result.getTranslation());
+        itemVH.tvQuery.setText(translate.getQuery());
+        itemVH.tvTranslation.setText(translate.getTranslation());
         itemVH.itemView.setOnClickListener(itemListener);
         if (mMultiSelectedItem != null && mMultiSelectedItem.get(position, false)) {
             itemVH.itemView.setBackgroundColor(Color.parseColor("#e0e0e0"));
@@ -101,7 +99,7 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemVH.itemView.setOnLongClickListener(mOnLongClickListener);
         }
         if (showFavorButton) {
-            if (result.isFavor()) {
+            if (translate.isFavor()) {
                 itemVH.btFavor.setImageResource(R.drawable.ic_star_black_24px);
                 itemVH.btFavor.setOnClickListener(unStarListener);
             } else {
@@ -120,16 +118,16 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         //return dataLength;
     }
 
-    public void setData(List<Result> list) {
+    public void setData(List<Translate> list) {
         this.list = list;
         //initData();
     }
 
-    public Result getItemData(int position) {
+    public Translate getItemData(int position) {
         return list.get(position);
     }
 
-    public void removeData(List<Result> list) {
+    public void removeData(List<Translate> list) {
         this.list.removeAll(list);
         notifyDataSetChanged();
     }
@@ -161,15 +159,15 @@ public class WordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void removeItemFromMultiList(int position) {
         mMultiSelectedItem.delete(position);
-        TranslateDB.getInstance().deleteFromHistory(getItemData(position));
+        TranslateRepository.getInstance().deleteHistory(getItemData(position));
         notifyItemChanged(position);
     }
 
     @Override
     public void onItemRemoved(int position) {
-        Result result = getItemData(position);
-        TranslateDB.getInstance().deleteFromHistory(result);
-        list.remove(result);
+        Translate translate = getItemData(position);
+        TranslateRepository.getInstance().deleteHistory(translate);
+        list.remove(translate);
         notifyItemRemoved(position);
     }
 

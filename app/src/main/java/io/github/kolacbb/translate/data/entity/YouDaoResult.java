@@ -1,11 +1,11 @@
-package io.github.kolacbb.translate.model.entity;
+package io.github.kolacbb.translate.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kolacbb.translate.data.entity.Translate;
+import io.github.kolacbb.translate.model.entity.Result;
 
 /**
  * Created by Kola on 2016/6/4.
@@ -46,7 +46,29 @@ public class YouDaoResult {
     public Translate getTranslate() {
         Translate translate = new Translate();
         translate.setQuery(getQuery());
-        translate.setSource();
+        translate.setTranslation(getTranslation().get(0));
+        if (getBasic() != null) {
+            YouDaoResult.Basic basic = getBasic();
+            translate.setUk_phonetic(basic.getUkPhonetic());
+            translate.setUs_phonetic(basic.getUsPhonetic());
+            StringBuilder sb = new StringBuilder();
+            for (String string : basic.getExplains()) {
+                sb.append(string);
+                sb.append('\n');
+            }
+            translate.setExplains(sb.toString());
+        }
+        if (getWeb() != null) {
+            List<YouDaoResult.Web> webs = getWeb();
+            StringBuilder build = new StringBuilder();
+            for (YouDaoResult.Web web: webs) {
+                build.append(web.getKey());
+                build.append(": ");
+                build.append(web.getValue());
+                build.append("\n");
+            }
+        }
+        return translate;
     }
 
 

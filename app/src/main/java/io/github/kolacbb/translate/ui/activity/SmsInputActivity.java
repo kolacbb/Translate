@@ -1,7 +1,6 @@
 package io.github.kolacbb.translate.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,8 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
+import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.flux.stores.SmsInputStore;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.ui.adapter.SmsAdapter;
 
 /**
@@ -44,8 +44,6 @@ public class SmsInputActivity extends BaseActivity {
     ProgressBar progressBar;
 
     SmsAdapter smsAdapter;
-
-    SmsInputStore store;
 
     private final static int REQUEST_CODE_ASK_SMS = 0;
 
@@ -67,7 +65,6 @@ public class SmsInputActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        store = new SmsInputStore();
         smsAdapter = new SmsAdapter(this, new ArrayList<SmsEntry>());
         listView.setAdapter(smsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,15 +79,12 @@ public class SmsInputActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getDispatcher().register(store);
-        store.register(this);
-
         int checkSmsPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
         if (checkSmsPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, REQUEST_CODE_ASK_SMS);
             //return;
         } else {
-            getActionCreatorManager().getTranslateActionCreator().fetchSmsList();
+            render(TranslateRepository.getInstance().getSms(this));
         }
     }
 
@@ -99,7 +93,7 @@ public class SmsInputActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_CODE_ASK_SMS: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getActionCreatorManager().getTranslateActionCreator().fetchSmsList();
+                    render(TranslateRepository.getInstance().getSms(this));
                 } else {
                     // do nothing
                 }
@@ -110,15 +104,7 @@ public class SmsInputActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        getDispatcher().unregister(store);
-        store.unregister(this);
-    }
-
-    public void render() {
-        List<SmsEntry> list = store.getList();
+    public void render(List<SmsEntry> list) {
         progressBar.setVisibility(View.GONE);
         if (list != null && list.size() != 0) {
             smsAdapter.setData(list);
@@ -126,11 +112,5 @@ public class SmsInputActivity extends BaseActivity {
         } else {
             textView.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Subscribe
-    public void onStoreChanged(SmsInputStore.SmsInputStoreChangeEventStore enent) {
-        System.out.println("Activity Event");
-        render();
     }
 }

@@ -2,16 +2,13 @@ package io.github.kolacbb.translate.service;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.provider.Telephony;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.model.entity.SmsEntry;
-import io.github.kolacbb.translate.model.entity.YouDaoResult;
+import io.github.kolacbb.translate.data.entity.SmsEntry;
+import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import io.github.kolacbb.translate.protocol.ApiKey;
 import io.github.kolacbb.translate.service.base.BaseManager;
 import io.github.kolacbb.translate.service.base.DataLayer;
