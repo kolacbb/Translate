@@ -19,8 +19,8 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.ui.activity.HomeActivity;
-import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
+import io.github.kolacbb.translate.component.activity.HomeActivity;
+import io.github.kolacbb.translate.component.fragment.SettingsFragment;
 import io.github.kolacbb.translate.util.SpUtil;
 import io.github.kolacbb.translate.util.StringUtils;
 

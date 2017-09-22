@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.fragment;
+package io.github.kolacbb.translate.component.fragment;
 
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -19,8 +19,8 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BasePreferenceFragment;
 import io.github.kolacbb.translate.component.service.ClipboardListenerService;
 import io.github.kolacbb.translate.data.TranslateRepository;
-import io.github.kolacbb.translate.ui.activity.HomeActivity;
-import io.github.kolacbb.translate.ui.activity.SettingsActivity;
+import io.github.kolacbb.translate.component.activity.HomeActivity;
+import io.github.kolacbb.translate.component.activity.SettingsActivity;
 
 /**
  * Created by Kola on 2016/6/13.

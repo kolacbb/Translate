@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.activity;
+package io.github.kolacbb.translate.component.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.base.BaseFragment;
-import io.github.kolacbb.translate.ui.fragment.PhrasebookFragment;
-import io.github.kolacbb.translate.mvp.view.TranslateFragment;
+import io.github.kolacbb.translate.component.fragment.PhrasebookFragment;
+import io.github.kolacbb.translate.component.fragment.TranslateFragment;
 
 public class PhrasebookActivity extends BaseActivity {
 

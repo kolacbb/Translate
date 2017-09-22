@@ -14,12 +14,6 @@ import io.github.kolacbb.translate.model.entity.Result;
 
 public interface TranslateDataSource {
 
-    interface LoadTranslationCallback {
-        void onTranslationLoaded(Result result);
-    }
-
-    void getTranslation(String message, LoadTranslationCallback callback);
-
     interface GetTranslateCallback {
 
         void onTranslateLoaded(Translate translate);

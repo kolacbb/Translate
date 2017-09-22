@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.view;
+package io.github.kolacbb.translate.component.view;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;

@@ -19,11 +19,6 @@ import io.github.kolacbb.translate.util.DateUtils;
  */
 
 public class TranslateLocalDataSource implements TranslateDataSource {
-    @Override
-    public void getTranslation(String message, LoadTranslationCallback callback) {
-        Result result = TranslateDB.getInstance().getTransalte(message);
-        callback.onTranslationLoaded(result);
-    }
 
     @Override
     public void getTranslate(String query, String source, GetTranslateCallback callback) {

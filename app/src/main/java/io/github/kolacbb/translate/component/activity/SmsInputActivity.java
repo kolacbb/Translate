@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.activity;
+package io.github.kolacbb.translate.component.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -24,7 +24,7 @@ import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.SmsEntry;
-import io.github.kolacbb.translate.ui.adapter.SmsAdapter;
+import io.github.kolacbb.translate.component.adapter.SmsAdapter;
 
 /**
  * Created by Kola on 2016/6/26.

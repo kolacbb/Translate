@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.mvp.view;
+package io.github.kolacbb.translate.component.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,12 +24,11 @@ import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.mvp.contract.TranslateContract;
-import io.github.kolacbb.translate.ui.activity.CameraTranslateActivity;
-import io.github.kolacbb.translate.ui.activity.HomeActivity;
-import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
-import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
-import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
+import io.github.kolacbb.translate.component.contract.TranslateContract;
+import io.github.kolacbb.translate.component.activity.CameraTranslateActivity;
+import io.github.kolacbb.translate.component.activity.HomeActivity;
+import io.github.kolacbb.translate.component.adapter.WordListAdapter;
+import io.github.kolacbb.translate.component.view.ItemTouchHelperCallBack;
 import io.github.kolacbb.translate.util.InputMethodUtils;
 import io.github.kolacbb.translate.util.SpUtil;
 

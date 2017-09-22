@@ -21,27 +21,6 @@ import retrofit2.Retrofit;
  */
 
 public class TranslateRemoteDataSource implements TranslateDataSource {
-    @Override
-    public void getTranslation(String message, final LoadTranslationCallback callback) {
-        Retrofit retrofit = RetrofitManager.getRetrofit();
-        TranslateApi api = retrofit.create(TranslateApi.class);
-
-        Call<YouDaoResult> call = api.getTranslationYouDao(message);
-
-        call.enqueue(new Callback<YouDaoResult>() {
-            @Override
-            public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
-                Result result = response.body().getResult();
-                TranslateDB.getInstance().saveToHistory(result);
-                callback.onTranslationLoaded(result);
-            }
-
-            @Override
-            public void onFailure(Call<YouDaoResult> call, Throwable t) {
-                callback.onTranslationLoaded(null);
-            }
-        });
-    }
 
     @Override
     public void getTranslate(String query, final String source, final GetTranslateCallback callback) {

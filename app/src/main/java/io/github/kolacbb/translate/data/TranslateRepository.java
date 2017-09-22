@@ -33,25 +33,6 @@ public class TranslateRepository implements TranslateDataSource{
     }
 
     @Override
-    public void getTranslation(final String message, final LoadTranslationCallback callback) {
-        if (message == null || callback == null) {
-            return;
-        }
-
-        mTranslateLocalDataSource.getTranslation(message, new LoadTranslationCallback() {
-            @Override
-            public void onTranslationLoaded(Result result) {
-                if (result != null) {
-                    callback.onTranslationLoaded(result);
-                } else {
-                    mTranslateRemoteDataSource.getTranslation(message, callback);
-                }
-            }
-        });
-
-    }
-
-    @Override
     public void getTranslate(final String query, final String source, final GetTranslateCallback callback) {
         mTranslateLocalDataSource.getTranslate(query, source, new GetTranslateCallback() {
             @Override

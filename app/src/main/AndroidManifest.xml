@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.CopyDropActivity"
+            android:name=".component.activity.CopyDropActivity"
             android:launchMode="singleTop"
             android:theme="@style/CopyDropOverlay">
             <intent-filter android:label="Translate">
@@ -28,11 +28,11 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PhrasebookActivity"/>
-        <activity android:name=".ui.activity.CameraTranslateActivity"/>
+        <activity android:name=".component.activity.PhrasebookActivity"/>
+        <activity android:name=".component.activity.CameraTranslateActivity"/>
         <activity
             android:theme="@style/AppTheme.Launcher"
-            android:name=".ui.activity.HomeActivity"
+            android:name=".component.activity.HomeActivity"
             android:windowSoftInputMode="stateHidden"
             android:launchMode="singleTask">
 
@@ -47,18 +47,18 @@
                 android:resource="@xml/shortcuts"/>
         </activity>
         <activity
-            android:name=".ui.activity.SmsInputActivity"
+            android:name=".component.activity.SmsInputActivity"
             android:label="@string/sms_translation"
-            android:parentActivityName=".ui.activity.HomeActivity"
+            android:parentActivityName=".component.activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.github.kolacbb.translate.ui.activity.HomeActivity"/>
+                android:value="io.github.kolacbb.translate.component.activity.HomeActivity"/>
         </activity>
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name=".component.activity.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".ui.activity.HomeActivity"
+            android:parentActivityName=".component.activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
@@ -66,9 +66,6 @@
             android:enabled="true"
             android:exported="true"/>
 
-        <activity android:name=".TestActivity">
-
-        </activity>
     </application>
 
 </manifest>

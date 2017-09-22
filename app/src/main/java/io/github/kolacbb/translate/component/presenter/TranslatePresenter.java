@@ -1,11 +1,11 @@
-package io.github.kolacbb.translate.mvp.presenter;
+package io.github.kolacbb.translate.component.presenter;
 
 import java.util.List;
 
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.mvp.contract.TranslateContract;
+import io.github.kolacbb.translate.component.contract.TranslateContract;
 
 /**
  * Created by zhangd on 2017/9/22.

@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.adapter;
+package io.github.kolacbb.translate.component.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

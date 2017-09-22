@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.fragment;
+package io.github.kolacbb.translate.component.fragment;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -22,9 +22,8 @@ import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.base.DividerItemDecoration;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.model.entity.Result;
-import io.github.kolacbb.translate.ui.activity.HomeActivity;
-import io.github.kolacbb.translate.ui.adapter.WordListAdapter;
+import io.github.kolacbb.translate.component.activity.HomeActivity;
+import io.github.kolacbb.translate.component.adapter.WordListAdapter;
 
 /**
  * Created by Kola on 2016/6/12.

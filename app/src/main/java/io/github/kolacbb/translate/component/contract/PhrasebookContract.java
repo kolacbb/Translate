@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.mvp.contract;
+package io.github.kolacbb.translate.component.contract;
 
 import java.util.List;
 

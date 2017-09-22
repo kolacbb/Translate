@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.activity;
+package io.github.kolacbb.translate.component.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -22,7 +22,7 @@ import io.github.kolacbb.translate.base.BaseActivity;
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.ui.fragment.SettingsFragment;
+import io.github.kolacbb.translate.component.fragment.SettingsFragment;
 import io.github.kolacbb.translate.util.SpUtil;
 
 public class CopyDropActivity extends BaseActivity {

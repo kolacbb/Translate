@@ -9,11 +9,11 @@
         android:shortcutShortLabel="@string/phrasebook">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="io.github.kolacbb.translate.ui.activity.HomeActivity"
+            android:targetClass="io.github.kolacbb.translate.component.activity.HomeActivity"
             android:targetPackage="io.github.kolacbb.translate"/>
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="io.github.kolacbb.translate.ui.activity.PhrasebookActivity"
+            android:targetClass="io.github.kolacbb.translate.component.activity.PhrasebookActivity"
             android:targetPackage="io.github.kolacbb.translate"/>
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>
@@ -27,11 +27,11 @@
         android:shortcutShortLabel="@string/sms_translation">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="io.github.kolacbb.translate.ui.activity.HomeActivity"
+            android:targetClass="io.github.kolacbb.translate.component.activity.HomeActivity"
             android:targetPackage="io.github.kolacbb.translate"/>
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="io.github.kolacbb.translate.ui.activity.SmsInputActivity"
+            android:targetClass="io.github.kolacbb.translate.component.activity.SmsInputActivity"
             android:targetPackage="io.github.kolacbb.translate"/>
         <categories android:name="android.shortcut.conversation"/>
     </shortcut>

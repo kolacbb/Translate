@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.activity;
+package io.github.kolacbb.translate.component.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +15,9 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
-import io.github.kolacbb.translate.base.BaseFragment;
 import io.github.kolacbb.translate.data.TranslateRepository;
-import io.github.kolacbb.translate.mvp.presenter.TranslatePresenter;
-import io.github.kolacbb.translate.mvp.view.TranslateFragment;
+import io.github.kolacbb.translate.component.presenter.TranslatePresenter;
+import io.github.kolacbb.translate.component.fragment.TranslateFragment;
 
 /**
  * Created by Kola on 2016/6/12.

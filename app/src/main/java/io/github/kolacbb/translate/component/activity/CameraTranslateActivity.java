@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.activity;
+package io.github.kolacbb.translate.component.activity;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.base.BaseActivity;
-import io.github.kolacbb.translate.ui.view.CameraPreview;
+import io.github.kolacbb.translate.component.view.CameraPreview;
 
 /**
  * Created by zhangd on 2017/9/18.

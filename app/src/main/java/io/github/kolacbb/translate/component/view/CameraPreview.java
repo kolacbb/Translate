@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.view;
+package io.github.kolacbb.translate.component.view;
 
 /**
  * Created by zhangd on 2017/9/18.

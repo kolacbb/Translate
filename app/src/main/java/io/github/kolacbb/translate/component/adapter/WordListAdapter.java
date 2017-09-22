@@ -1,4 +1,4 @@
-package io.github.kolacbb.translate.ui.adapter;
+package io.github.kolacbb.translate.component.adapter;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +14,7 @@ import java.util.List;
 import io.github.kolacbb.translate.R;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.ui.view.ItemTouchHelperCallBack;
+import io.github.kolacbb.translate.component.view.ItemTouchHelperCallBack;
 
 /**
  * Created by Kola on 2016/6/11.
