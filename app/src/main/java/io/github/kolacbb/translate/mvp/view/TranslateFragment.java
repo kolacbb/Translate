@@ -107,8 +107,8 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
                     public void onClick(View v) {
                         int position = (int) v.getTag();
                         Translate translate = mAdapter.getItemData(position);
-                        //getActionCreatorManager().getTranslateActionCreator().starWord(result);
                         TranslateRepository.getInstance().addPhrasebook(translate);
+                        mAdapter.notifyItemChanged(position);
 
                     }
                 },
@@ -117,15 +117,15 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
                     public void onClick(View v) {
                         int position = (int) v.getTag();
                         Translate translate = mAdapter.getItemData(position);
-                        //getActionCreatorManager().getTranslateActionCreator().unstarWord(result);
-                        TranslateRepository.getInstance().addPhrasebook(translate);
+                        TranslateRepository.getInstance().deletePhrasebook(translate);
+                        mAdapter.notifyItemChanged(position);
                     }
                 });
         mHistoryRecView.setAdapter(mAdapter);
         ItemTouchHelperCallBack callBack = new ItemTouchHelperCallBack(mAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callBack);
         touchHelper.attachToRecyclerView(mHistoryRecView);
-
+        showHistory();
     }
 
     public void onNewTranslate(String query) {
@@ -149,8 +149,10 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
                 if (mTranslate != null) {
                     if (mTranslate.isFavor()) {
                         mPresenter.removePhrasebook(mTranslate);
+                        showTranslate(mTranslate);
                     }else {
                         mPresenter.addPhrasebook(mTranslate);
+                        showTranslate(mTranslate);
                     }
                 }
                 break;
@@ -167,7 +169,7 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
 
     @Override
     public boolean onBackPressed() {
-        if (mHistoryRecView.getVisibility() == View.VISIBLE && !mProgressBar.isShown()) {
+        if (mHistoryRecView.getVisibility() != View.VISIBLE) {
             showHistory();
         } else {
             return super.onBackPressed();
@@ -177,6 +179,7 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
 
     @Override
     public void showLoading() {
+        mPhoneticTv.setVisibility(View.GONE);
         mHistoryRecView.setVisibility(View.GONE);
         mTranslateView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.GONE);
@@ -185,6 +188,7 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
 
     @Override
     public void showErrorView() {
+        mPhoneticTv.setVisibility(View.GONE);
         mHistoryRecView.setVisibility(View.GONE);
         mTranslateView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.VISIBLE);
@@ -193,6 +197,8 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
 
     @Override
     public void showHistory() {
+        mPhoneticTv.setVisibility(View.GONE);
+        mCameraTranslateBtn.setVisibility(View.VISIBLE);
         mHistoryRecView.setVisibility(View.VISIBLE);
         mTranslateView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.GONE);

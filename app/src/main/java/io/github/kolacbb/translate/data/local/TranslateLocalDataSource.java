@@ -42,13 +42,18 @@ public class TranslateLocalDataSource implements TranslateDataSource {
 
     @Override
     public void addPhrasebook(Translate translate) {
+        TranslateDB.getInstance().removeTranslate(TranslateOpenHelper.TABLE_NAME_PHRASEBOOK, translate);
         TranslateDB.getInstance().addTranslate(TranslateOpenHelper.TABLE_NAME_PHRASEBOOK, translate);
         translate.setFavor(true);
     }
 
+    public void addDict(Translate translate) {
+        TranslateDB.getInstance().addTranslate(TranslateOpenHelper.TABLE_NAME_DICT, translate);
+    }
+
     @Override
     public void addHistory(Translate translate) {
-        TranslateDB.getInstance().addTranslate(TranslateOpenHelper.TABLE_NAME_DICT, translate);
+        TranslateDB.getInstance().removeTranslate(TranslateOpenHelper.TABLE_NAME_HISTORY, translate);
         TranslateDB.getInstance().addTranslate(TranslateOpenHelper.TABLE_NAME_HISTORY, translate);
     }
 

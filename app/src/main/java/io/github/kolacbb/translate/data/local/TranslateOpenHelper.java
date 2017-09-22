@@ -10,13 +10,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class TranslateOpenHelper extends SQLiteOpenHelper {
 
     final String TABLE_SQL = "create table %s (" +
-            "query text, " +
-            "source text, " +
+            "query text not null, " +
+            "source text not null, " +
             "us_phonetic text, " +
             "uk_phonetic text, " +
             "translation text, " +
             "explains text, " +
             "web text, " +
+            "time TIMESTAMP default CURRENT_TIMESTAMP, " +
             "primary key (query, source))";
 
     public static final String TABLE_NAME_DICT = "dict";

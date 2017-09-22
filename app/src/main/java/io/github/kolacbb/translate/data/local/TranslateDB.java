@@ -47,10 +47,10 @@ public class TranslateDB {
     }
 
     public void addTranslate(String tableName, Translate translate) {
-        String sql = "insert into " + tableName + " (query, source, us_phonetic, uk_phonetic, translation, explains, web) values (?, ?, ?, ?, ?)";
+        String sql = "insert into " + tableName + " (query, source, us_phonetic, uk_phonetic, translation, explains, web) values (?, ?, ?, ?, ?, ?, ?)";
         db.execSQL(sql, new String[]{
                 translate.getQuery(),
-                translate.getQuery(),
+                translate.getSource(),
                 translate.getUs_phonetic(),
                 translate.getUk_phonetic(),
                 translate.getTranslation(),
@@ -60,8 +60,8 @@ public class TranslateDB {
     }
 
     public Translate getTranslate(String query, String source) {
-        String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from dict t1 " +
-                "where query = ? and source = ?";
+            String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from dict t1 " +
+                    "where query = ? and source = ?";
         Cursor cursor = db.rawQuery(sql, new String[]{query, source});
         Translate translate = null;
         if (cursor.moveToFirst()) {
@@ -83,7 +83,7 @@ public class TranslateDB {
      * 获取历史中全部单词记录
      */
     public List<Translate> getTranslateFromHistory() {
-        String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from history t1";
+        String sql = "select query, source, us_phonetic, uk_phonetic, translation, explains, web, (select 1 from phrasebook where t1.query = phrasebook.query) as isfavor from history t1 order by time desc";
         List<Translate> list = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, new String[0]);
         if (cursor.moveToFirst()) {
@@ -97,6 +97,7 @@ public class TranslateDB {
                 translate.setExplains(cursor.getString(cursor.getColumnIndex("explains")));
                 translate.setWeb(cursor.getString(cursor.getColumnIndex("web")));
                 translate.setFavor(cursor.getString(cursor.getColumnIndex("isfavor")) != null);
+                list.add(translate);
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -108,7 +109,8 @@ public class TranslateDB {
      */
     public List<Translate> getTranslateFromPhrasebook() {
         List<Translate> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from " + TranslateOpenHelper.TABLE_NAME_PHRASEBOOK, new String[0]);
+        Cursor cursor = db.rawQuery("select * from " + TranslateOpenHelper.TABLE_NAME_PHRASEBOOK + " order by time desc",
+                new String[0]);
         if (cursor.moveToFirst()) {
             do {
                 Translate translate = new Translate();
@@ -129,7 +131,7 @@ public class TranslateDB {
 
 
     public void removeTranslate(String tableName, Translate translate) {
-        db.execSQL("delete from " + tableName + " where query = ? & source = ?", new String[]{translate.getQuery(), translate.getSource()});
+        db.execSQL("delete from " + tableName + " where query = ? and source = ?", new String[]{translate.getQuery(), translate.getSource()});
     }
 
     public void removeTranslate(String tableName, List<Translate> list) {
@@ -166,7 +168,7 @@ public class TranslateDB {
 
     public List<Translate> getTranslate(String tableName) {
         List<Translate> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from " + tableName, new String[0]);
+        Cursor cursor = db.rawQuery("select * from " + tableName + "order by time desc", new String[0]);
         if (cursor.moveToFirst()) {
             do {
                 Translate translate = new Translate();

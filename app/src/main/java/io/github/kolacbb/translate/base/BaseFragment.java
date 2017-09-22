@@ -49,17 +49,17 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // 订阅View
-        getStore().register(this);
-        getDispatcher().register(getStore());//订阅Action
+//        getStore().register(this);
+//        getDispatcher().register(getStore());//订阅Action
     }
 
     @Override
     public void onPause() {
         super.onPause();
         //取消订阅Action
-        getDispatcher().unregister(getStore());
-        //取消订阅View
-        getStore().unregister(this);
+//        getDispatcher().unregister(getStore());
+//        //取消订阅View
+//        getStore().unregister(this);
     }
 
     public boolean onBackPressed() {

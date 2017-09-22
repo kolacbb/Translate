@@ -57,7 +57,6 @@ public class TranslateRepository implements TranslateDataSource{
             @Override
             public void onTranslateLoaded(Translate translate) {
                 callback.onTranslateLoaded(translate);
-                mTranslateLocalDataSource.deleteHistory(translate); // 先删除后添加，保持最近查询在history顶端
                 mTranslateLocalDataSource.addHistory(translate);
             }
 
@@ -66,8 +65,9 @@ public class TranslateRepository implements TranslateDataSource{
                 mTranslateRemoteDataSource.getTranslate(query, source, new GetTranslateCallback() {
                     @Override
                     public void onTranslateLoaded(Translate translate) {
-                        callback.onTranslateLoaded(translate);
+                        mTranslateLocalDataSource.addDict(translate);
                         mTranslateLocalDataSource.addHistory(translate);
+                        callback.onTranslateLoaded(translate);
                     }
 
                     @Override

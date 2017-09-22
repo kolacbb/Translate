@@ -44,7 +44,7 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
     }
 
     @Override
-    public void getTranslate(String query, String source, final GetTranslateCallback callback) {
+    public void getTranslate(String query, final String source, final GetTranslateCallback callback) {
         Retrofit retrofit = RetrofitManager.getRetrofit();
         TranslateApi api = retrofit.create(TranslateApi.class);
 
@@ -54,6 +54,7 @@ public class TranslateRemoteDataSource implements TranslateDataSource {
             @Override
             public void onResponse(Call<YouDaoResult> call, Response<YouDaoResult> response) {
                 Translate t = response.body().getTranslate();
+                t.setSource(source);
                 callback.onTranslateLoaded(t);
             }
 
