@@ -8,7 +8,6 @@ import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
 import io.github.kolacbb.translate.data.local.TranslateLocalDataSource;
 import io.github.kolacbb.translate.data.remote.TranslateRemoteDataSource;
-import io.github.kolacbb.translate.model.entity.Result;
 
 /**
  * Created by zhangd on 2017/9/14.

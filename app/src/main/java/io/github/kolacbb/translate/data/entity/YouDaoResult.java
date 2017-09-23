@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kolacbb.translate.model.entity.Result;
-
 /**
  * Created by Kola on 2016/6/4.
  */
@@ -22,26 +20,6 @@ public class YouDaoResult {
     private Basic basic;
     @SerializedName("web")
     private List<Web> web = new ArrayList<Web>();
-
-
-    public Result getResult() {
-        Result result = new Result();
-        result.setQuery(getQuery());
-        result.setTranslation(getTranslation().get(0));
-        if (getBasic() != null) {
-            YouDaoResult.Basic basic = getBasic();
-            result.setUk_phonetic(basic.getUkPhonetic());
-            result.setUs_phonetic(basic.getUsPhonetic());
-            StringBuilder sb = new StringBuilder();
-            for (String string : basic.getExplains()) {
-                sb.append(string);
-                sb.append('\n');
-            }
-            result.setBasic(sb.toString());
-        }
-
-        return result;
-    }
 
     public Translate getTranslate() {
         Translate translate = new Translate();

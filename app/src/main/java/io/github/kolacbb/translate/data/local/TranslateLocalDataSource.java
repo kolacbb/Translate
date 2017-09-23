@@ -11,7 +11,6 @@ import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.TranslateRepository;
 import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.util.DateUtils;
 
 /**

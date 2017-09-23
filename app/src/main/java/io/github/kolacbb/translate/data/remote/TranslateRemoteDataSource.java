@@ -7,8 +7,6 @@ import java.util.List;
 import io.github.kolacbb.translate.data.TranslateDataSource;
 import io.github.kolacbb.translate.data.entity.SmsEntry;
 import io.github.kolacbb.translate.data.entity.Translate;
-import io.github.kolacbb.translate.data.local.TranslateDB;
-import io.github.kolacbb.translate.model.entity.Result;
 import io.github.kolacbb.translate.data.entity.YouDaoResult;
 import io.github.kolacbb.translate.net.RetrofitManager;
 import retrofit2.Call;
