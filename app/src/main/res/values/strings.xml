@@ -31,8 +31,13 @@
     <string name="sms_translate">Sms Translate</string>
 
     <string name="pref_translate_title">Translate source</string>
-    <string name="pref_translate_source_default">YouDao</string>
+    <string name="pref_translate_summary_default">YouDao</string>
+    <string name="pref_translate_value_default">YouDao</string>
     <array name="pref_translate_source_entries">
+        <item>YouDao</item>
+        <item>Baidu</item>
+    </array>
+    <array name="pref_translate_source_values">
         <item>YouDao</item>
         <item>Baidu</item>
     </array>

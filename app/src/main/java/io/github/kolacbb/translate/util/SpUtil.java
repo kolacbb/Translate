@@ -2,6 +2,8 @@ package io.github.kolacbb.translate.util;
 
 import android.content.SharedPreferences;
 
+import io.github.kolacbb.translate.component.fragment.SettingsFragment;
+
 /**
  * Created by Kola on 2016/5/16.
  */
@@ -35,5 +37,13 @@ public class SpUtil {
 
     public static void clearAll() {
         mSp.edit().clear().apply();
+    }
+
+    public static String getSettingSource() {
+        String source = SpUtil.findString(SettingsFragment.KEY_TRANSLATE_SOURCE);
+        if (source == null) {
+            source = "YouDao";
+        }
+        return source;
     }
 }

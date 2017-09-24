@@ -26,12 +26,12 @@
     <PreferenceCategory android:title="@string/translation_settings">
         <ListPreference
             android:key="pref_key_translate_source"
-            android:summary="@string/pref_showFrameTypes_default"
-            android:title="pref_translate_title"
-            android:dialogTitle="pref_translate_title"
+            android:summary="@string/pref_translate_summary_default"
+            android:title="@string/pref_translate_title"
+            android:dialogTitle="@string/pref_translate_title"
             android:entries="@array/pref_translate_source_entries"
-            android:entryValues="@array/pref_translate_source_entries"
-            android:defaultValue="@string/pref_translate_source_default"
+            android:entryValues="@array/pref_translate_source_values"
+            android:defaultValue="@string/pref_translate_value_default"
             />
         <ListPreference
             android:key="pref_key_phonetic_list"

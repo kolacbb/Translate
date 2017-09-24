@@ -119,7 +119,7 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
     }
 
     public void onNewTranslate(String query) {
-        mPresenter.getTranslate(query, SpUtil.findString(SettingsFragment.KEY_TRANSLATE_SOURCE));
+        mPresenter.getTranslate(query, SpUtil.getSettingSource());
     }
 
     @OnClick({R.id.tv_clear, R.id.bt_translate, R.id.add_book, R.id.translation, R.id.cameraTranslate})
@@ -229,7 +229,11 @@ public class TranslateFragment extends BaseFragment implements TranslateContract
             mCameraTranslateBtn.setVisibility(View.VISIBLE);
         }
         if (translate.getExplains() != null) {
-            mExplainsTv.setText(translate.getExplains() + "\n" + translate.getWeb());
+            if (translate.getWeb() != null) {
+                mExplainsTv.setText(translate.getExplains() + "\n" + translate.getWeb());
+            } else {
+                mExplainsTv.setText(translate.getExplains());
+            }
             mDictionaryView.setVisibility(View.VISIBLE);
         } else {
             mDictionaryView.setVisibility(View.GONE);

@@ -42,9 +42,15 @@ public class YouDaoResult {
             for (YouDaoResult.Web web: webs) {
                 build.append(web.getKey());
                 build.append(": ");
-                build.append(web.getValue());
+                for (int i = 0; i < web.getValue().size(); i++) {
+                    String v = web.getValue().get(i);
+                    build.append(v);
+                    if (i != web.getValue().size() - 1)
+                        build.append(",");
+                }
                 build.append("\n");
             }
+            translate.setWeb(build.toString());
         }
         return translate;
     }

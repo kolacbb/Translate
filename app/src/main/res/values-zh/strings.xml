@@ -31,9 +31,11 @@
 
     <string name="sms_translate">短信翻译</string>
 
+    <string name="pref_translate_title">翻译来源</string>
+    <string name="pref_translate_summary_default">有道</string>
     <array name="pref_translate_source_entries">
-        <item>YouDao</item>
-        <item>Baidu</item>
+        <item>有道</item>
+        <item>百度</item>
     </array>
 
     <string name="pref_showFrameTypes_default">notification</string>

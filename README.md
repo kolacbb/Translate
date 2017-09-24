@@ -16,12 +16,7 @@
 
 ## 项目架构
 
-在Translate App上我想实现Flux架构 Retrofit + RxJava + Dagger2的应用
-
- - [x] Retrofit
- - [X] RxJava
- - [X] Dagger2
- - [X] Flux
+在Translate App上以MVP为基础架构
  
 ## 项目截图
 
@@ -35,10 +30,9 @@
 
 ## TODO
 
- * 优化UI设计
+ * 添加多个翻译源
  * 添加读音功能
- * 切换为MVP架构(目前的Flux架构存在短板，如果完全按照Flux编程规范来做，任务量巨大，一个按钮的点击事件都要完全走一遍ActionCreator，Dispatcher，Store流程，太过于繁琐)
-
+ * 添加OCR识别单词
 
 
 
